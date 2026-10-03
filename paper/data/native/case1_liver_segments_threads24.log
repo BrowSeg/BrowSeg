@@ -1,0 +1,26 @@
+[0.3s] series 1.2.826.0.1.3680043.2.1125.9647753419956608505832502991212815128: 512x512x129
+[1.0s] task liver_segments, 2 model(s) loaded (24 threads)
+[1.0s] resample_6mm         0%[1.0s] crop_model           0%[1.4s] crop_model         100%
+[1.5s] resample_part        0%[1.6s] part_model           0%[4.2s] part_model           8%[6.9s] part_model          17%[9.7s] part_model          25%[12.4s] part_model          33%[15.1s] part_model          42%[17.8s] part_model          50%[20.5s] part_model          58%[23.2s] part_model          67%[26.0s] part_model          75%[28.7s] part_model          83%[31.4s] part_model          92%[34.1s] part_model         100%
+[34.1s] done               100%
+
+  resample 6mm                       1 ms
+  crop: preprocess                  16 ms
+  crop: tiles (net+accum)          366 ms
+  crop: finish/argmax               29 ms
+  crop: labels -> full res          13 ms
+  bbox + crop                       19 ms
+  resample task spacing             25 ms
+  part: preprocess                  91 ms
+  part: tiles (net+accum)        32492 ms
+  part: finish/argmax+merge         50 ms
+  back to orig + uncrop             12 ms
+  liver_segment_1                   68.4 ml    19608 triangles
+  liver_segment_2                  169.0 ml    32560 triangles
+  liver_segment_3                   87.6 ml    21072 triangles
+  liver_segment_4                  143.9 ml    28724 triangles
+  liver_segment_5                  190.3 ml    34904 triangles
+  liver_segment_6                  172.5 ml    34392 triangles
+  liver_segment_7                  388.3 ml    49168 triangles
+  liver_segment_8                  347.4 ml    48260 triangles
+[34.6s] 8 structure(s) -> out/native/case1_liver_segments_t24_labels.nii, out/native/case1_liver_segments_t24.obj, out/native/case1_liver_segments_t24.stl

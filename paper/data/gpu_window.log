@@ -1,0 +1,90 @@
+Mon Sep 28 23:10:35     2026 native thread scaling (pre/post-processing share, single-thread estimate)
+Mon Sep 28 23:23:31     2026 start browsers
+2026-09-28T14:23:34.509Z start desk_chrome_webgpu_cold (chrome)
+2026-09-28T14:23:39.537Z desk_chrome_webgpu_cold: 2026-09-28T14:23:38.251Z DONE
+2026-09-28T14:23:42.969Z start desk_chrome_webgpu (chrome)
+2026-09-28T14:34:54.430Z desk_chrome_webgpu: 2026-09-28T14:34:53.029Z DONE
+2026-09-28T14:34:57.816Z start desk_chrome_webgpu_threads1 (chrome)
+2026-09-28T14:38:08.206Z desk_chrome_webgpu_threads1: 2026-09-28T14:38:04.143Z DONE
+2026-09-28T14:38:11.605Z start desk_chrome_webgpu_total (chrome)
+2026-09-28T14:41:57.058Z desk_chrome_webgpu_total: 2026-09-28T14:41:56.372Z DONE
+2026-09-28T14:42:00.476Z start desk_chrome_wasm (chrome)
+2026-09-28T14:56:28.598Z desk_chrome_wasm: 2026-09-28T14:56:24.058Z DONE
+2026-09-28T14:56:32.067Z start desk_firefox_webgpu_cold (firefox)
+2026-09-28T14:56:47.106Z desk_firefox_webgpu_cold: 2026-09-28T14:56:43.200Z DONE
+2026-09-28T14:56:50.447Z start desk_firefox_webgpu (firefox)
+2026-09-28T14:57:05.490Z desk_firefox_webgpu: 2026-09-28T14:57:00.697Z ERROR: Mapping WebGPU buffer failed: Invalid buffer
+2026-09-28T14:57:08.818Z start desk_firefox_webgpu_total (firefox)
+2026-09-28T14:57:23.848Z desk_firefox_webgpu_total: 2026-09-28T14:57:21.035Z ERROR: Mapping WebGPU buffer failed: Invalid buffer
+2026-09-28T14:57:27.190Z start desk_firefox_wasm (firefox)
+2026-09-28T15:11:40.481Z desk_firefox_wasm: 2026-09-28T15:11:39.576Z DONE
+ALL DONE
+Tue Sep 29 00:11:43     2026 start python gpu
+ircad01__total_liver: 30.6 s, 1 labels
+ircad01__liver_segments_all: 28.2 s, 8 labels
+ircad01__liver_vessels_all: 30.3 s, 2 labels
+ircad01__total_all: 49.9 s, 60 labels
+ircad02__total_liver: 28.8 s, 1 labels
+ircad02__liver_segments_all: 30.1 s, 8 labels
+ircad02__liver_vessels_all: 32.4 s, 2 labels
+ircad02__total_all: 59.8 s, 69 labels
+ircad05__total_liver: 28.0 s, 1 labels
+ircad05__liver_segments_all: 30.2 s, 8 labels
+ircad05__liver_vessels_all: 33.3 s, 1 labels
+ircad05__total_all: 56.8 s, 54 labels
+ircad10__total_liver: 25.8 s, 1 labels
+ircad10__liver_segments_all: 26.7 s, 8 labels
+ircad10__liver_vessels_all: 28.9 s, 2 labels
+ircad10__total_all: 54.5 s, 51 labels
+ircad18__total_liver: 22.4 s, 1 labels
+ircad18__liver_segments_all: 24.0 s, 8 labels
+ircad18__liver_vessels_all: 25.9 s, 2 labels
+ircad18__total_all: 49.9 s, 54 labels
+ircad01__total_liver: 29.6 s, 1 labels
+ircad01__liver_segments_all: 27.9 s, 8 labels
+ircad01__liver_vessels_all: 30.5 s, 2 labels
+ircad01__total_all: 50.1 s, 60 labels
+ircad02__total_liver: 29.2 s, 1 labels
+ircad02__liver_segments_all: 30.4 s, 8 labels
+ircad02__liver_vessels_all: 32.5 s, 2 labels
+ircad02__total_all: 60.2 s, 69 labels
+ircad05__total_liver: 27.7 s, 1 labels
+ircad05__liver_segments_all: 30.5 s, 8 labels
+ircad05__liver_vessels_all: 33.5 s, 1 labels
+ircad05__total_all: 57.2 s, 54 labels
+ircad10__total_liver: 25.6 s, 1 labels
+ircad10__liver_segments_all: 26.7 s, 8 labels
+ircad10__liver_vessels_all: 29.0 s, 2 labels
+ircad10__total_all: 54.1 s, 51 labels
+ircad18__total_liver: 22.5 s, 1 labels
+ircad18__liver_segments_all: 24.0 s, 8 labels
+ircad18__liver_vessels_all: 26.3 s, 2 labels
+ircad18__total_all: 50.2 s, 54 labels
+ircad01__total_liver: 29.9 s, 1 labels
+ircad01__liver_segments_all: 28.6 s, 8 labels
+ircad01__liver_vessels_all: 30.4 s, 2 labels
+ircad01__total_all: 49.5 s, 60 labels
+ircad02__total_liver: 29.0 s, 1 labels
+ircad02__liver_segments_all: 30.8 s, 8 labels
+ircad02__liver_vessels_all: 32.4 s, 2 labels
+ircad02__total_all: 59.7 s, 69 labels
+ircad05__total_liver: 28.0 s, 1 labels
+ircad05__liver_segments_all: 30.3 s, 8 labels
+ircad05__liver_vessels_all: 33.7 s, 1 labels
+ircad05__total_all: 57.5 s, 54 labels
+ircad10__total_liver: 25.5 s, 1 labels
+ircad10__liver_segments_all: 27.1 s, 8 labels
+ircad10__liver_vessels_all: 29.2 s, 2 labels
+ircad10__total_all: 54.3 s, 51 labels
+ircad18__total_liver: 22.6 s, 1 labels
+ircad18__liver_segments_all: 24.1 s, 8 labels
+ircad18__liver_vessels_all: 25.8 s, 2 labels
+ircad18__total_all: 50.0 s, 54 labels
+Tue Sep 29 00:47:09     2026 GPU window done
+Tue Sep 29 00:47:09     2026 start cpu total refs
+ircad01__total_all: 134.4 s, 60 labels
+ircad02__total_all: 243.8 s, 69 labels
+ircad05__total_all: 239.5 s, 54 labels
+ircad10__total_all: 249.9 s, 51 labels
+ircad18__total_all: 150.5 s, 54 labels
+Tue Sep 29 01:04:12     2026 all done

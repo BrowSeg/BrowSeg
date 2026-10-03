@@ -1,0 +1,72 @@
+{
+ "case": "ircad01",
+ "task": "liver_segments",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 129,
+  "shape": [
+   512,
+   512,
+   129
+  ],
+  "zooms": [
+   0.5699999928474426,
+   0.5699999928474426,
+   1.600000023841858
+  ],
+  "fetchS": 0.6709549999833107,
+  "loadS": 0.19272500002384185,
+  "log": [
+   "DICOM: 129 images of 129 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  129
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 3.7527400000095366,
+   "wall": 3.75325,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 1700921344,
+   "hash": "f1d1533c",
+   "names": [
+    "background",
+    "liver_segment_1",
+    "liver_segment_2",
+    "liver_segment_3",
+    "liver_segment_4",
+    "liver_segment_5",
+    "liver_segment_6",
+    "liver_segment_7",
+    "liver_segment_8"
+   ],
+   "log": [
+    "liver segments model: downloaded 123.1 MB",
+    "model 570 (123 MB): download 0.45 s, WASM config 0.00 s, GPU upload + pipelines 0.13 s (queue done 0.13 s)",
+    "model 298: GPU work buffers (plan) 0.05 s",
+    "model 570: GPU work buffers (plan) 0.06 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)          231 ms\n  crop: finish/argmax               40 ms\n  crop: labels -> full res          11 ms\n  bbox + crop                       13 ms\n  resample task spacing             32 ms\n  part: preprocess                 104 ms\n  part: tiles (net+accum)         2678 ms\n  part: finish/argmax+merge         33 ms\n  back to orig + uncrop              7 ms\n"
+  },
+  {
+   "rep": 1,
+   "seconds": 2.986884999990463,
+   "wall": 2.987425000011921,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 1700921344,
+   "hash": "f1d1533c",
+   "log": [
+    "model 298: GPU work buffers (plan) 0.05 s",
+    "model 570: GPU work buffers (plan) 0.07 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                  16 ms\n  crop: tiles (net+accum)          121 ms\n  crop: finish/argmax               51 ms\n  crop: labels -> full res          11 ms\n  bbox + crop                       16 ms\n  resample task spacing             30 ms\n  part: preprocess                  92 ms\n  part: tiles (net+accum)         2590 ms\n  part: finish/argmax+merge         41 ms\n  back to orig + uncrop              7 ms\n"
+  }
+ ]
+}

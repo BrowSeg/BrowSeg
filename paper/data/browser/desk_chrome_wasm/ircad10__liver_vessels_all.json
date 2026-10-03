@@ -1,0 +1,46 @@
+{
+ "case": "ircad10",
+ "task": "liver_vessels",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 122,
+  "shape": [
+   512,
+   512,
+   122
+  ],
+  "zooms": [
+   0.7360000014305115,
+   0.7360000014305115,
+   1.600000023841858
+  ],
+  "fetchS": 0.3079650000333786,
+  "loadS": 0.12755500000715256,
+  "log": [
+   "DICOM: 122 images of 122 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  122
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 47.47243000000715,
+   "wall": 47.472789999961854,
+   "backend": "cpu",
+   "heap": 2388000768,
+   "hash": "a77ba800",
+   "names": [
+    "background",
+    "liver_vessels",
+    "liver_tumor"
+   ],
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   8 ms\n  crop: tiles (net+accum)          491 ms\n  crop: finish/argmax               31 ms\n  crop: labels -> full res           5 ms\n  bbox + crop                        8 ms\n  resample task spacing              5 ms\n  part: preprocess                 117 ms\n  part: tiles (net+accum)        46714 ms\n  part: finish/argmax+merge         84 ms\n  back to orig + uncrop              2 ms\n"
+  }
+ ]
+}

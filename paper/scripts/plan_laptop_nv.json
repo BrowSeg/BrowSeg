@@ -1,0 +1,20 @@
+[
+ {
+  "browser": "chrome",
+  "tag": "lap_chrome_nv_webgpu",
+  "query": "cases=ircad01,ircad02,ircad05,ircad10,ircad18&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 180
+ },
+ {
+  "browser": "chrome",
+  "tag": "lap_chrome_nv_st_webgpu",
+  "query": "st=1&cases=ircad01,ircad02,ircad05,ircad10,ircad18&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 180
+ },
+ {
+  "browser": "chrome",
+  "tag": "lap_chrome_nv_webgpu_cold",
+  "query": "cold=1&cases=ircad01&tasks=total:liver&reps=1",
+  "timeoutMin": 60
+ }
+]

@@ -1,0 +1,33 @@
+ 9月 30 03:40:30 laptop systemd-logind[821]: Lid closed.
+ 9月 30 03:40:30 laptop systemd-logind[821]: Suspending...
+ 9月 30 03:40:30 laptop NetworkManager[748]: <info>  [1790707230.5862] manager: sleep: sleep requested (sleeping: no  enabled: yes)
+ 9月 30 03:40:30 laptop NetworkManager[748]: <info>  [1790707230.5864] device (p2p-dev-wlp0s20f3): state change: disconnected -> unmanaged (reason 'sleeping', sys-iface-state: 'managed')
+ 9月 30 03:40:30 laptop NetworkManager[748]: <info>  [1790707230.5875] manager: NetworkManager state is now ASLEEP
+ 9月 30 03:40:30 laptop NetworkManager[748]: <info>  [1790707230.5889] device (wlp0s20f3): state change: activated -> deactivating (reason 'sleeping', sys-iface-state: 'managed')
+ 9月 30 03:40:30 laptop ModemManager[815600]: <info>  [sleep-monitor-systemd] system is about to suspend
+ 9月 30 03:40:30 laptop NetworkManager[748]: <info>  [1790707230.7229] device (wlp0s20f3): state change: deactivating -> disconnected (reason 'sleeping', sys-iface-state: 'managed')
+ 9月 30 03:40:30 laptop NetworkManager[748]: <info>  [1790707230.7644] device (wlp0s20f3): state change: disconnected -> unmanaged (reason 'sleeping', sys-iface-state: 'managed')
+ 9月 30 03:40:32 laptop systemd[1]: Reached target Sleep.
+ 9月 30 03:40:32 laptop systemd[1]: Starting NVIDIA system suspend actions...
+ 9月 30 03:40:32 laptop suspend[1381137]: nvidia-suspend.service
+ 9月 30 03:40:32 laptop logger[1381137]: <13>Sep 30 03:40:32 suspend: nvidia-suspend.service
+ 9月 30 03:40:33 laptop systemd[1]: nvidia-suspend.service: Deactivated successfully.
+ 9月 30 03:40:33 laptop systemd[1]: Finished NVIDIA system suspend actions.
+ 9月 30 03:40:33 laptop systemd[1]: Starting System Suspend...
+ 9月 30 03:40:33 laptop systemd-sleep[1381150]: Entering sleep state 'suspend'...
+ 9月 30 03:40:33 laptop kernel: PM: suspend entry (s2idle)
+ 9月 30 03:40:40 laptop kernel: printk: Suspending console(s) (use no_console_suspend to debug)
+ 9月 30 03:40:40 laptop systemd-logind[821]: Lid opened.
+ 9月 30 03:40:40 laptop kernel: PM: suspend exit
+ 9月 30 03:40:40 laptop systemd-sleep[1381150]: System returned from sleep state.
+ 9月 30 03:40:40 laptop pulseaudio[596725]: Failed to create sink input: sink is suspended.
+ 9月 30 03:40:40 laptop systemd[1]: systemd-suspend.service: Deactivated successfully.
+ 9月 30 03:40:40 laptop systemd[1]: Finished System Suspend.
+ 9月 30 03:40:40 laptop systemd[1]: Stopped target Sleep.
+ 9月 30 03:40:40 laptop systemd[1]: Reached target Suspend.
+ 9月 30 03:40:40 laptop systemd-logind[821]: Operation 'sleep' finished.
+ 9月 30 03:40:40 laptop ModemManager[815600]: <info>  [sleep-monitor-systemd] system is resuming
+ 9月 30 03:40:40 laptop NetworkManager[748]: <info>  [1790707240.7076] manager: sleep: wake requested (sleeping: yes  enabled: yes)
+ 9月 30 03:40:40 laptop systemd[1]: Stopped target Suspend.
+ 9月 30 03:40:40 laptop suspend[1381272]: nvidia-resume.service
+ 9月 30 03:40:40 laptop logger[1381272]: <13>Sep 30 03:40:40 suspend: nvidia-resume.service

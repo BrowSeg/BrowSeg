@@ -1,0 +1,1 @@
+worker.onmessage@http://localhost:8090/web/bench.html?tag=desk_firefox_webgpu_total&cases=ircad01,ircad02,ircad05,ircad10,ircad18&tasks=total:-&reps=3:49:73

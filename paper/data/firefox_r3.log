@@ -1,0 +1,5 @@
+2026-09-28T16:08:27.990Z start desk_firefox_webgpu_r3 (firefox)
+2026-09-28T16:08:58.044Z desk_firefox_webgpu_r3: 2026-09-28T16:08:55.598Z ERROR: WebGPU plan: Buffer with '' label is invalid
+2026-09-28T16:09:01.376Z start desk_firefox_webgpu_total_r3 (firefox)
+2026-09-28T16:09:16.408Z desk_firefox_webgpu_total_r3: 2026-09-28T16:09:12.426Z ERROR: Mapping WebGPU buffer failed: Invalid buffer
+ALL DONE

@@ -1,0 +1,75 @@
+{
+ "case": "ircad02",
+ "task": "liver_vessels",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 172,
+  "shape": [
+   512,
+   512,
+   172
+  ],
+  "zooms": [
+   0.7820000052452087,
+   0.7820000052452087,
+   1.600000023841858
+  ],
+  "fetchS": 0.2797300000190735,
+  "loadS": 0.3902549999952316,
+  "log": [
+   "DICOM: 172 images of 172 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  172
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 4.6659150000214575,
+   "wall": 4.666340000033379,
+   "backend": "webgpu",
+   "heap": 913506304,
+   "hash": "59051954",
+   "names": [
+    "background",
+    "liver_vessels",
+    "liver_tumor"
+   ],
+   "log": [
+    "model 298: GPU work buffers (plan) 0.03 s",
+    "model 8: GPU work buffers (plan) 0.05 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)          194 ms\n  crop: finish/argmax              141 ms\n  crop: labels -> full res          30 ms\n  bbox + crop                       51 ms\n  resample task spacing              6 ms\n  part: preprocess                 578 ms\n  part: tiles (net+accum)         3107 ms\n  part: finish/argmax+merge        522 ms\n  back to orig + uncrop             17 ms\n"
+  },
+  {
+   "rep": 1,
+   "seconds": 4.659339999973774,
+   "wall": 4.660275000035763,
+   "backend": "webgpu",
+   "heap": 913506304,
+   "hash": "59051954",
+   "log": [
+    "model 298: GPU work buffers (plan) 0.03 s",
+    "model 8: GPU work buffers (plan) 0.05 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       3 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)          188 ms\n  crop: finish/argmax              139 ms\n  crop: labels -> full res          30 ms\n  bbox + crop                       51 ms\n  resample task spacing              6 ms\n  part: preprocess                 576 ms\n  part: tiles (net+accum)         3106 ms\n  part: finish/argmax+merge        527 ms\n  back to orig + uncrop             17 ms\n"
+  },
+  {
+   "rep": 2,
+   "seconds": 4.698259999990463,
+   "wall": 4.6988599999547,
+   "backend": "webgpu",
+   "heap": 913506304,
+   "hash": "59051954",
+   "log": [
+    "model 298: GPU work buffers (plan) 0.03 s",
+    "model 8: GPU work buffers (plan) 0.05 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       4 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)          209 ms\n  crop: finish/argmax              139 ms\n  crop: labels -> full res          31 ms\n  bbox + crop                       49 ms\n  resample task spacing              6 ms\n  part: preprocess                 566 ms\n  part: tiles (net+accum)         3106 ms\n  part: finish/argmax+merge        557 ms\n  back to orig + uncrop             17 ms\n"
+  }
+ ]
+}

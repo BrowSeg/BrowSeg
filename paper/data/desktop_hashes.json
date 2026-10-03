@@ -1,0 +1,645 @@
+{
+ "source_tag": "desk_chrome_webgpu_final,desk_chrome_webgpu_total_20",
+ "entries": {
+  "ircad01__liver_segments_all": {
+   "hashes": [
+    "f1d1533c"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad01__liver_vessels_all": {
+   "hashes": [
+    "e154d8d2"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad01__total_liver": {
+   "hashes": [
+    "de14684e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad02__liver_segments_all": {
+   "hashes": [
+    "7e1d589f"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad02__liver_vessels_all": {
+   "hashes": [
+    "59051954"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad02__total_liver": {
+   "hashes": [
+    "caa8f835"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad03__liver_segments_all": {
+   "hashes": [
+    "8caa6691"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad03__liver_vessels_all": {
+   "hashes": [
+    "2230f634"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad03__total_liver": {
+   "hashes": [
+    "1c843af7"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad04__liver_segments_all": {
+   "hashes": [
+    "7025caf2"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad04__liver_vessels_all": {
+   "hashes": [
+    "98462a00"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad04__total_liver": {
+   "hashes": [
+    "88cdcaab"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad05__liver_segments_all": {
+   "hashes": [
+    "f91b879a"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad05__liver_vessels_all": {
+   "hashes": [
+    "db3c09ff"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad05__total_liver": {
+   "hashes": [
+    "769283e0"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad06__liver_segments_all": {
+   "hashes": [
+    "c579566e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad06__liver_vessels_all": {
+   "hashes": [
+    "aa30ed1b"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad06__total_liver": {
+   "hashes": [
+    "b5587606"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad07__liver_segments_all": {
+   "hashes": [
+    "7e719c45"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad07__liver_vessels_all": {
+   "hashes": [
+    "087ad73e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad07__total_liver": {
+   "hashes": [
+    "8b23f7c4"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad08__liver_segments_all": {
+   "hashes": [
+    "d55dea48"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad08__liver_vessels_all": {
+   "hashes": [
+    "30bf8993"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad08__total_liver": {
+   "hashes": [
+    "be2db81f"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad09__liver_segments_all": {
+   "hashes": [
+    "7c3551ae"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad09__liver_vessels_all": {
+   "hashes": [
+    "656c3c3e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad09__total_liver": {
+   "hashes": [
+    "6ae5208e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad10__liver_segments_all": {
+   "hashes": [
+    "1fde0196"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad10__liver_vessels_all": {
+   "hashes": [
+    "a77ba800"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad10__total_liver": {
+   "hashes": [
+    "626cf870"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad11__liver_segments_all": {
+   "hashes": [
+    "1cac4d0d"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad11__liver_vessels_all": {
+   "hashes": [
+    "d554ccce"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad11__total_liver": {
+   "hashes": [
+    "bf440371"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad12__liver_segments_all": {
+   "hashes": [
+    "4841f084"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad12__liver_vessels_all": {
+   "hashes": [
+    "4d891340"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad12__total_liver": {
+   "hashes": [
+    "2e42f424"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad13__liver_segments_all": {
+   "hashes": [
+    "fe879206"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad13__liver_vessels_all": {
+   "hashes": [
+    "60601c93"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad13__total_liver": {
+   "hashes": [
+    "82814e7f"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad14__liver_segments_all": {
+   "hashes": [
+    "548b9536"
+   ],
+   "diff_voxels_vs_python": 1,
+   "exact": false,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad14__liver_vessels_all": {
+   "hashes": [
+    "2b0a7470"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad14__total_liver": {
+   "hashes": [
+    "917635de"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad15__liver_segments_all": {
+   "hashes": [
+    "44760e01"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad15__liver_vessels_all": {
+   "hashes": [
+    "70e9ae1b"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad15__total_liver": {
+   "hashes": [
+    "f074ed39"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad16__liver_segments_all": {
+   "hashes": [
+    "b77e00c3"
+   ],
+   "diff_voxels_vs_python": 1,
+   "exact": false,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad16__liver_vessels_all": {
+   "hashes": [
+    "44ceed86"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad16__total_liver": {
+   "hashes": [
+    "f3a22155"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad17__liver_segments_all": {
+   "hashes": [
+    "7c064eb2"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad17__liver_vessels_all": {
+   "hashes": [
+    "b5c76069"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad17__total_liver": {
+   "hashes": [
+    "b9ac9bc7"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad18__liver_segments_all": {
+   "hashes": [
+    "c07a9b53"
+   ],
+   "diff_voxels_vs_python": 1,
+   "exact": false,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad18__liver_vessels_all": {
+   "hashes": [
+    "cf337a9e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad18__total_liver": {
+   "hashes": [
+    "d91fb51c"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad19__liver_segments_all": {
+   "hashes": [
+    "07b90898"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad19__liver_vessels_all": {
+   "hashes": [
+    "23bb2816"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad19__total_liver": {
+   "hashes": [
+    "e7bc0209"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad20__liver_segments_all": {
+   "hashes": [
+    "9773ece0"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad20__liver_vessels_all": {
+   "hashes": [
+    "a9e19266"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad20__total_liver": {
+   "hashes": [
+    "9c0e6cbc"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_final"
+  },
+  "ircad01__total_all": {
+   "hashes": [
+    "4d27bb47"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad02__total_all": {
+   "hashes": [
+    "582a6be8"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad03__total_all": {
+   "hashes": [
+    "4bce2dea"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad04__total_all": {
+   "hashes": [
+    "a85bdba8"
+   ],
+   "diff_voxels_vs_python": 4,
+   "exact": false,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad05__total_all": {
+   "hashes": [
+    "f2bcf117"
+   ],
+   "diff_voxels_vs_python": 4,
+   "exact": false,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad06__total_all": {
+   "hashes": [
+    "bf5af301"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad07__total_all": {
+   "hashes": [
+    "8b26ab35"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad08__total_all": {
+   "hashes": [
+    "7cefcb15"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad09__total_all": {
+   "hashes": [
+    "e5a3c04e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad10__total_all": {
+   "hashes": [
+    "0d1814c8"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad11__total_all": {
+   "hashes": [
+    "59591b38"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad12__total_all": {
+   "hashes": [
+    "25fba35f"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad13__total_all": {
+   "hashes": [
+    "308b4467"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad14__total_all": {
+   "hashes": [
+    "d7c5da3d"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad15__total_all": {
+   "hashes": [
+    "46984c3d"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad16__total_all": {
+   "hashes": [
+    "619d90ab"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad17__total_all": {
+   "hashes": [
+    "0f1d2c03"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad18__total_all": {
+   "hashes": [
+    "5aa91fb9"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad19__total_all": {
+   "hashes": [
+    "9cb38f4e"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  },
+  "ircad20__total_all": {
+   "hashes": [
+    "8c34e546"
+   ],
+   "diff_voxels_vs_python": 0,
+   "exact": true,
+   "tag": "desk_chrome_webgpu_total_20"
+  }
+ }
+}

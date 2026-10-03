@@ -1,0 +1,14 @@
+[
+ {
+  "browser": "edge",
+  "tag": "desk_edge_webgpu",
+  "query": "cases=ircad01,ircad02,ircad05,ircad10,ircad18&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 60
+ },
+ {
+  "browser": "chrome",
+  "tag": "desk_chrome_webgpu_final",
+  "query": "cases=ircad01,ircad02,ircad03,ircad04,ircad05,ircad06,ircad07,ircad08,ircad09,ircad10,ircad11,ircad12,ircad13,ircad14,ircad15,ircad16,ircad17,ircad18,ircad19,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 60
+ }
+]

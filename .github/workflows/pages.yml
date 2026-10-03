@@ -1,0 +1,46 @@
+# Publishes web/ as the GitHub Pages site (https://browseg.github.io/BrowSeg/).
+#
+# - The model weights are not in git (too large); the page downloads them from the GitHub release named below,
+#   so web/config.js is rewritten here to point at that release. Keep WEIGHTS_RELEASE in step with the release tag
+#   that carries the .tsw files (see weights/MANIFEST.json for their SHA-256).
+# - The paper's hash records are copied into the site so that bench.html?local=1 can compare its results with them.
+# - Cross-origin isolation (multi-threaded build) is provided by web/coi-serviceworker.js; no server headers are needed.
+name: Deploy GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+env:
+  WEIGHTS_RELEASE: https://github.com/${{ github.repository }}/releases/download/weights-v1/
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Point the page at the released weights and add the paper's hash records
+        run: |
+          set -e
+          test -f web/dist/tsc.wasm && test -f web/dist-st/tsc.wasm
+          sed -i "s#weightsBase: '../weights/'#weightsBase: '${WEIGHTS_RELEASE}'#; s#weightsBaseFp16: '../weights_fp16/'#weightsBaseFp16: '${WEIGHTS_RELEASE}fp16/'#" web/config.js
+          grep -q "releases/download" web/config.js
+          mkdir -p web/paper/data web/weights
+          cp paper/data/desktop_hashes.json paper/data/desktop_hashes_wasm20.json web/paper/data/
+          cp weights/classmaps.txt web/weights/
+          cp EXPORT_INFO.txt web/
+          cat web/config.js
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - id: deployment
+        uses: actions/deploy-pages@v4

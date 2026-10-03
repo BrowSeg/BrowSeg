@@ -1,0 +1,3 @@
+# web/dist/tsc.wasm (build 2026-09-28 22:0x), wasm-dis | grep -cE 'v128\.|f32x4\.|i32x4\.'
+sha256 a142a01b9342c98b21c3386cb4ab84e692749e61d752de64f6352297b3fbf15c
+simd_instructions 1942

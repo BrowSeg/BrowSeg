@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrowSeg</title>
+<link rel="stylesheet" href="app.css">
+<!-- Makes the page cross-origin isolated where the server does not send COOP/COEP (re-serves through a service worker; one
+     reload on the first visit). Without isolation the engine falls back to the single-thread build. MIT, see coi-serviceworker.LICENSE -->
+<script>window.coi = { quiet: true };</script>
+<script src="coi-serviceworker.js"></script>
+</head>
+<body>
+<header>
+  <h1>BrowSeg</h1>
+  <span class="sub">TotalSegmentator (C++ / WebAssembly / WebGPU) をブラウザ内で実行 — 画像はこの PC の外に送信されません</span>
+  <span class="grow"></span>
+  <span id="engineStatus" class="pill"><span class="dot busy"></span><span>エンジン起動中…</span></span>
+</header>
+
+<div id="app">
+  <aside id="side">
+    <nav class="tabs">
+      <button data-tab="data" class="on">データ</button>
+      <button data-tab="analyze">解析</button>
+      <button data-tab="labels">ラベル</button>
+    </nav>
+
+    <!-- ============================== data -->
+    <section id="tab-data" class="tab on">
+      <h3>CT を開く</h3>
+      <div class="drop" id="drop"><b>DICOM フォルダをドロップ</b><br>またはクリックして選択</div>
+      <input type="file" id="dirInput" webkitdirectory directory multiple hidden>
+      <div class="row">
+        <button id="openNifti">NIfTI (.nii/.nii.gz) を開く</button>
+        <input type="file" id="niftiInput" accept=".nii,.gz" hidden>
+      </div>
+      <div id="volInfo" class="muted small"></div>
+      <button id="switchSeries" hidden>別のシリーズを選ぶ</button>
+
+      <h3>ラベルを読み込む</h3>
+      <div class="row">
+        <button id="openLabels" disabled>ラベル NIfTI を読み込む</button>
+        <input type="file" id="labelsInput" accept=".nii,.gz,.json" multiple hidden>
+      </div>
+      <p class="muted small">3D Slicer / ITK-SNAP 等で編集したラベルも読み込めます（同じ CT の格子であること）。meta.json を一緒に選ぶとラベル名も復元します。</p>
+
+
+      <h3>書き出し</h3>
+      <div class="row wrap">
+        <button id="dlCT" disabled>CT .nii.gz</button>
+        <button id="dlLabels" disabled>ラベル .nii.gz</button>
+        <button id="dlOBJ" disabled>メッシュ OBJ</button>
+        <button id="dlSTL" disabled>メッシュ STL</button>
+      </div>
+    </section>
+
+    <!-- ============================== analyze -->
+    <section id="tab-analyze" class="tab">
+      <h3>自動アノテーション</h3>
+      <select id="taskSelect"></select>
+      <div class="row small">
+        <label><input type="radio" name="merge" value="merge" checked> 既存ラベルに統合</label>
+        <label><input type="radio" name="merge" value="replace"> 置き換え</label>
+      </div>
+      <button class="primary" id="runTask" disabled>実行</button>
+      <div class="bar"><div id="bar"></div></div>
+      <div id="stage" class="muted small"></div>
+      <p class="muted small">統合: 新しい結果のラベルが既存の同じ場所を上書きします（ラベル名が同じなら同じラベルになります）。実行は「元に戻す」で取り消せます。</p>
+      <h3>ログ</h3>
+      <div id="log" class="log"></div>
+    </section>
+
+    <!-- ============================== labels -->
+    <section id="tab-labels" class="tab">
+      <div class="row">
+        <input id="labelFilter" placeholder="ラベルを検索" class="grow">
+        <button id="showAll" title="すべて表示">全表示</button>
+        <button id="hideAll" title="すべて非表示">全非表示</button>
+      </div>
+      <div id="labelList" class="labellist"></div>
+      <h3>新しいラベル</h3>
+      <div class="row">
+        <input id="newLabelName" placeholder="名前 (例: portal_vein_branch)" class="grow">
+        <input type="color" id="newLabelColor" value="#e0a040">
+        <button id="addLabel" disabled>追加</button>
+      </div>
+      <h3>選択中のラベル</h3>
+      <div id="activeInfo" class="small muted">なし</div>
+      <div class="row wrap">
+        <label class="small"><input type="checkbox" id="activeVerified"> 確認済み（学習に使う）</label>
+        <label class="small">3D 不透明度 <input type="range" id="activeOpacity" min="0.1" max="1" step="0.05" value="1"></label>
+      </div>
+      <div class="row">
+        <input id="renameInput" placeholder="新しい名前" class="grow">
+        <button id="renameLabel" disabled>名前変更</button>
+      </div>
+      <div class="row">
+        <button id="deleteLabel" class="danger" disabled>ラベル削除（ボクセルも消去）</button>
+      </div>
+    </section>
+
+  </aside>
+
+  <main>
+    <div id="toolbar">
+      <div class="group" id="tools">
+        <button data-tool="nav" class="on" title="移動・十字線 (N)">✥ 移動</button>
+        <button data-tool="brush" title="ブラシ (B)">🖌 ブラシ</button>
+        <button data-tool="erase" title="消しゴム (E)">⌫ 消しゴム</button>
+        <button data-tool="fill" title="2D 塗りつぶし (F)">▣ 塗りつぶし</button>
+        <button data-tool="relabel" title="3D 連結領域の付け替え (R)">⇄ 領域付け替え</button>
+        <button data-tool="pick" title="ラベルを拾う (I / Alt+クリック)">⊙ スポイト</button>
+      </div>
+      <div class="group small">
+        <label>半径 <input type="range" id="brushSize" min="0.5" max="20" step="0.5" value="3"> <span id="brushSizeVal">3</span> mm</label>
+        <label title="球状ブラシ（断面をまたいで塗る）"><input type="checkbox" id="sphere"> 球</label>
+        <label title="他のラベルを上書きしない"><input type="checkbox" id="protect" checked> 他ラベル保護</label>
+        <label title="消しゴムで全ラベルを消す"><input type="checkbox" id="eraseAll"> 全ラベル消去</label>
+      </div>
+      <div class="group small">
+        <label title="この CT 値の範囲だけ編集する"><input type="checkbox" id="huOn"> CT値</label>
+        <input type="number" id="huLo" value="100" class="num"> 〜 <input type="number" id="huHi" value="400" class="num">
+      </div>
+      <div class="group">
+        <button id="undo" title="元に戻す (Ctrl+Z)">↶</button>
+        <button id="redo" title="やり直し (Ctrl+Y)">↷</button>
+      </div>
+      <div class="group small">
+        <select id="wlPreset" title="ウィンドウ">
+          <option value="50,400">腹部</option><option value="80,180">肝臓</option><option value="400,1800">骨</option>
+          <option value="-600,1500">肺</option><option value="40,80">脳</option><option value="150,600">造影血管</option>
+        </select>
+        <label><input type="checkbox" id="overlay" checked> ラベル</label>
+        <input type="range" id="alpha" min="0" max="1" step="0.05" value="0.45" title="重ね表示の濃さ">
+        <label><input type="checkbox" id="crosshair" checked> 十字線</label>
+      </div>
+      <div class="group small">
+        <button id="updateMeshes" disabled title="編集したラベルの 3D を更新">3D 更新</button>
+        <label><input type="checkbox" id="autoMesh" checked> 自動</label>
+      </div>
+    </div>
+
+    <div id="grid">
+      <div class="view" id="v-axial"><canvas></canvas><div class="vinfo"></div></div>
+      <div class="view" id="v-coronal"><canvas></canvas><div class="vinfo"></div></div>
+      <div class="view" id="v-sagittal"><canvas></canvas><div class="vinfo"></div></div>
+      <div class="view" id="v-3d"><canvas></canvas><div class="vinfo">3D（ドラッグ: 回転 / 右ドラッグ: 移動 / ホイール: 拡大 / ダブルクリック: 全体表示）</div></div>
+      <div id="empty">DICOM フォルダをドロップするか、「データ」タブから CT を開いてください</div>
+    </div>
+    <div id="statusbar"><span id="probe"></span><span class="grow"></span><span id="summary"></span></div>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<dialog id="seriesDlg" class="wide">
+  <form method="dialog">
+    <h3>DICOM シリーズの選択</h3>
+    <p id="seriesInfo" class="small muted"></p>
+    <div class="tablewrap">
+      <table class="series">
+        <thead><tr><th></th><th>No.</th><th>説明</th><th>種類</th><th>枚数</th><th>マトリクス</th><th>画素 (mm)</th><th>スライス間隔 (mm)</th><th>範囲 (mm)</th><th>時刻</th><th>造影剤</th><th>備考</th></tr></thead>
+        <tbody id="seriesRows"></tbody>
+      </table>
+    </div>
+    <div class="row end">
+      <button id="seriesCancel" type="button">キャンセル</button>
+      <button id="seriesOk" class="primary">読み込む</button>
+    </div>
+  </form>
+</dialog>
+
+
+<script src="config.js"></script>
+<script src="js/i18n.js"></script>
+<script>applyI18nToDocument();</script>
+<script src="js/nifti.js"></script>
+<script src="js/labels.js"></script>
+<script src="js/views2d.js"></script>
+<script src="js/viewer3d.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

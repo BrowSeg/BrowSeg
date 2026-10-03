@@ -1,0 +1,10 @@
+ircad14__liver_segments_all [desk_chrome_webgpu_final]: 1 differing voxels (orig grid, canonical x,y,z)
+  orig (152, 332, 73): python=0 browseg=2 -> network grid [ 41.13 187.04  78.21] (affine only: [ 41.16 187.    77.87])
+    net (41,187,78) python argmax=0 (seg 0) top=7.9844 2nd=2:7.9844 gap=0.0000 = 0 fp16-ulp
+    net (42,187,78) python argmax=2 (seg 2) top=8.7188 2nd=0:6.9727 gap=1.7461 = 224 fp16-ulp
+    net (41,188,78) python argmax=0 (seg 0) top=8.0391 2nd=2:7.5117 gap=0.5273 = 68 fp16-ulp
+    net (42,188,78) python argmax=2 (seg 2) top=8.3438 2nd=0:7.1562 gap=1.1875 = 152 fp16-ulp
+    net (41,187,79) python argmax=2 (seg 2) top=7.8789 2nd=0:7.3086 gap=0.5703 = 146 fp16-ulp
+    net (42,187,79) python argmax=2 (seg 2) top=8.5000 2nd=0:6.4180 gap=2.0820 = 266 fp16-ulp
+    net (41,188,79) python argmax=2 (seg 2) top=7.3984 2nd=0:7.3164 gap=0.0820 = 21 fp16-ulp
+    net (42,188,79) python argmax=2 (seg 2) top=8.0234 2nd=0:6.7266 gap=1.2969 = 166 fp16-ulp

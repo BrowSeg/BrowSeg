@@ -1,0 +1,52 @@
+{
+ "case": "ircad18",
+ "task": "liver_segments",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 74,
+  "shape": [
+   512,
+   512,
+   74
+  ],
+  "zooms": [
+   0.7421879768371582,
+   0.7421879768371582,
+   2.5
+  ],
+  "fetchS": 0.14960500001907348,
+  "loadS": 0.07046000003814697,
+  "log": [
+   "DICOM: 74 images of 74 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  74
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 70.94180000001192,
+   "wall": 70.94212000000476,
+   "backend": "cpu",
+   "heap": 2388000768,
+   "hash": "c07a9b53",
+   "names": [
+    "background",
+    "liver_segment_1",
+    "liver_segment_2",
+    "liver_segment_3",
+    "liver_segment_4",
+    "liver_segment_5",
+    "liver_segment_6",
+    "liver_segment_7",
+    "liver_segment_8"
+   ],
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)          496 ms\n  crop: finish/argmax               30 ms\n  crop: labels -> full res           3 ms\n  bbox + crop                        5 ms\n  resample task spacing             28 ms\n  part: preprocess                  60 ms\n  part: tiles (net+accum)        70265 ms\n  part: finish/argmax+merge         39 ms\n  back to orig + uncrop              2 ms\n"
+  }
+ ]
+}

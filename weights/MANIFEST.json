@@ -1,0 +1,183 @@
+{
+ "format": "BrowSeg .tsw (TSCPPW01): nnU-Net PlainConvUNet weights + plans, converted with tools/export_weights.py (values unchanged; fp16 files are rounded to half precision)",
+ "converted_from": "TotalSegmentator 2.13.0 weight files (identical zips are used by 2.18.0: the releases listed below)",
+ "upstream_repository": "https://github.com/wasserth/TotalSegmentator",
+ "upstream_license_file": "https://github.com/wasserth/TotalSegmentator/blob/master/LICENSE (Apache License 2.0)",
+ "upstream_readme_commit_checked": "137311b50e2361fe38f45447808f9d11db259056 (2026-09-23)",
+ "checked_on": "2026-09-29",
+ "downloads_per_task_bytes": {
+  "total_roi_subset (298+291)": 190993404,
+  "total (298 not used; 291-295)": 623922728,
+  "liver_segments (298+570)": 189352572,
+  "liver_vessels (298+8)": 189351652
+ },
+ "files": [
+  {
+   "file": "total6mm_298.tsw",
+   "task_id": 298,
+   "description": "total (6 mm, cropping model)",
+   "precision": "fp32",
+   "bytes": 66208792,
+   "sha256": "be6b747410bbfa7ca8557f57af9f05380f2bc7808fae8113d31dce8f2f9606cb",
+   "upstream": {
+    "dataset_folder": "Dataset298_TotalSegmentator_total_6mm_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset298_TotalSegmentator_total_6mm_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "organs_291.tsw",
+   "task_id": 291,
+   "description": "total part 1: organs",
+   "precision": "fp32",
+   "bytes": 124784612,
+   "sha256": "e68d79f7c4ebfd71a1dc3624217f1e274bc9ab5ed62c977939da0d308a7d3d70",
+   "upstream": {
+    "dataset_folder": "Dataset291_TotalSegmentator_part1_organs_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset291_TotalSegmentator_part1_organs_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "vertebrae_292.tsw",
+   "task_id": 292,
+   "description": "total part 2: vertebrae",
+   "precision": "fp32",
+   "bytes": 124784940,
+   "sha256": "9bca767ff62ad9a8df3610aefdc9b1abe4fa8b8a8248668243807b5292d4a6fe",
+   "upstream": {
+    "dataset_folder": "Dataset292_TotalSegmentator_part2_vertebrae_1532subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset292_TotalSegmentator_part2_vertebrae_1532subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "cardiac_293.tsw",
+   "task_id": 293,
+   "description": "total part 3: cardiac",
+   "precision": "fp32",
+   "bytes": 124783820,
+   "sha256": "17a1442aa57a17bbb08f6154bbce3adb807b3995e1447360472012ab7d5b3667",
+   "upstream": {
+    "dataset_folder": "Dataset293_TotalSegmentator_part3_cardiac_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset293_TotalSegmentator_part3_cardiac_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "muscles_294.tsw",
+   "task_id": 294,
+   "description": "total part 4: muscles",
+   "precision": "fp32",
+   "bytes": 124784480,
+   "sha256": "7ccb82d723bc0b474e1fdb52084297010766d8ac8c7b675e860aa6a286253171",
+   "upstream": {
+    "dataset_folder": "Dataset294_TotalSegmentator_part4_muscles_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset294_TotalSegmentator_part4_muscles_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "ribs_295.tsw",
+   "task_id": 295,
+   "description": "total part 5: ribs",
+   "precision": "fp32",
+   "bytes": 124784876,
+   "sha256": "2c3c7f2375845b5172bf4f7259e49ddaaa7707991a2c7e5b3d4d9e2a909caab4",
+   "upstream": {
+    "dataset_folder": "Dataset295_TotalSegmentator_part5_ribs_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset295_TotalSegmentator_part5_ribs_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "liver_segments_570.tsw",
+   "task_id": 570,
+   "description": "liver_segments",
+   "precision": "fp32",
+   "bytes": 123143780,
+   "sha256": "631638f031813a922a4682cfd1d46636c788ee2fbfee9bec12ea1a50e5e2588b",
+   "upstream": {
+    "dataset_folder": "Dataset570_ct_liver_segments",
+    "release": "v2.5.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.5.0-weights/Dataset570_ct_liver_segments.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "liver_vessels_8.tsw",
+   "task_id": 8,
+   "description": "liver_vessels",
+   "precision": "fp32",
+   "bytes": 123142860,
+   "sha256": "e480d7f7507db1b37b64ef7577f71358715b3ed2a2b945e3a7681a50610cc935",
+   "upstream": {
+    "dataset_folder": "Dataset008_HepaticVessel",
+    "release": "v2.4.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.4.0-weights/Dataset008_HepaticVessel.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "fp16/total6mm_298.tsw",
+   "task_id": 298,
+   "description": "total (6 mm, cropping model) (fp16 storage; results may differ from the fp32 build)",
+   "precision": "fp16",
+   "bytes": 33107692,
+   "sha256": "8c505979f2da4b154a1ec35a467bda0fe092dc3f7998186a7bd0f87bd07b2145",
+   "upstream": {
+    "dataset_folder": "Dataset298_TotalSegmentator_total_6mm_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset298_TotalSegmentator_total_6mm_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "fp16/organs_291.tsw",
+   "task_id": 291,
+   "description": "total part 1: organs (fp16 storage; results may differ from the fp32 build)",
+   "precision": "fp16",
+   "bytes": 62394930,
+   "sha256": "6136b5146e4cb19053c3ece2aa9a875f692b59ccd3972ab72abc5c1bcc20dc6f",
+   "upstream": {
+    "dataset_folder": "Dataset291_TotalSegmentator_part1_organs_1559subj",
+    "release": "v2.0.0-weights",
+    "zip_url": "https://github.com/wasserth/TotalSegmentator/releases/download/v2.0.0-weights/Dataset291_TotalSegmentator_part1_organs_1559subj.zip",
+    "fold": 0,
+    "configuration": "3d_fullres"
+   },
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  },
+  {
+   "file": "classmaps.txt",
+   "description": "TotalSegmentator class maps (task label index -> class name), exported from totalsegmentator.map_to_binary",
+   "bytes": 6760,
+   "sha256": "8b37f48cc4d1bc02e8fc42b6cc366329f79e5ede5f12f188df6dc3a39aacf44f",
+   "license": "Apache-2.0 (TotalSegmentator: 'Openly available for any usage')"
+  }
+ ]
+}

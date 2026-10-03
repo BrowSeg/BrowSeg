@@ -1,0 +1,398 @@
+// Web Worker hosting the WASM module (keeps the UI responsive; the module itself spawns
+// pthread workers for multithreaded work). Messages:
+//   init                              -> ready
+//   loadDicom {files}                 -> series   (list of the series found; nothing is built yet)
+//   buildSeries {uid, keep}           -> volume   (keep: keep the slices to switch series later)
+//   clearDicom                        -> cleared  (frees the kept slices)
+//   loadVolume {data, dims, affine}   -> volume   (NIfTI, x-fastest float data)
+//   run {task, roi, custom}           -> result   (label map + label names)
+//   mesh {labels, items:[{id,name}]}  -> meshes
+'use strict';
+
+const BASE = new URL('./', self.location.href).href;
+const PARAMS = new URL(self.location.href).searchParams;
+importScripts(new URL('config.js', BASE).href);  // TSC_CONFIG: where the weights are (relative to web/ or absolute)
+// fp32 weights reproduce Python TotalSegmentator exactly; fp16 (?fp16=1) halves the download
+const WDIR = PARAMS.has('fp16') ? TSC_CONFIG.weightsBaseFp16 : TSC_CONFIG.weightsBase;
+const MODEL_FILES = {
+  298: ['total6mm_298.tsw', '6mm crop model'],
+  291: ['organs_291.tsw', 'organs model'],
+  292: ['vertebrae_292.tsw', 'vertebrae model'],
+  293: ['cardiac_293.tsw', 'cardiac model'],
+  294: ['muscles_294.tsw', 'muscles model'],
+  295: ['ribs_295.tsw', 'ribs model'],
+  570: ['liver_segments_570.tsw', 'liver segments model'],
+  8: ['liver_vessels_8.tsw', 'liver vessels model'],
+};
+const CACHE_NAME = 'tsc-weights-v1';
+const FORCE_CPU = PARAMS.has('cpu');
+
+let M = null;
+let device = null;
+const gpuNets = {};  // task id -> GpuUNet (WebGPU backend)
+const configOnly = new Set();  // task ids whose weights C++ holds as config only (WebGPU); reloaded for the CPU
+let versions = {};  // "weights/x.tsw" -> "size-mtime" (server manifest): cache key, so changed files are re-fetched
+let backend = 'cpu';
+let gpuLostOnce = false;
+let gpuErrors = 0;  // WebGPU uncapturederror events so far (counted into every result for the benchmark records)
+
+const post = (msg, transfer) => self.postMessage(msg, transfer || []);
+const mem = () => M.wasmMemory.buffer;  // always the current (possibly grown) memory
+// Typed-array view on the WASM heap. The pointer argument is evaluated before mem() is read (calls such as
+// tsc_tile_output() may grow the heap, which replaces the SharedArrayBuffer) and read as unsigned (>2 GB heaps).
+const view = (T, ptr, n) => new T(mem(), ptr >>> 0, n);
+const lastError = () => M.UTF8ToString(M._tsc_result_ptr(5) >>> 0);
+
+let fetchSource = '';
+// .tsw integrity: magic, header length, and every tensor's byte range inside the file (a truncated download or a
+// partial cache entry would otherwise be zero-filled silently on the GPU path).
+function tswCheck(bytes) {
+  if (bytes.length < 12) return 'file too short';
+  if (new TextDecoder().decode(bytes.subarray(0, 8)) !== 'TSCPPW01') return 'not a .tsw file';
+  const hlen = new DataView(bytes.buffer, bytes.byteOffset + 8, 4).getUint32(0, true);
+  if (12 + hlen > bytes.length) return 'truncated header';
+  const base = Math.ceil((12 + hlen) / 64) * 64;
+  let end = 0, n = 0;
+  for (const line of new TextDecoder().decode(bytes.subarray(12, 12 + hlen)).split('\n')) {
+    const t = line.trim().split(/\s+/);
+    if (t[0] !== 'tensor') continue;
+    const nd = +t[3];
+    end = Math.max(end, +t[4 + nd] + +t[5 + nd]); n++;
+  }
+  if (!n) return 'no tensors in header';
+  if (base + end > bytes.length) return `truncated: ${bytes.length} of ${base + end} bytes`;
+  return null;
+}
+
+async function fetchWithProgress(url, label, cacheable = true) {
+  let cache = null;
+  try { cache = cacheable ? await caches.open(CACHE_NAME) : null; } catch (e) { /* no Cache API */ }
+  if (cache) {
+    const hit = await cache.match(url);
+    if (hit) { fetchSource = 'browser cache'; return new Uint8Array(await hit.arrayBuffer()); }
+  }
+  fetchSource = 'download';
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`download failed: ${url} (${res.status})`);
+  const total = +res.headers.get('Content-Length') || 0;
+  const reader = res.body.getReader();
+  const chunks = [];
+  let got = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    got += value.length;
+    post({ type: 'progress', stage: `download ${label}`, frac: total ? got / total : 0 });
+  }
+  const buf = new Uint8Array(got);
+  let o = 0;
+  for (const c of chunks) { buf.set(c, o); o += c.length; }
+  if (cache && (!total || got === total)) {
+    try {
+      const path = new URL(url).pathname;
+      for (const req of await cache.keys()) if (new URL(req.url).pathname === path && req.url !== url) await cache.delete(req);
+      await cache.put(url, new Response(buf));
+    } catch (e) { /* quota */ }
+  }
+  post({ type: 'log', text: `${label}: downloaded ${(got / 1e6).toFixed(1)} MB` });
+  return buf;
+}
+
+function copyIn(bytes) {
+  const p = M._malloc(bytes.byteLength);
+  if (!p) throw new Error('out of memory (malloc)');
+  view(Uint8Array, p, bytes.byteLength).set(new Uint8Array(bytes.buffer, bytes.byteOffset, bytes.byteLength));
+  return p;
+}
+function withString(s, fn) {
+  const len = M.lengthBytesUTF8(s) + 1, p = M._malloc(len);
+  M.stringToUTF8(s, p, len);
+  try { return fn(p); } finally { M._free(p); }
+}
+
+// dist/ (WASM threads) needs SharedArrayBuffer = a cross-origin isolated page; otherwise the single-thread build dist-st/
+// is used (same results, slower pre/post-processing). ?st=1 forces the single-thread build.
+const DIST = (self.crossOriginIsolated && !PARAMS.has('st')) ? 'dist' : 'dist-st';
+
+async function init() {
+  const script = new URL(DIST + '/tsc.js', BASE).href;
+  importScripts(script);
+  M = await createTSC({
+    mainScriptUrlOrBlob: script,
+    locateFile: (p) => new URL(DIST + '/' + p, BASE).href,
+    onProgress: (stage, frac) => post({ type: 'progress', stage, frac }),
+    print: (t) => post({ type: 'log', text: t }),
+    printErr: (t) => post({ type: 'log', text: t }),
+  });
+  // ?order=3 reproduces TotalSegmentator <= 2.15 (input resampling spline order 3); default 1 = TS >= 2.16
+  if (PARAMS.has('order') && M._tsc_set_resampling_order(+PARAMS.get('order'))) throw new Error('order must be 1 or 3');
+  // ?threads=N limits the WASM thread pool (benchmark: estimate of a single-threaded build with threads=1)
+  if (PARAMS.has('threads')) M._tsc_set_threads(Math.max(1, +PARAMS.get('threads')));
+  const cmText = await (await fetch(new URL('../weights/classmaps.txt', BASE).href)).text();
+  if (withString(cmText, (p) => M._tsc_load_classmaps(p))) throw new Error(lastError());
+  if (!FORCE_CPU && self.navigator.gpu) {
+    try {
+      importScripts(new URL('gpu_unet.js', BASE).href);
+      // ?gpuchunk=N: send at most N ops per command buffer and wait for each (for integrated GPUs whose driver
+      // resets a job that runs longer than its time limit). Default 0 = whole network in one submission.
+      if (PARAMS.has('gpuchunk')) GpuUNet.chunkOps = Math.max(0, +PARAMS.get('gpuchunk') | 0);
+      if (PARAMS.get('gpuchunkwait') === '0') GpuUNet.chunkWait = false;  // split the submission without waiting for each part
+      device = await GpuUNet.createDevice();
+      backend = 'webgpu';
+      const dev = device;
+      // WebGPU errors outside an error scope (e.g. a buffer whose allocation failed being used in a submit, which the
+      // specification turns into a dropped submission and all-zero output) only surface here; recorded in the log so
+      // that an all-zero result has its cause next to it (Firefox 156, 2026-09-28; see paper_jiim/PENDING.md).
+      gpuErrors = 0;
+      dev.addEventListener('uncapturederror', (ev) => {
+        if (++gpuErrors <= 20) post({ type: 'log', text: `WebGPU uncaptured error (${ev.error.constructor.name}): ${ev.error.message}` });
+        else if (gpuErrors === 21) post({ type: 'log', text: 'WebGPU uncaptured error: further errors are not logged' });
+      });
+      dev.lost.then((info) => {  // GPU reset / driver update: continue on the CPU
+        if (device !== dev) return;
+        device = null; backend = 'cpu';
+        for (const k of Object.keys(gpuNets)) delete gpuNets[k];
+        post({ type: 'log', text: `WebGPU device lost (${info.message}); continuing with the CPU (WASM)` });
+        post({ type: 'backend', backend: 'cpu' });
+      });
+    } catch (e) {
+      post({ type: 'log', text: `WebGPU unavailable (${e.message}), using CPU/WASM` });
+    }
+  }
+  post({ type: 'ready', threads: M._tsc_result_int(8), backend, build: DIST, isolated: !!self.crossOriginIsolated,
+         version: M.UTF8ToString(M._tsc_version() >>> 0) });
+}
+
+// Downloads (or takes from cache) every model the task needs. custom: {id: url} of fine-tuned models.
+async function ensureModels(task, roi, custom, forceCpu = false) {
+  const gpu = device && !forceCpu ? device : null;  // forceCpu: load full weights into C++ even though WebGPU is available
+  const out = M._malloc(64);
+  const n = withString(task, (tp) => withString(roi || '-', (rp) => M._tsc_task_models(tp, rp, out, 16)));
+  const ids = Array.from(view(Int32Array, out, Math.max(n, 0)));
+  M._free(out);
+  if (n < 0) throw new Error(lastError());
+  // Only the models of the current task stay on the GPU: the others are freed first. Firefox (156, Windows) returned
+  // empty label maps without any WebGPU error when the weights of several tasks were kept (2026-09-29, see
+  // paper_jiim/WORKLOG.md). Uploading a model again takes < 0.1 s. ?keepgpu=1 keeps them (old behaviour).
+  if (gpu && !PARAMS.has('keepgpu'))
+    for (const k of Object.keys(gpuNets)) if (!ids.includes(+k)) { gpuNets[k].destroy(); delete gpuNets[k]; }
+  for (const tid of ids) {
+    if (M._tsc_has_model(tid) && (gpu ? gpuNets[tid] : !configOnly.has(tid))) continue;
+    let url, label;
+    let rel;
+    if (MODEL_FILES[tid]) { rel = WDIR.replace('../', '') + MODEL_FILES[tid][0]; label = MODEL_FILES[tid][1]; url = new URL(WDIR + MODEL_FILES[tid][0], BASE).href; }
+    else if (custom && custom[tid]) { rel = custom[tid]; label = `custom model ${tid}`; url = new URL('../' + rel, BASE).href; }
+    else throw new Error(`no weights for model ${tid}`);
+    if (versions[rel]) url += `?v=${versions[rel]}`;
+    // timings of the model hand-over (logged): file -> JS -> WASM (config / CPU weights) -> GPU buffers
+    const t0 = performance.now();
+    const bytes = await fetchWithProgress(url, label, !!MODEL_FILES[tid]);
+    const bad = tswCheck(bytes);
+    if (bad) {  // truncated / corrupt file: never keep it in the cache
+      try { const c = await caches.open(CACHE_NAME); await c.delete(url); } catch (e) { /* no Cache API */ }
+      throw new Error(`${label}: invalid weight file (${bad})`);
+    }
+    const t1 = performance.now();
+    post({ type: 'progress', stage: `prepare ${label}`, frac: 0 });
+    // WebGPU: C++ only needs the config -> hand over just the header (magic + length + text), not 125 MB
+    const head = gpu ? bytes.subarray(0, 12 + new DataView(bytes.buffer, bytes.byteOffset + 8, 4).getUint32(0, true)) : bytes;
+    const p = copyIn(head);
+    const r = M._tsc_load_weights(p, head.length, gpu ? 0 : 1);
+    M._free(p);
+    if (r < 0) throw new Error(lastError());
+    if (gpu) configOnly.add(tid); else configOnly.delete(tid);
+    const t2 = performance.now();
+    let gpuNote = '';
+    if (gpu) {
+      gpuNets[tid] = new GpuUNet(gpu, bytes);  // parse + writeBuffer of every tensor + shader pipelines
+      const t3 = performance.now();
+      await gpu.queue.onSubmittedWorkDone();   // uploads actually finished
+      gpuNote = `, GPU upload + pipelines ${((t3 - t2) / 1000).toFixed(2)} s (queue done ${((performance.now() - t2) / 1000).toFixed(2)} s)`;
+    }
+    post({ type: 'log', text: `model ${tid} (${(bytes.length / 1e6).toFixed(0)} MB): ${fetchSource} ${((t1 - t0) / 1000).toFixed(2)} s, ` +
+                              `WASM ${gpu ? 'config' : 'weights'} ${((t2 - t1) / 1000).toFixed(2)} s${gpuNote}` });
+  }
+}
+
+function volumeMessage() {
+  const shape = [0, 1, 2].map((i) => M._tsc_ct_info(i));
+  const zooms = [3, 4, 5].map((i) => M._tsc_ct_info(i));
+  const n = shape[0] * shape[1] * shape[2];
+  const f = view(Float32Array, M._tsc_ct_ptr(), n);
+  const ct = new Int16Array(n);
+  for (let i = 0; i < n; i++) { const v = Math.round(f[i]); ct[i] = v < -32768 ? -32768 : v > 32767 ? 32767 : v; }
+  const affine = Array.from(view(Float64Array, M._tsc_ct_affine(), 16));
+  post({ type: 'volume', ct, shape, zooms, affine, log: M.UTF8ToString(M._tsc_result_ptr(6) >>> 0) }, [ct.buffer]);
+}
+
+function loadDicom(files) {
+  M._tsc_clear_dicom();
+  let n = 0;
+  for (let i = 0; i < files.length; i++) {
+    const bytes = new Uint8Array(files[i]);
+    const p = copyIn(bytes);
+    n += M._tsc_add_dicom(p, bytes.length);
+    M._free(p);
+    if (i % 32 === 0) post({ type: 'progress', stage: 'read DICOM', frac: i / files.length });
+  }
+  if (n < 1) throw new Error(TSC_CONFIG.lang === 'en' ? 'No DICOM images found (uncompressed DICOM is required)' : 'DICOM の画像が見つかりません（非圧縮の DICOM が必要です）');
+  post({ type: 'log', text: `DICOM: ${n} images of ${files.length} files` });
+  post({ type: 'series', list: seriesList(), files: files.length, images: n });
+}
+
+// series in the added DICOM files (default choice first), see tsc_list_series
+function seriesList() {
+  const txt = M.UTF8ToString(M._tsc_list_series() >>> 0);
+  return txt.split('\n').filter(Boolean).map((line) => {
+    const f = line.split('\t');
+    return { uid: f[0], description: f[1], modality: f[2], number: +f[3], slices: +f[4], other: +f[5], rows: +f[6], cols: +f[7],
+             spacing: [+f[8], +f[9]], sliceSpacing: +f[10], extent: +f[11], time: f[12] || '', contrast: f[13] || '', problem: f[14] || '' };
+  });
+}
+
+// builds the CT of one series; keep: keep the DICOM slices for choosing another series later
+function buildSeries({ uid, keep }) {
+  post({ type: 'progress', stage: 'dicom', frac: 0 });
+  if (withString(uid || '', (p) => M._tsc_load_dicom_series(p, keep ? 1 : 0))) throw new Error((M._tsc_ct_info(0) ? '' : '[CT_LOST] ') + lastError());
+  volumeMessage();
+}
+
+function loadVolume({ data, dims, affine }) {
+  const p = copyIn(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+  const ap = M._malloc(16 * 8);
+  view(Float64Array, ap, 16).set(affine);
+  const r = M._tsc_set_volume(p, dims[0], dims[1], dims[2], ap);
+  M._free(p); M._free(ap);
+  if (r) throw new Error((M._tsc_ct_info(0) ? '' : '[CT_LOST] ') + lastError());
+  volumeMessage();
+}
+
+// WebGPU path: C++ does everything except the network; tiles are run and accumulated
+// (fp16, bit-identical to C++) on the GPU, logits read back once per model.
+async function segmentGpu(task, roi) {
+  if (withString(task, (tp) => withString(roi || '-', (rp) => M._tsc_begin(tp, rp)))) throw new Error(lastError());
+  let tid;
+  while ((tid = M._tsc_stage())) {
+    const net = gpuNets[tid];
+    if (!net) throw new Error(`GPU model ${tid} unavailable (device lost)`);
+    const name = M.UTF8ToString(M._tsc_stage_name() >>> 0);
+    const nt = M._tsc_num_tiles();
+    const P = net.cfg.patch[0] * net.cfg.patch[1] * net.cfg.patch[2];
+    const ps = [3, 4, 5].map((a) => M._tsc_tile_geom(0, a));
+    try {
+    if (net.canAccumulate(ps)) {
+      const tp = performance.now();
+      await net.beginVolume(view(Float32Array, M._tsc_gaussian_ptr(), P).slice(), ps);
+      post({ type: 'log', text: `model ${tid}: GPU work buffers (plan) ${((performance.now() - tp) / 1000).toFixed(2)} s` });
+      for (let t = 0; t < nt; t++) {
+        post({ type: 'progress', stage: name, frac: t / nt });
+        const x = view(Float32Array, M._tsc_tile_input(t), P).slice();
+        M._tsc_tile_count(t);
+        await net.forwardAccumulate(x, [0, 1, 2].map((a) => M._tsc_tile_geom(t, a)));  // resolves at once unless ?gpuchunk splits the submission
+      }
+      const logits = await net.readLogits();
+      if (PARAMS.has('gpulost') && !gpuLostOnce) { gpuLostOnce = true; device.destroy(); }  // test hook: simulate losing the GPU
+      if (allZero(logits) || PARAMS.get('gpufail') === String(tid) || PARAMS.get('gpufail') === 'all')  // ?gpufail=<model id>|all: test hook
+        throw new Error(`model ${tid} returned an all-zero result`);  // Firefox 156 did this silently (2026-09-29)
+      view(Uint16Array, M._tsc_logits_ptr(), logits.length).set(logits);
+    } else {
+      for (let t = 0; t < nt; t++) {
+        post({ type: 'progress', stage: name, frac: t / nt });
+        const x = view(Float32Array, M._tsc_tile_input(t), P).slice();
+        const y = await net.forward(x);
+        view(Float32Array, M._tsc_tile_output(), y.length).set(y);
+        M._tsc_tile_accumulate(t);
+      }
+    }
+    if (M._tsc_advance()) throw new Error(lastError());
+    } finally {
+      await net.popVolumeScopes();
+      net.releasePlan();  // activation / accumulation buffers (weights stay)
+    }
+  }
+  if (M._tsc_finish()) throw new Error(lastError());
+}
+
+// fp16 words that are +0 or -0
+function allZero(h) {
+  for (let i = 0; i < h.length; i++) if ((h[i] & 0x7fff) !== 0) return false;
+  return true;
+}
+
+// CPU networks for the models of a task (after a GPU failure the C++ side only holds their configuration).
+// The device is not touched here: it may have been lost meanwhile (device.lost handler), and must stay lost.
+async function ensureCpuModels(task, roi, custom) {
+  await ensureModels(task, roi, custom, true);
+}
+
+async function run({ task, roi, custom }) {
+  const t0 = performance.now();
+  await ensureModels(task, roi, custom);
+  const modelSeconds = (performance.now() - t0) / 1000;   // weights: cache/download, WASM config, GPU upload (0 when already loaded)
+  let used = backend, fallback = null;
+  if (backend === 'webgpu') {
+    try {
+      await segmentGpu(task, roi);
+    } catch (e) {
+      // A wrong GPU result must never be returned as if it were right: the label map is recomputed on the CPU.
+      fallback = String(e && e.message || e);
+      post({ type: 'warning', text: `WebGPU failed (${fallback}); recomputing on the CPU` });
+      post({ type: 'progress', stage: 'cpu fallback', frac: 0 });
+      await ensureCpuModels(task, roi, custom);
+      used = 'cpu (after WebGPU failure)';
+      if (withString(task, (tp) => withString(roi || '-', (rp) => M._tsc_run(tp, rp)))) throw new Error(lastError());
+    }
+  } else {
+    // the device may have been lost while ensureModels() awaited (then the C++ side holds only the configurations)
+    await ensureCpuModels(task, roi, custom);
+    if (withString(task, (tp) => withString(roi || '-', (rp) => M._tsc_run(tp, rp)))) throw new Error(lastError());
+  }
+  const n = [0, 1, 2].map((i) => M._tsc_ct_info(i)).reduce((a, b) => a * b, 1);
+  const labels = view(Uint8Array, M._tsc_labels_ptr(), n).slice();
+  const names = [];
+  for (let i = 0; i < M._tsc_num_label_names(); i++) names.push(M.UTF8ToString(M._tsc_label_name(i) >>> 0));
+  post({ type: 'result', task, roi, labels, names, seconds: (performance.now() - t0) / 1000, modelSeconds, backend: used, fallback, heap: mem().byteLength,
+         gpuErrors, log: M.UTF8ToString(M._tsc_result_ptr(6) >>> 0) }, [labels.buffer]);
+}
+
+function mesh({ labels, items, seq }) {
+  const numel = [0, 1, 2].map((i) => M._tsc_ct_info(i)).reduce((x, y) => x * y, 1);
+  if (labels.length !== numel) throw new Error(`label map size ${labels.length} does not match the volume (${numel})`);
+  const p = copyIn(labels);
+  const r = M._tsc_set_labels(p);
+  M._free(p);
+  if (r) throw new Error(lastError());
+  const spec = items.map((it) => `${it.id}\t${it.name}`).join('\n');
+  if (withString(spec, (sp) => M._tsc_build_meshes(sp))) throw new Error(lastError());
+  const V = view(Float32Array, M._tsc_result_ptr(0), M._tsc_result_int(0) * 3);
+  const N = view(Float32Array, M._tsc_result_ptr(2), M._tsc_result_int(0) * 3);
+  const I = view(Uint32Array, M._tsc_result_ptr(1), M._tsc_result_int(1) * 3);
+  const out = [], transfer = [];
+  for (let i = 0; i < M._tsc_result_int(10); i++) {
+    const info = (w) => M._tsc_label_info(i, w);
+    const v0 = info(1), nv = info(2), i0 = info(3), ni = info(4);
+    const vertices = V.slice(v0 * 3, (v0 + nv) * 3), normals = N.slice(v0 * 3, (v0 + nv) * 3);
+    const indices = I.slice(i0, i0 + ni);
+    for (let k = 0; k < indices.length; k++) indices[k] -= v0;
+    out.push({ id: info(0), vertices, normals, indices, voxels: info(5), ml: info(6), meshMl: info(7) });
+    transfer.push(vertices.buffer, normals.buffer, indices.buffer);
+  }
+  M._tsc_free_results();
+  post({ type: 'meshes', items: out, seq, seconds: M._tsc_result_double(2) }, transfer);
+}
+
+self.onmessage = async (e) => {
+  const m = e.data;
+  try {
+    if (m.type === 'init') await init();
+    else if (m.type === 'loadDicom') loadDicom(m.files);
+    else if (m.type === 'loadVolume') loadVolume(m);
+    else if (m.type === 'buildSeries') buildSeries(m);
+    else if (m.type === 'clearDicom') { M._tsc_clear_dicom(); post({ type: 'cleared' }); }
+    else if (m.type === 'run') await run(m);
+    else if (m.type === 'mesh') mesh(m);
+  } catch (err) {
+    post({ type: 'error', message: String(err && err.message || err), request: m.type });
+  }
+};

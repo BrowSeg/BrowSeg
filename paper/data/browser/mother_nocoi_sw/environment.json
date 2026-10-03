@@ -1,0 +1,54 @@
+{
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+ "hardwareConcurrency": 24,
+ "deviceMemory": 32,
+ "crossOriginIsolated": true,
+ "date": "2026-09-29T11:58:00.542Z",
+ "params": {
+  "tag": "mother_nocoi_sw",
+  "coi": "1",
+  "cases": "ircad01",
+  "tasks": "total:liver",
+  "reps": "1"
+ },
+ "backend": "webgpu",
+ "threads": 24,
+ "build": "dist",
+ "isolated": true,
+ "version": "tsc 0.4 (TotalSegmentator 2.13/2.18 tasks + portal/hepatic split + custom models, C++/WASM)",
+ "gpu": {
+  "vendor": "nvidia",
+  "architecture": "lovelace",
+  "device": "",
+  "description": "",
+  "features": [
+   "bgra8unorm-storage",
+   "clip-distances",
+   "core-features-and-limits",
+   "depth-clip-control",
+   "depth32float-stencil8",
+   "dual-source-blending",
+   "float32-blendable",
+   "float32-filterable",
+   "indirect-first-instance",
+   "primitive-index",
+   "rg11b10ufloat-renderable",
+   "shader-f16",
+   "subgroup-size-control",
+   "subgroups",
+   "texture-component-swizzle",
+   "texture-compression-bc",
+   "texture-compression-bc-sliced-3d",
+   "texture-formats-tier1",
+   "texture-formats-tier2",
+   "timestamp-query"
+  ],
+  "limits": {
+   "maxBufferSize": 2147483648,
+   "maxStorageBufferBindingSize": 2147483644
+  }
+ },
+ "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 (0x00002786) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+ "initS": 0.28963499999046327,
+ "initLog": []
+}

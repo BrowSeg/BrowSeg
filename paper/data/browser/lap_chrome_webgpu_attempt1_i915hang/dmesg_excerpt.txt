@@ -1,0 +1,11 @@
+2026-09-29T22:32:21+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[1270430]:1c!
+2026-09-29T22:32:21+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[1270430]:1e!
+2026-09-29T22:32:41+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[1270430]:20!
+2026-09-29T22:32:41+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[1270430]:22!
+2026-09-29T22:32:41+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[1270430]:24!
+2026-09-29T22:32:41+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[1270430]:26!
+2026-09-29T22:37:35+0900 laptop kernel: i915 0000:00:02.0: [drm] Resetting rcs0 for preemption time out
+2026-09-29T22:37:35+0900 laptop kernel: i915 0000:00:02.0: [drm] chrome[1270430] context reset due to GPU hang
+2026-09-29T22:37:35+0900 laptop kernel: i915 0000:00:02.0: [drm] GPU HANG: ecode 12:1:8ed9fff2, in chrome [1270430]
+2026-09-29T22:40:12+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome<1276012>:1c!
+2026-09-29T22:40:12+0900 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome<1276012>:1e!

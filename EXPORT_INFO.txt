@@ -1,0 +1,5 @@
+exported by tools/export_browseg.py from TSC++Project commit 3587b0abe99fa586d55e8843cd1ca410c25f67d9
+web/dist/tsc.js sha256 e786def853a4ab167a8ac773a6670370d64c784694983054bb6dfc3f6f6766af
+web/dist/tsc.wasm sha256 5347a38b20e673ab71affbe46c7c000da1d797a3627b95b4b467825a7f1c5e89
+web/dist-st/tsc.js sha256 ec6d74ea61cd504b38372a62eeb731beab2277aa83ec50d888edf202cff9a911
+web/dist-st/tsc.wasm sha256 ce0901aeda167e90c43f1ce70ee019475d741ff9ed98d7da9341c767f7eafde6

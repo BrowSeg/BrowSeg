@@ -1,0 +1,24 @@
+BrowSeg model weights
+=====================
+
+The files in this folder are converted copies of the pretrained TotalSegmentator models
+(https://github.com/wasserth/TotalSegmentator, Jakob Wasserthal et al., University Hospital Basel),
+distributed by the TotalSegmentator project under the Apache License, Version 2.0
+(https://github.com/wasserth/TotalSegmentator/blob/master/LICENSE).
+
+Only tasks that the TotalSegmentator README lists as "Openly available for any usage (Apache-2.0 license)"
+are included: total (models 291-295 and the 6 mm model 298), liver_segments (570) and liver_vessels (8).
+The conversion (tools/export_weights.py in the BrowSeg project) changes the file format, not the values;
+fp16 files are the same weights rounded to half precision. MANIFEST.json lists, for every file, the
+upstream release and zip it was made from, its size and SHA-256.
+
+Attribution requested by the TotalSegmentator authors (README, "Openly available" list):
+- Wasserthal J, et al. TotalSegmentator: Robust segmentation of 104 anatomic structures in CT images.
+  Radiology: Artificial Intelligence 2023;5(5):e230024. https://doi.org/10.1148/ryai.230024
+- nnU-Net: Isensee F, et al. Nature Methods 2021;18:203-211. https://doi.org/10.1038/s41592-020-01008-z
+- liver_segments: Tian J, Liu L, Shi Z, Xu F. Automatic Couinaud segmentation from CT volumes on liver using
+  GLC-UNet. MLMI 2019, LNCS, pp. 274-282. https://doi.org/10.1007/978-3-030-32692-0_32
+- liver_vessels: Simpson AL, Antonelli M, Bakas S, et al. A large annotated medical image dataset for the
+  development and evaluation of segmentation algorithms (Medical Segmentation Decathlon). arXiv:1902.09063, 2019.
+
+Modifications: format conversion only (see above). No retraining, no fine-tuning.

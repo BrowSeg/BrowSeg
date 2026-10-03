@@ -1,0 +1,1 @@
+13:const EXE = { chrome: '/home/user/Documents/MyGithubProject2/BrowSeg_tools/chrome_webgpu.sh', firefox: 'C:/Program Files/Mozilla Firefox/firefox.exe',

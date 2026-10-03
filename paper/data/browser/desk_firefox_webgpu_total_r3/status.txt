@@ -1,0 +1,1 @@
+2026-09-28T16:09:12.426Z ERROR: Mapping WebGPU buffer failed: Invalid buffer

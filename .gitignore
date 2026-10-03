@@ -1,0 +1,13 @@
+build/
+build-wasm/
+build-wasm-st/
+node_modules/
+out/
+/*.log
+__pycache__/
+# model weights are distributed as release assets (see weights/MANIFEST.json), not in git
+weights/*.tsw
+weights/fp16/
+# local data (root only: paper/data holds the paper records and is committed)
+/data/
+/ref/

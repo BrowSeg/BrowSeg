@@ -1,0 +1,5 @@
+2026-09-28T15:59:18.372Z start desk_firefox_webgpu_r2 (firefox)
+2026-09-28T16:00:28.507Z desk_firefox_webgpu_r2: 2026-09-28T16:00:27.030Z ERROR: Mapping WebGPU buffer failed: Invalid buffer
+2026-09-28T16:00:32.136Z start desk_firefox_webgpu_total_r2 (firefox)
+2026-09-28T16:00:47.166Z desk_firefox_webgpu_total_r2: 2026-09-28T16:00:43.773Z ERROR: Mapping WebGPU buffer failed: Invalid buffer
+ALL DONE
