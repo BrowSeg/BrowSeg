@@ -147,6 +147,13 @@ recorded browser outputs on the cases whose result hinges on an fp16 tie (`tests
    patch sizes of the bundled models).
 
 Browser-side changes of the same review (CPU fallback after a lost device, weight-file integrity check, query
-parameters, benchmark server hardening) do not touch the computation. The released `web/dist/tsc.wasm` is
-`5347a38b…`, `web/dist-st/tsc.wasm` is `ce0901ae…` (full hashes in `EXPORT_INFO.txt`).
+parameters, benchmark server hardening) do not touch the computation. The WebAssembly in `web/dist/` and `web/dist-st/`
+is built from the source in this repository (version string "BrowSeg 0.1"); its SHA-256 hashes are in `EXPORT_INFO.txt`.
+
+GPU safeguards added after the measurements (they do not change the computation): every GPU submission ends with a
+small counter update, and a model's result is used only if the counter shows that all submitted work ran; otherwise,
+and when the GPU returns an empty label map, the task is retried on the GPU with the network submitted in parts and
+then recomputed on the CPU. On Intel GPUs the network is submitted in parts of 4 steps from the start (`?gpuchunk=0`
+restores the single submission). Reason: on an Intel UHD integrated GPU (Linux, i915 driver) a single submission per
+patch sometimes exceeded the driver's time limit; the GPU was reset and some results were wrong without any error.
 

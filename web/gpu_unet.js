@@ -334,14 +334,30 @@ fn main(@builtin(global_invocation_id) gid: vec3u, @builtin(num_workgroups) nwg:
   }
 }`;
 
+// Completion marker: one invocation adds 1 to a counter. It is dispatched last in every command buffer, so the counter
+// equals the number of command buffers whose work really ran. A GPU reset that drops part of the work (seen on Intel UHD
+// with Linux i915, 2026-10-03: no WebGPU error, no device loss, wrong or empty label map) leaves the counter short.
+const tickShader = /* wgsl */ `
+@group(0) @binding(0) var<storage, read_write> c: array<u32>;
+@compute @workgroup_size(1)
+fn main() { c[0] = c[0] + 1u; }`;
+
 // ---------------------------------------------------------------- GpuUNet
 class GpuUNet {
   static chunkOps = 0;   // see forward(): ops per command buffer (0 = all, the configuration measured in the paper)
-  static chunkWait = true;  // with chunkOps > 0: wait for each command buffer before submitting the next (false: only split)
+  static chunkWait = true;
+  static simulateIncomplete = null;  // test hook (worker ?gpuincomplete=once|all): the completion counter reports one missing
+  static takeSimulatedMiss() {
+    if (!GpuUNet.simulateIncomplete) return 0;
+    if (GpuUNet.simulateIncomplete === 'once') GpuUNet.simulateIncomplete = null;
+    return 1;
+  }  // with chunkOps > 0: wait for each command buffer before submitting the next (false: only split)
   static async createDevice() {
     if (!navigator.gpu) throw new Error('WebGPU not available');
     const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
     if (!adapter) throw new Error('no WebGPU adapter');
+    const info = adapter.info || {};
+    GpuUNet.adapterInfo = { vendor: info.vendor || '', architecture: info.architecture || '', description: info.description || '' };
     const device = await adapter.requestDevice({
       requiredLimits: {
         maxBufferSize: adapter.limits.maxBufferSize,
@@ -380,6 +396,7 @@ class GpuUNet {
     mk('weight', weightShader);
     mk('accum', accumShader);
     mk('pack', packShader);
+    mk('tick', tickShader);
     this.dummy = dev.createBuffer({ size: 16, usage: GPUBufferUsage.STORAGE });
     this.plan = null;
   }
@@ -525,14 +542,20 @@ class GpuUNet {
     }
     const logits = conv([lres], 'seg', [1, 1, 1]);
     const staging = dev.createBuffer({ size: logits.buf.size, usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST });
-    this.plan = { ops, input, logits, staging, owned };
+    // completion counter of forward() (see tickShader) and its readback
+    const tick = dev.createBuffer({ size: 16, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST });
+    const tickStaging = dev.createBuffer({ size: 16, usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST });
+    const tickBg = dev.createBindGroup({ layout: this.pipes.tick.getBindGroupLayout(0), entries: [{ binding: 0, resource: { buffer: tick } }] });
+    this.plan = { ops, input, logits, staging, owned, tick, tickStaging, tickBg };
   }
 
   // x: Float32Array (P0*P1*P2) -> Float32Array (numClasses * P0*P1*P2), written into `out` if given
   async forward(x, out) {
     if (!this.plan) await this.buildPlan();
-    const dev = this.device, { ops, input, logits, staging } = this.plan;
+    const dev = this.device, { ops, input, logits, staging, tick, tickStaging, tickBg } = this.plan;
     dev.queue.writeBuffer(input.buf, 0, x);
+    dev.queue.writeBuffer(tick, 0, new Uint32Array(4));
+    let sent = 0;
     // GpuUNet.chunkOps = 0 (default, as measured in the paper): the whole network of one patch goes to the GPU as one
     // command buffer. chunkOps = N > 0: at most N ops per command buffer, waiting for each to finish before the next, so
     // that no single GPU job runs longer than the driver's preemption time limit on slow (integrated) GPUs. The same
@@ -548,12 +571,20 @@ class GpuUNet {
         pass.setBindGroup(0, op.bg);
         pass.dispatchWorkgroups(op.wg[0], op.wg[1], op.wg[2]);
       }
+      pass.setPipeline(this.pipes.tick); pass.setBindGroup(0, tickBg); pass.dispatchWorkgroups(1);  // completion marker
+      sent++;
       pass.end();
-      if (i + chunk >= ops.length) enc.copyBufferToBuffer(logits.buf, 0, staging, 0, logits.buf.size);
+      if (i + chunk >= ops.length) {
+        enc.copyBufferToBuffer(logits.buf, 0, staging, 0, logits.buf.size);
+        enc.copyBufferToBuffer(tick, 0, tickStaging, 0, 16);
+      }
       dev.queue.submit([enc.finish()]);
       if (GpuUNet.chunkWait && i + chunk < ops.length) await dev.queue.onSubmittedWorkDone();
     }
-    await staging.mapAsync(GPUMapMode.READ);
+    await Promise.all([staging.mapAsync(GPUMapMode.READ), tickStaging.mapAsync(GPUMapMode.READ)]);
+    const done = new Uint32Array(tickStaging.getMappedRange())[0] - GpuUNet.takeSimulatedMiss();
+    tickStaging.unmap();
+    if (done !== sent) { staging.unmap(); throw new Error(`GPU work incomplete (${done} of ${sent} command buffers ran)`); }
     const r = new Float32Array(staging.getMappedRange());
     if (out) out.set(r); else out = r.slice();
     staging.unmap();
@@ -611,12 +642,15 @@ GpuUNet.prototype.beginVolume = async function (gauss, ps) {
   const logits = this.plan.logits.buf;
   const bg = (pipe, bufs) => dev.createBindGroup({ layout: this.pipes[pipe].getBindGroupLayout(0),
     entries: bufs.map((b, i) => ({ binding: i, resource: { buffer: b } })) });
-  this.vol = { acc, g, wu, C, NP, PP, ps, wbg: bg('weight', [logits, g, wu]), extra: [], bg };
+  // completion counter (see tickShader): +1 per command buffer that ran; checked in readLogits()
+  const tick = dev.createBuffer({ size: 16, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST });
+  dev.queue.writeBuffer(tick, 0, new Uint32Array(4));
+  this.vol = { acc, g, wu, C, NP, PP, ps, wbg: bg('weight', [logits, g, wu]), extra: [], bg, tick, tickBg: bg('tick', [tick]), sent: 0 };
 };
 
 GpuUNet.prototype.endVolume = function () {
   if (!this.vol) return;
-  for (const b of [this.vol.acc, this.vol.g, this.vol.wu, ...this.vol.extra]) b.destroy();
+  for (const b of [this.vol.acc, this.vol.g, this.vol.wu, this.vol.tick, ...this.vol.extra]) b.destroy();
   this.vol = null;
 };
 
@@ -645,6 +679,8 @@ GpuUNet.prototype.forwardAccumulate = async function (x, origin) {
       pass.setPipeline(this.pipes.weight); pass.setBindGroup(0, v.wbg); pass.dispatchWorkgroups(4096);
       pass.setPipeline(this.pipes.accum); pass.setBindGroup(0, v.bg('accum', [logits.buf, v.acc, au])); pass.dispatchWorkgroups(4096);
     }
+    pass.setPipeline(this.pipes.tick); pass.setBindGroup(0, v.tickBg); pass.dispatchWorkgroups(1);  // completion marker
+    v.sent++;
     pass.end();
     dev.queue.submit([enc.finish()]);
     if (GpuUNet.chunkWait && i + chunk < ops.length) await dev.queue.onSubmittedWorkDone();
@@ -666,18 +702,24 @@ GpuUNet.prototype.readLogits = async function () {
   pass.dispatchWorkgroups(4096);
   pass.end();
   enc.copyBufferToBuffer(out, 0, staging, 0, words * 4);
+  const tickStaging = dev.createBuffer({ size: 16, usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST });
+  enc.copyBufferToBuffer(v.tick, 0, tickStaging, 0, 16);
   dev.queue.submit([enc.finish()]);
-  let r;
+  const sent = v.sent;
+  let r, done;
   try {
-    await staging.mapAsync(GPUMapMode.READ);
+    await Promise.all([staging.mapAsync(GPUMapMode.READ), tickStaging.mapAsync(GPUMapMode.READ)]);
     r = new Uint16Array(staging.getMappedRange(), 0, total).slice();
+    done = new Uint32Array(tickStaging.getMappedRange())[0] - GpuUNet.takeSimulatedMiss();
     staging.unmap();
+    tickStaging.unmap();
   } finally {
-    for (const b of [out, staging, u]) b.destroy();
+    for (const b of [out, staging, u, tickStaging]) b.destroy();
     this.endVolume();
   }
   const err = await this.popVolumeScopes();
   if (err) throw new Error('WebGPU: ' + err.message);
+  if (done !== sent) throw new Error(`GPU work incomplete (${done} of ${sent} command buffers ran)`);
   return r;
 };
 

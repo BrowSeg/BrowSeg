@@ -34,6 +34,7 @@ const configOnly = new Set();  // task ids whose weights C++ holds as config onl
 let versions = {};  // "weights/x.tsw" -> "size-mtime" (server manifest): cache key, so changed files are re-fetched
 let backend = 'cpu';
 let gpuLostOnce = false;
+const SPLIT_OPS = 4;  // steps per GPU submission when split (Intel GPUs, or after a failed single submission); 4 was the fastest split on Intel UHD
 let gpuErrors = 0;  // WebGPU uncapturederror events so far (counted into every result for the benchmark records)
 
 const post = (msg, transfer) => self.postMessage(msg, transfer || []);
@@ -138,8 +139,17 @@ async function init() {
       // resets a job that runs longer than its time limit). Default 0 = whole network in one submission.
       if (PARAMS.has('gpuchunk')) GpuUNet.chunkOps = Math.max(0, +PARAMS.get('gpuchunk') | 0);
       if (PARAMS.get('gpuchunkwait') === '0') GpuUNet.chunkWait = false;  // split the submission without waiting for each part
+      // ?gpuincomplete=once|all: test hook, the completion counter reports one command buffer missing (once / every time)
+      if (['once', 'all'].includes(PARAMS.get('gpuincomplete'))) GpuUNet.simulateIncomplete = PARAMS.get('gpuincomplete');
       device = await GpuUNet.createDevice();
       backend = 'webgpu';
+      // Intel GPUs: submit the network in parts of SPLIT_OPS steps unless ?gpuchunk is given. On Intel UHD (Linux i915)
+      // one patch submitted at once sometimes exceeded the driver's time limit and the GPU was reset; split, 33 runs
+      // passed (2026-10-03). Other GPUs keep the single submission measured in the paper.
+      if (!PARAMS.has('gpuchunk') && /intel/i.test(GpuUNet.adapterInfo.vendor)) {
+        GpuUNet.chunkOps = SPLIT_OPS;
+        post({ type: 'log', text: `WebGPU: Intel GPU (${GpuUNet.adapterInfo.architecture || 'unknown architecture'}), network submitted in parts of ${SPLIT_OPS} steps` });
+      }
       const dev = device;
       // WebGPU errors outside an error scope (e.g. a buffer whose allocation failed being used in a submit, which the
       // specification turns into a dropped submission and all-zero output) only surface here; recorded in the log so
@@ -312,6 +322,14 @@ async function segmentGpu(task, roi) {
     }
   }
   if (M._tsc_finish()) throw new Error(lastError());
+  // An empty label map from the GPU is checked on the CPU: a GPU reset once made the 6 mm locating model find nothing,
+  // so that the task ended with an empty map and no error (Intel UHD, 2026-10-03). If the CPU also finds nothing, the
+  // empty map is the answer.
+  const n = [0, 1, 2].map((i) => M._tsc_ct_info(i)).reduce((a, b) => a * b, 1);
+  const lab = view(Uint8Array, M._tsc_labels_ptr(), n);
+  let any = false;
+  for (let i = 0; i < n && !any; i++) any = lab[i] !== 0;
+  if (!any) { const e = new Error('empty label map from WebGPU'); e.noGpuRetry = true; throw e; }
 }
 
 // fp16 words that are +0 or -0
@@ -333,10 +351,22 @@ async function run({ task, roi, custom }) {
   let used = backend, fallback = null;
   if (backend === 'webgpu') {
     try {
-      await segmentGpu(task, roi);
+      try {
+        await segmentGpu(task, roi);
+      } catch (e) {
+        // A failed single submission is retried once on the GPU with the network submitted in parts (for slow GPUs whose
+        // driver resets a long job); the split stays on for the rest of the session. Any further failure goes to the CPU.
+        if (e.noGpuRetry || GpuUNet.chunkOps > 0 || !device) throw e;
+        GpuUNet.chunkOps = SPLIT_OPS;
+        fallback = String(e && e.message || e);
+        post({ type: 'warning', text: `WebGPU failed (${fallback}); retrying on the GPU with the network submitted in parts of ${SPLIT_OPS} steps` });
+        await ensureModels(task, roi, custom);
+        await segmentGpu(task, roi);
+        used = 'webgpu (split after failure)';
+      }
     } catch (e) {
       // A wrong GPU result must never be returned as if it were right: the label map is recomputed on the CPU.
-      fallback = String(e && e.message || e);
+      fallback = (fallback ? fallback + '; split retry: ' : '') + String(e && e.message || e);
       post({ type: 'warning', text: `WebGPU failed (${fallback}); recomputing on the CPU` });
       post({ type: 'progress', stage: 'cpu fallback', frac: 0 });
       await ensureCpuModels(task, roi, custom);
@@ -353,7 +383,7 @@ async function run({ task, roi, custom }) {
   const names = [];
   for (let i = 0; i < M._tsc_num_label_names(); i++) names.push(M.UTF8ToString(M._tsc_label_name(i) >>> 0));
   post({ type: 'result', task, roi, labels, names, seconds: (performance.now() - t0) / 1000, modelSeconds, backend: used, fallback, heap: mem().byteLength,
-         gpuErrors, log: M.UTF8ToString(M._tsc_result_ptr(6) >>> 0) }, [labels.buffer]);
+         gpuErrors, gpuChunk: typeof GpuUNet !== 'undefined' ? GpuUNet.chunkOps : null, log: M.UTF8ToString(M._tsc_result_ptr(6) >>> 0) }, [labels.buffer]);
 }
 
 function mesh({ labels, items, seq }) {
