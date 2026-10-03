@@ -1,0 +1,81 @@
+{
+ "case": "ircad05",
+ "task": "liver_segments",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 139,
+  "shape": [
+   512,
+   512,
+   139
+  ],
+  "zooms": [
+   0.7820000052452087,
+   0.7820000052452087,
+   1.600000023841858
+  ],
+  "fetchS": 0.3109600000001956,
+  "loadS": 0.1164199999999255,
+  "log": [
+   "DICOM: 139 images of 139 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  139
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 147.07360000000008,
+   "modelSeconds": 0.0002600000000093132,
+   "wall": 147.0738600000001,
+   "backend": "cpu",
+   "fallback": null,
+   "heap": 2396323840,
+   "gpuErrors": 0,
+   "hash": "c89697ef",
+   "names": [
+    "background",
+    "liver_segment_1",
+    "liver_segment_2",
+    "liver_segment_3",
+    "liver_segment_4",
+    "liver_segment_5",
+    "liver_segment_6",
+    "liver_segment_7",
+    "liver_segment_8"
+   ],
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   7 ms\n  crop: tiles (net+accum)         2025 ms\n  crop: finish/argmax               14 ms\n  crop: labels -> full res           6 ms\n  bbox + crop                       10 ms\n  resample task spacing             24 ms\n  part: preprocess                  55 ms\n  part: tiles (net+accum)       144870 ms\n  part: finish/argmax+merge         49 ms\n  back to orig + uncrop              5 ms\n"
+  },
+  {
+   "rep": 1,
+   "seconds": 146.37630000000004,
+   "modelSeconds": 0.0002800000000279397,
+   "wall": 146.37662000000012,
+   "backend": "cpu",
+   "fallback": null,
+   "heap": 2396323840,
+   "gpuErrors": 0,
+   "hash": "c89697ef",
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   7 ms\n  crop: tiles (net+accum)         1998 ms\n  crop: finish/argmax               14 ms\n  crop: labels -> full res           6 ms\n  bbox + crop                       11 ms\n  resample task spacing             24 ms\n  part: preprocess                  55 ms\n  part: tiles (net+accum)       144200 ms\n  part: finish/argmax+merge         48 ms\n  back to orig + uncrop              5 ms\n"
+  },
+  {
+   "rep": 2,
+   "seconds": 145.84535999999986,
+   "modelSeconds": 0.0002600000000093132,
+   "wall": 145.8456399999999,
+   "backend": "cpu",
+   "fallback": null,
+   "heap": 2396323840,
+   "gpuErrors": 0,
+   "hash": "c89697ef",
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   7 ms\n  crop: tiles (net+accum)         2050 ms\n  crop: finish/argmax               14 ms\n  crop: labels -> full res           6 ms\n  bbox + crop                       10 ms\n  resample task spacing             24 ms\n  part: preprocess                  55 ms\n  part: tiles (net+accum)       143618 ms\n  part: finish/argmax+merge         49 ms\n  back to orig + uncrop              5 ms\n"
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+[
+ {"browser":"firefox","tag":"desk_firefox_webgpu_reopen_check","query":"cases=ircad01&tasks=total:liver;liver_segments:-&reps=1&gpulost=1","timeoutMin":20}
+]

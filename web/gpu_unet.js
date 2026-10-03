@@ -382,6 +382,7 @@ class GpuUNet {
     };
     this.w = {};
     for (const [k, t] of Object.entries(tensors)) this.w[k] = { buf: upload(t.data), shape: t.shape };
+    this.weightBytes = Object.values(this.w).reduce((s, t) => s + t.buf.size, 0);
     this.pipes = {};
     const mk = (name, code) => {
       this.pipes[name] = dev.createComputePipeline({ layout: 'auto', compute: { module: dev.createShaderModule({ code }), entryPoint: 'main' } });
@@ -547,6 +548,7 @@ class GpuUNet {
     const tickStaging = dev.createBuffer({ size: 16, usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST });
     const tickBg = dev.createBindGroup({ layout: this.pipes.tick.getBindGroupLayout(0), entries: [{ binding: 0, resource: { buffer: tick } }] });
     this.plan = { ops, input, logits, staging, owned, tick, tickStaging, tickBg };
+    this.planBytes = owned.reduce((s, b) => s + b.size, 0);  // reported in the worker log (GPU memory needed)
   }
 
   // x: Float32Array (P0*P1*P2) -> Float32Array (numClasses * P0*P1*P2), written into `out` if given

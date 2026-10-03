@@ -34,6 +34,11 @@ const configOnly = new Set();  // task ids whose weights C++ holds as config onl
 let versions = {};  // "weights/x.tsw" -> "size-mtime" (server manifest): cache key, so changed files are re-fetched
 let backend = 'cpu';
 let gpuLostOnce = false;
+// Low-memory GPU mode (after an out-of-memory error, or ?gpulowmem=1): the weights stay in JS memory and only the model
+// being run is on the GPU (uploaded per stage, freed after it); tiles are read back and accumulated by C++ instead of in
+// a GPU volume buffer. The 117-structure task did not fit on a 4 GB GPU otherwise (T1200, 2026-10-03).
+let gpuLowMem = PARAMS.get('gpulowmem') === '1';
+const gpuBytes = {};  // task id -> .tsw bytes (low-memory mode)
 const SPLIT_OPS = 4;  // steps per GPU submission when split (Intel GPUs, or after a failed single submission); 4 was the fastest split on Intel UHD
 let gpuErrors = 0;  // WebGPU uncapturederror events so far (counted into every result for the benchmark records)
 
@@ -141,37 +146,64 @@ async function init() {
       if (PARAMS.get('gpuchunkwait') === '0') GpuUNet.chunkWait = false;  // split the submission without waiting for each part
       // ?gpuincomplete=once|all: test hook, the completion counter reports one command buffer missing (once / every time)
       if (['once', 'all'].includes(PARAMS.get('gpuincomplete'))) GpuUNet.simulateIncomplete = PARAMS.get('gpuincomplete');
-      device = await GpuUNet.createDevice();
-      backend = 'webgpu';
-      // Intel GPUs: submit the network in parts of SPLIT_OPS steps unless ?gpuchunk is given. On Intel UHD (Linux i915)
-      // one patch submitted at once sometimes exceeded the driver's time limit and the GPU was reset; split, 33 runs
-      // passed (2026-10-03). Other GPUs keep the single submission measured in the paper.
-      if (!PARAMS.has('gpuchunk') && /intel/i.test(GpuUNet.adapterInfo.vendor)) {
-        GpuUNet.chunkOps = SPLIT_OPS;
-        post({ type: 'log', text: `WebGPU: Intel GPU (${GpuUNet.adapterInfo.architecture || 'unknown architecture'}), network submitted in parts of ${SPLIT_OPS} steps` });
-      }
-      const dev = device;
-      // WebGPU errors outside an error scope (e.g. a buffer whose allocation failed being used in a submit, which the
-      // specification turns into a dropped submission and all-zero output) only surface here; recorded in the log so
-      // that an all-zero result has its cause next to it (Firefox 156, 2026-09-28; see paper_jiim/PENDING.md).
       gpuErrors = 0;
-      dev.addEventListener('uncapturederror', (ev) => {
-        if (++gpuErrors <= 20) post({ type: 'log', text: `WebGPU uncaptured error (${ev.error.constructor.name}): ${ev.error.message}` });
-        else if (gpuErrors === 21) post({ type: 'log', text: 'WebGPU uncaptured error: further errors are not logged' });
-      });
-      dev.lost.then((info) => {  // GPU reset / driver update: continue on the CPU
-        if (device !== dev) return;
-        device = null; backend = 'cpu';
-        for (const k of Object.keys(gpuNets)) delete gpuNets[k];
-        post({ type: 'log', text: `WebGPU device lost (${info.message}); continuing with the CPU (WASM)` });
-        post({ type: 'backend', backend: 'cpu' });
-      });
+      await openGpu();
     } catch (e) {
       post({ type: 'log', text: `WebGPU unavailable (${e.message}), using CPU/WASM` });
     }
   }
   post({ type: 'ready', threads: M._tsc_result_int(8), backend, build: DIST, isolated: !!self.crossOriginIsolated,
          version: M.UTF8ToString(M._tsc_version() >>> 0) });
+}
+
+// Opens the WebGPU device (at start, and once more after a device loss, see run()).
+async function openGpu() {
+  device = await GpuUNet.createDevice();
+  backend = 'webgpu';
+  // Intel GPUs: submit the network in parts of SPLIT_OPS steps unless ?gpuchunk is given. On Intel UHD (Linux i915)
+  // one patch submitted at once sometimes exceeded the driver's time limit and the GPU was reset; split, 33 runs
+  // passed (2026-10-03). Other GPUs keep the single submission measured in the paper.
+  if (!PARAMS.has('gpuchunk') && /intel/i.test(GpuUNet.adapterInfo.vendor) && GpuUNet.chunkOps === 0) {
+    GpuUNet.chunkOps = SPLIT_OPS;
+    post({ type: 'log', text: `WebGPU: Intel GPU (${GpuUNet.adapterInfo.architecture || 'unknown architecture'}), network submitted in parts of ${SPLIT_OPS} steps` });
+  }
+  const dev = device;
+  // WebGPU errors outside an error scope (e.g. a buffer whose allocation failed being used in a submit, which the
+  // specification turns into a dropped submission and all-zero output) only surface here; recorded in the log so
+  // that an all-zero result has its cause next to it (Firefox 156, 2026-09-28; see paper_jiim/PENDING.md).
+  dev.addEventListener('uncapturederror', (ev) => {
+    if (++gpuErrors <= 20) post({ type: 'log', text: `WebGPU uncaptured error (${ev.error.constructor.name}): ${ev.error.message}` });
+    else if (gpuErrors === 21) post({ type: 'log', text: 'WebGPU uncaptured error: further errors are not logged' });
+  });
+  dev.lost.then((info) => {  // GPU reset / driver update: continue on the CPU
+    if (device !== dev) return;
+    device = null; backend = 'cpu';
+    for (const k of Object.keys(gpuNets)) delete gpuNets[k];
+    post({ type: 'log', text: closingDevice ? 'WebGPU device closed to return its memory' : `WebGPU device lost (${info.message}); continuing with the CPU (WASM)` });
+    post({ type: 'backend', backend: 'cpu' });
+  });
+}
+let gpuReopened = 0;
+let closingDevice = false;  // the device is being closed on purpose (out-of-memory retry), not lost
+
+// After a GPU failure: waits up to 3 s for a pending device loss to be reported (Firefox reported it only after the
+// retry had started, 2026-10-03), then opens a new device once per session if the device was lost.
+// Returns 'alive' (same device), 'reopened' (new device) or 'none' (no device).
+async function recoverDevice() {
+  if (device) await Promise.race([device.lost, new Promise((r) => setTimeout(r, 3000))]);
+  await new Promise((r) => setTimeout(r, 50));  // the device.lost handler runs first
+  if (device) return 'alive';
+  if (gpuReopened >= 1 || !self.navigator.gpu) return 'none';
+  gpuReopened++;
+  try {
+    await openGpu();
+    post({ type: 'log', text: 'WebGPU: new device opened for the retry' });
+    post({ type: 'backend', backend: 'webgpu' });
+    return 'reopened';
+  } catch (e) {
+    post({ type: 'log', text: `WebGPU: no new device (${e.message})` });
+    return 'none';
+  }
 }
 
 // Downloads (or takes from cache) every model the task needs. custom: {id: url} of fine-tuned models.
@@ -187,8 +219,9 @@ async function ensureModels(task, roi, custom, forceCpu = false) {
   // paper_jiim/WORKLOG.md). Uploading a model again takes < 0.1 s. ?keepgpu=1 keeps them (old behaviour).
   if (gpu && !PARAMS.has('keepgpu'))
     for (const k of Object.keys(gpuNets)) if (!ids.includes(+k)) { gpuNets[k].destroy(); delete gpuNets[k]; }
+  for (const k of Object.keys(gpuBytes)) if (!ids.includes(+k)) delete gpuBytes[k];
   for (const tid of ids) {
-    if (M._tsc_has_model(tid) && (gpu ? gpuNets[tid] : !configOnly.has(tid))) continue;
+    if (M._tsc_has_model(tid) && (gpu ? (gpuNets[tid] || (gpuLowMem && gpuBytes[tid])) : !configOnly.has(tid))) continue;
     let url, label;
     let rel;
     if (MODEL_FILES[tid]) { rel = WDIR.replace('../', '') + MODEL_FILES[tid][0]; label = MODEL_FILES[tid][1]; url = new URL(WDIR + MODEL_FILES[tid][0], BASE).href; }
@@ -214,7 +247,10 @@ async function ensureModels(task, roi, custom, forceCpu = false) {
     if (gpu) configOnly.add(tid); else configOnly.delete(tid);
     const t2 = performance.now();
     let gpuNote = '';
-    if (gpu) {
+    if (gpu && gpuLowMem) {
+      gpuBytes[tid] = bytes;  // uploaded to the GPU only while this model runs (segmentGpu)
+      gpuNote = ', kept in memory (low-memory mode: one model on the GPU at a time)';
+    } else if (gpu) {
       gpuNets[tid] = new GpuUNet(gpu, bytes);  // parse + writeBuffer of every tensor + shader pipelines
       const t3 = performance.now();
       await gpu.queue.onSubmittedWorkDone();   // uploads actually finished
@@ -284,14 +320,23 @@ async function segmentGpu(task, roi) {
   if (withString(task, (tp) => withString(roi || '-', (rp) => M._tsc_begin(tp, rp)))) throw new Error(lastError());
   let tid;
   while ((tid = M._tsc_stage())) {
-    const net = gpuNets[tid];
+    let net = gpuNets[tid], temporary = false;
+    if (!net && gpuLowMem && gpuBytes[tid] && device) {  // low-memory mode: this model only, for this stage
+      net = new GpuUNet(device, gpuBytes[tid]);
+      await device.queue.onSubmittedWorkDone();
+      temporary = true;
+    }
     if (!net) throw new Error(`GPU model ${tid} unavailable (device lost)`);
     const name = M.UTF8ToString(M._tsc_stage_name() >>> 0);
     const nt = M._tsc_num_tiles();
     const P = net.cfg.patch[0] * net.cfg.patch[1] * net.cfg.patch[2];
     const ps = [3, 4, 5].map((a) => M._tsc_tile_geom(0, a));
     try {
-    if (net.canAccumulate(ps)) {
+    if (!net.plan) await net.buildPlan();
+    const accBytes = net.cfg.numClasses * ps[0] * ps[1] * ps[2] * 4;
+    post({ type: 'log', text: `model ${tid}: GPU memory weights ${(net.weightBytes / 2 ** 20).toFixed(0)} MiB, work buffers ${(net.planBytes / 2 ** 20).toFixed(0)} MiB` +
+                              (gpuLowMem ? ' (low-memory mode)' : `, accumulation ${(accBytes / 2 ** 20).toFixed(0)} MiB`) });
+    if (!gpuLowMem && net.canAccumulate(ps)) {
       const tp = performance.now();
       await net.beginVolume(view(Float32Array, M._tsc_gaussian_ptr(), P).slice(), ps);
       post({ type: 'log', text: `model ${tid}: GPU work buffers (plan) ${((performance.now() - tp) / 1000).toFixed(2)} s` });
@@ -319,6 +364,7 @@ async function segmentGpu(task, roi) {
     } finally {
       await net.popVolumeScopes();
       net.releasePlan();  // activation / accumulation buffers (weights stay)
+      if (temporary) net.destroy();  // low-memory mode: the weights leave the GPU too
     }
   }
   if (M._tsc_finish()) throw new Error(lastError());
@@ -354,19 +400,43 @@ async function run({ task, roi, custom }) {
       try {
         await segmentGpu(task, roi);
       } catch (e) {
-        // A failed single submission is retried once on the GPU with the network submitted in parts (for slow GPUs whose
-        // driver resets a long job); the split stays on for the rest of the session. Any further failure goes to the CPU.
-        if (e.noGpuRetry || GpuUNet.chunkOps > 0 || !device) throw e;
-        GpuUNet.chunkOps = SPLIT_OPS;
-        fallback = String(e && e.message || e);
-        post({ type: 'warning', text: `WebGPU failed (${fallback}); retrying on the GPU with the network submitted in parts of ${SPLIT_OPS} steps` });
-        await ensureModels(task, roi, custom);
-        await segmentGpu(task, roi);
-        used = 'webgpu (split after failure)';
+        // One retry on the GPU, then the CPU. Out of GPU memory: low-memory mode (one model on the GPU at a time, tiles
+        // accumulated by C++). Otherwise: the network submitted in parts (slow GPUs whose driver resets a long job).
+        // Either mode stays on for the rest of the session.
+        const msg = String(e && e.message || e);
+        const oom = /out.of.(device.)?memory|OUT_OF_DEVICE_MEMORY|out-of-memory|allocat/i.test(msg);
+        if (e.noGpuRetry || (oom ? gpuLowMem : GpuUNet.chunkOps > 0)) throw e;
+        fallback = msg;
+        // The failure may have cost the device (driver reset: Firefox on Windows; out of memory: Chrome/Vulkan on a 4 GB
+        // GPU); a lost device is replaced once per session (recoverDevice).
+        if ((await recoverDevice()) === 'none') throw e;
+        if (oom) {
+          gpuLowMem = true;
+          for (const k of Object.keys(gpuNets)) { gpuNets[k].destroy(); delete gpuNets[k]; }
+          // The memory of the failed attempt was not returned by destroying its buffers (T1200 4 GB, Chrome/Vulkan: still
+          // 3.9 GB in use at the retry, 2026-10-04); it certainly is with the device: close it and open a new one.
+          if (device && gpuReopened < 1) { closingDevice = true; device.destroy(); await recoverDevice(); closingDevice = false; }
+          if (!device) throw e;
+          post({ type: 'warning', text: `WebGPU ran out of GPU memory (${msg}); retrying with one model on the GPU at a time` });
+          used = 'webgpu (low-memory mode after out of memory)';
+        } else {
+          GpuUNet.chunkOps = SPLIT_OPS;
+          post({ type: 'warning', text: `WebGPU failed (${msg}); retrying on the GPU with the network submitted in parts of ${SPLIT_OPS} steps` });
+          used = 'webgpu (split after failure)';
+        }
+        try {
+          await ensureModels(task, roi, custom);
+          await segmentGpu(task, roi);
+        } catch (e2) {
+          // the device was lost during the retry (its loss was reported late): once more on a new device
+          if (e2.noGpuRetry || (await recoverDevice()) !== 'reopened') throw e2;
+          await ensureModels(task, roi, custom);
+          await segmentGpu(task, roi);
+        }
       }
     } catch (e) {
       // A wrong GPU result must never be returned as if it were right: the label map is recomputed on the CPU.
-      fallback = (fallback ? fallback + '; split retry: ' : '') + String(e && e.message || e);
+      fallback = (fallback ? fallback + '; GPU retry: ' : '') + String(e && e.message || e);
       post({ type: 'warning', text: `WebGPU failed (${fallback}); recomputing on the CPU` });
       post({ type: 'progress', stage: 'cpu fallback', frac: 0 });
       await ensureCpuModels(task, roi, custom);

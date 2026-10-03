@@ -1,0 +1,9 @@
+2026-10-03T14:37:10.337Z start desk_chrome_webgpu_reopen_check (chrome)
+2026-10-03T14:37:20.356Z desk_chrome_webgpu_reopen_check: 2026-10-03T14:37:18.102Z DONE
+2026-10-03T14:37:23.749Z start desk_firefox_webgpu_tdr_chunk0 (firefox)
+2026-10-03T14:43:04.880Z desk_firefox_webgpu_tdr_chunk0: 2026-10-03T14:43:00.990Z DONE
+2026-10-03T14:43:08.545Z start desk_firefox_webgpu_tdr_chunk4 (firefox)
+2026-10-03T14:50:39.425Z desk_firefox_webgpu_tdr_chunk4: 2026-10-03T14:50:35.796Z DONE
+2026-10-03T14:50:42.806Z start desk_firefox_webgpu_tdr_chunk1 (firefox)
+2026-10-03T15:14:40.573Z desk_firefox_webgpu_tdr_chunk1: 2026-10-03T15:14:40.014Z DONE
+ALL DONE

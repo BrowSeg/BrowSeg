@@ -1,6 +1,6 @@
 // Runs web/bench.html configurations one after another in real browser windows (Chrome / Firefox) and waits for
 // each to finish (status.txt = DONE or ERROR). The server must already run:
-//   node serve.mjs 8090 --bench <cases> --out <out>
+//   node serve.mjs 8090 --bench <cases> --out <out>   (another port: BENCH_PORT=<port> for this script)
 // usage: node bench_run.mjs <out dir> <plan.json>
 //   plan.json: [{ "browser": "chrome"|"edge"|"firefox", "tag": "...", "query": "tasks=...&reps=3&cases=...", "timeoutMin": 120 }, ...]
 import { spawn, execSync } from 'child_process';
@@ -34,7 +34,7 @@ function closeBenchBrowsers() {
 }
 
 for (const run of plan) {
-  const url = `http://localhost:8090/web/bench.html?tag=${encodeURIComponent(run.tag)}&${run.query}`;
+  const url = `http://localhost:${process.env.BENCH_PORT || 8090}/web/bench.html?tag=${encodeURIComponent(run.tag)}&${run.query}`;
   const statusFile = path.join(outDir, run.tag, 'status.txt');
   if (fs.existsSync(statusFile) && /DONE/.test(fs.readFileSync(statusFile, 'utf8'))) { console.log(`skip ${run.tag} (done)`); continue; }
   const args = run.browser !== 'firefox'  // chrome / edge (both Chromium)

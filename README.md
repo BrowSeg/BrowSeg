@@ -152,8 +152,11 @@ is built from the source in this repository (version string "BrowSeg 0.1"); its 
 
 GPU safeguards added after the measurements (they do not change the computation): every GPU submission ends with a
 small counter update, and a model's result is used only if the counter shows that all submitted work ran; otherwise,
-and when the GPU returns an empty label map, the task is retried on the GPU with the network submitted in parts and
-then recomputed on the CPU. On Intel GPUs the network is submitted in parts of 4 steps from the start (`?gpuchunk=0`
-restores the single submission). Reason: on an Intel UHD integrated GPU (Linux, i915 driver) a single submission per
-patch sometimes exceeded the driver's time limit; the GPU was reset and some results were wrong without any error.
+and when the GPU returns an empty label map, the task is retried once on the GPU and then recomputed on the CPU. The
+retry submits the network in parts of 4 steps; after an out-of-memory error it instead runs one model at a time on the
+GPU (low-memory mode, `?gpulowmem=1` to start in it); a GPU lost by the failure is replaced by a new one first. On
+Intel GPUs the network is submitted in parts from the start (`?gpuchunk=0` restores the single submission). Reasons:
+on an Intel UHD integrated GPU (Linux) and with Firefox on Windows, a single submission per patch sometimes exceeded
+the driver's time limit, the GPU was reset, and on Intel some results were wrong without any error; on a 4 GB GPU the
+117-structure task ran out of memory (in low-memory mode it ran on the GPU, about 1.5 GB). The output does not change.
 

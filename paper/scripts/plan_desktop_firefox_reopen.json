@@ -1,0 +1,3 @@
+[
+ {"browser":"firefox","tag":"desk_firefox_webgpu_tdr_chunk0_reopen","query":"cases=ircad01&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3","timeoutMin":60}
+]

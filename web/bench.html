@@ -107,7 +107,7 @@ function startWorker(opts) {
 }
 function optionsFromQuery() {
   const o = {};
-  for (const k of ['cpu', 'fp16', 'order', 'threads', 'keepgpu', 'st', 'gpufail', 'gpulost', 'gpuincomplete', 'gpuchunk', 'gpuchunkwait']) if (Q.has(k)) o[k] = Q.get(k);
+  for (const k of ['cpu', 'fp16', 'order', 'threads', 'keepgpu', 'st', 'gpufail', 'gpulost', 'gpuincomplete', 'gpulowmem', 'gpuchunk', 'gpuchunkwait']) if (Q.has(k)) o[k] = Q.get(k);
   return o;
 }
 function request(msg, want, transfer) {

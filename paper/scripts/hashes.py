@@ -43,7 +43,7 @@ def check(bdir, tag, listfile):
         d = json.load(open(jf))
         key = jf.stem
         hs = {r["hash"] for r in d["runs"]}
-        fb = [r.get("fallback") for r in d["runs"] if r.get("fallback")]
+        fb = [r.get("fallback") for r in d["runs"] if r.get("fallback") and str(r.get("backend", "")).startswith("cpu")]  # a GPU retry that succeeded is not a CPU fallback
         e = ref.get(key)
         if e is None:
             st = "NO-DESKTOP-ENTRY (copy .u8)"
