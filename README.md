@@ -97,7 +97,7 @@ produced, including the ones that differ from TotalSegmentator):
 
 The hash is FNV-1a over the label map on the original CT grid (one byte per voxel), the same function the paper's
 benchmark server used, so equal hashes mean equal label maps. The CT never leaves your computer; the page only
-downloads the weights (from this repository's release). Timings measured this way include the first download of the
+downloads the weights (the files of this repository's release, served with the page). Timings measured this way include the first download of the
 weights over the internet; the paper's timings were measured with the weights served from the same computer.
 
 ## Models and licences

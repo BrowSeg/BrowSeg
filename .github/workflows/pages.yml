@@ -1,10 +1,14 @@
-# Publishes web/ as the GitHub Pages site (https://browseg.github.io/BrowSeg/).
+# Publishes the app as the GitHub Pages site (https://browseg.github.io/BrowSeg/).
 #
-# - The model weights are not in git (too large); the page downloads them from the GitHub release named below,
-#   so web/config.js is rewritten here to point at that release. Keep WEIGHTS_RELEASE in step with the release tag
-#   that carries the .tsw files (see weights/MANIFEST.json for their SHA-256).
-# - The paper's hash records are copied into the site so that bench.html?local=1 can compare its results with them.
-# - Cross-origin isolation (multi-threaded build) is provided by web/coi-serviceworker.js; no server headers are needed.
+# The site mirrors the repository layout, so the page finds everything at the same relative paths as with serve.mjs:
+#   web/       the app (index.html, bench.html, worker.js, dist/, dist-st/, ...)
+#   weights/   classmaps.txt and the eight .tsw files, taken from the release WEIGHTS_TAG and checked against
+#              weights/MANIFEST.json (SHA-256) before deployment. They are served from the same origin as the page:
+#              GitHub release downloads carry no CORS header, so the browser cannot fetch them from the release itself.
+#   index.html, bench.html   forward to web/ (keeping the query string), so /BrowSeg/ and /BrowSeg/bench.html?... work.
+# The paper's hash records are copied into web/paper/data/ so that bench.html?local=1 can compare results with them.
+# Cross-origin isolation (multi-threaded build) is provided by web/coi-serviceworker.js; no server headers are needed.
+# Site size is about 0.95 GB (GitHub Pages limit: 1 GB).
 name: Deploy GitHub Pages
 on:
   push:
@@ -18,7 +22,7 @@ concurrency:
   group: pages
   cancel-in-progress: true
 env:
-  WEIGHTS_RELEASE: https://github.com/${{ github.repository }}/releases/download/weights-v1/
+  WEIGHTS_TAG: weights-v1
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -27,20 +31,49 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Point the page at the released weights and add the paper's hash records
+      - name: Assemble the site (app, released weights checked against MANIFEST, paper hash records)
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -e
           test -f web/dist/tsc.wasm && test -f web/dist-st/tsc.wasm
-          sed -i "s#weightsBase: '../weights/'#weightsBase: '${WEIGHTS_RELEASE}'#; s#weightsBaseFp16: '../weights_fp16/'#weightsBaseFp16: '${WEIGHTS_RELEASE}fp16/'#" web/config.js
-          grep -q "releases/download" web/config.js
-          mkdir -p web/paper/data web/weights
-          cp paper/data/desktop_hashes.json paper/data/desktop_hashes_wasm20.json web/paper/data/
-          cp weights/classmaps.txt web/weights/
-          cp EXPORT_INFO.txt web/
-          cat web/config.js
+          mkdir -p site/weights
+          cp -r web site/web
+          cp weights/classmaps.txt site/weights/
+          gh release download "$WEIGHTS_TAG" -R "$GITHUB_REPOSITORY" -p '*.tsw' -D site/weights
+          python3 - <<'PY'
+          import hashlib, json, pathlib, sys
+          def entries(x):
+              if isinstance(x, dict):
+                  if "file" in x and "sha256" in x:
+                      yield x
+                  for v in x.values():
+                      yield from entries(v)
+              elif isinstance(x, list):
+                  for v in x:
+                      yield from entries(v)
+          man = json.load(open("weights/MANIFEST.json", encoding="utf-8"))
+          bad = 0
+          for e in entries(man):
+              if "/" in e["file"]:
+                  continue  # fp16 variants are not published
+              p = pathlib.Path("site/weights") / e["file"]
+              h = hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else "missing"
+              ok = h == e["sha256"]
+              bad += not ok
+              print(("OK  " if ok else "BAD ") + e["file"] + " " + h)
+          sys.exit(1 if bad else 0)
+          PY
+          mkdir -p site/web/paper/data
+          cp paper/data/desktop_hashes.json paper/data/desktop_hashes_wasm20.json site/web/paper/data/
+          cp EXPORT_INFO.txt site/web/
+          for f in index.html bench.html; do
+            printf '<!doctype html><meta charset="utf-8"><title>BrowSeg</title><script>location.replace("web/%s" + location.search + location.hash)</script><a href="web/%s">BrowSeg</a>\n' "$f" "$f" > "site/$f"
+          done
+          du -sh site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: web
+          path: site
       - id: deployment
         uses: actions/deploy-pages@v4
