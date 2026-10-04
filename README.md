@@ -16,7 +16,9 @@ path; the remaining pairs differ in 1 to 4 voxels out of tens of millions (see t
 ## Use it
 
 Open **https://browseg.github.io/BrowSeg/** in Chrome or Edge (Windows, macOS, Linux; version 113 or
-later) and drop a folder with the DICOM files of one CT series onto the page. Then pick a task:
+later) and drop a folder with the DICOM files of one CT series onto the page. The page shows which engine it uses
+(WebGPU or CPU). On Linux, Chrome has WebGPU switched off by default, so BrowSeg runs on the CPU (same result, slower)
+unless WebGPU is enabled (see Requirements). Then pick a task:
 
 | Task | TotalSegmentator task | Output | Weights download (first time only) |
 |---|---|---|---|

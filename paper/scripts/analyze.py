@@ -70,13 +70,14 @@ def main():
                        "all_repeatable": ("single_run" if any(x["repeatable"] is None for x in v) else all(x["repeatable"] for x in v)),
                        "runs_min": min(len(x["runs"]) for x in v), "cpu_fallbacks": sum(1 for x in v if x["fallback"])})
         t = tm[k]
-        # per case: median of runs 2..n; the table shows the median and range of these per-case values over the cases
+        # per case: median of runs 2..n; the table shows the median and range of these per-case values over the cases.
+        # Written unrounded: the tables round once (2026-10-04: rounding here to 2 decimals and again in the table shifted x.x5 values)
         rest = [statistics.median(x["rest"]) for x in t if x["rest"]]
-        rows_t.append({"tag": k[0], "task": k[1], "cases": len(t), "first_median_s": round(statistics.median([x["first"] for x in t]), 2),
-                       "first_min_s": round(min(x["first"] for x in t), 2), "first_max_s": round(max(x["first"] for x in t), 2),
-                       "rest_median_s": round(statistics.median(rest), 2) if rest else "", "rest_min_s": round(min(rest), 2) if rest else "",
-                       "rest_max_s": round(max(rest), 2) if rest else "", "n_rest_runs": sum(len(x["rest"]) for x in t),
-                       "heap_max_mib": max(x["heap"] for x in t), "load_median_s": round(statistics.median([x["load"] for x in t]), 2)})
+        rows_t.append({"tag": k[0], "task": k[1], "cases": len(t), "first_median_s": statistics.median([x["first"] for x in t]),
+                       "first_min_s": min(x["first"] for x in t), "first_max_s": max(x["first"] for x in t),
+                       "rest_median_s": statistics.median(rest) if rest else "", "rest_min_s": min(rest) if rest else "",
+                       "rest_max_s": max(rest) if rest else "", "n_rest_runs": sum(len(x["rest"]) for x in t),
+                       "heap_max_mib": max(x["heap"] for x in t), "load_median_s": statistics.median([x["load"] for x in t])})
 
     # Python TotalSegmentator on the GPU: run-to-run and vs CPU
     rows_g = []
@@ -91,7 +92,7 @@ def main():
             rows_g.append({"key": key, "gpu_runs": len(runs), "run_to_run_min": min(pair) if pair else "", "run_to_run_max": max(pair) if pair else "",
                            "vs_cpu_min": min(int((x != r).sum()) for x in runs) if r is not None else "",
                            "vs_cpu_max": max(int((x != r).sum()) for x in runs) if r is not None else "",
-                           "gpu_seconds_median": round(statistics.median(secs), 1) if secs else "", "voxels": int(runs[0].size)})
+                           "gpu_seconds_median": statistics.median(secs) if secs else "", "voxels": int(runs[0].size)})
 
     def write(name, rows):
         if not rows:
@@ -105,7 +106,8 @@ def main():
         if not rows:
             continue
         md += [f"## {title}", "", "| " + " | ".join(rows[0].keys()) + " |", "|" + "---|" * len(rows[0])]
-        md += ["| " + " | ".join(str(v) for v in r.values()) + " |" for r in rows]
+        # display only: floats with 3 decimals (the CSVs keep the unrounded values that the paper's tables round once)
+        md += ["| " + " | ".join(f"{v:.3f}" if isinstance(v, float) else str(v) for v in r.values()) + " |" for r in rows]
         md.append("")
     (out / "tables.md").write_text("\n".join(md), encoding="utf-8")
     print("\n".join(md))
