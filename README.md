@@ -28,9 +28,12 @@ later) and drop a folder with the DICOM files of one CT series onto the page. Th
 
 Results can be saved as NIfTI label maps (`.nii.gz`) and as meshes (OBJ / STL).
 
-**Requirements.** A browser with WebGPU (Chrome or Edge 113+; in Firefox, tested with version 156 on Windows, the
-WebGPU path ran about ten times slower than in Chrome and GPU buffer allocation failed intermittently in our tests,
-after which BrowSeg recomputes on the CPU), about 3 GB of free memory for the liver tasks and 4 GB for the
+**Requirements.** A browser with WebGPU: Chrome or Edge 113+ (recommended). On Linux, Chrome needs WebGPU enabled
+(`--enable-unsafe-webgpu --enable-features=Vulkan` in our tests with Chrome 142). In Firefox 156 on Windows, one GPU
+submission per patch sometimes exceeded the GPU driver's time limit and the GPU was reset; BrowSeg detects this and
+retries with the network submitted in parts, which completes but was slower than Firefox's CPU path in our tests, so
+Firefox users are better served by the CPU path or by Chrome/Edge (Firefox on Linux has WebGPU off by default). About
+3 GB of free memory for the liver tasks and 4 GB for the
 117-structure task (the application's heap reached 3.5 GB on one of the test CTs, case 20 with 225 slices; 4 GB is
 the 32-bit WebAssembly limit), and a GPU with at least 2 GB of memory for the GPU path. Uncompressed DICOM
 (Implicit/Explicit VR Little Endian) or NIfTI input. Multi-frame DICOM and JPEG-compressed series are not

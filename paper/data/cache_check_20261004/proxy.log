@@ -1,0 +1,3 @@
+gzip proxy :8092 -> :8091
+2026-10-04T05:22:58.309Z gzip /weights/total6mm_298.tsw 66208792 -> 61439665
+2026-10-04T05:23:01.470Z gzip /weights/organs_291.tsw 124784612 -> 115868125
