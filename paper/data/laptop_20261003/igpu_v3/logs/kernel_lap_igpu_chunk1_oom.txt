@@ -1,0 +1,9 @@
+10月 03 13:46:59 laptop kernel: i915 0000:00:02.0: Using 39-bit DMA addresses
+10月 03 13:47:05 laptop kernel: conda-env invoked oom-killer: gfp_mask=0x140cca(GFP_HIGHUSER_MOVABLE|__GFP_COMP), order=0, oom_score_adj=0
+10月 03 13:47:05 laptop kernel:  oom_kill_process+0x118/0x280
+10月 03 13:47:05 laptop kernel:  ? oom_evaluate_task+0x143/0x1e0
+10月 03 13:47:05 laptop kernel:  __alloc_pages_may_oom+0x112/0x1e0
+10月 03 13:47:05 laptop kernel: [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+10月 03 13:47:05 laptop kernel: [    956]   108   956     3711      153       32      121         0    73728      160          -900 systemd-oomd
+10月 03 13:47:05 laptop kernel: oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/user.slice/user-1000.slice/user@1000.service/app.slice/app-org.gnome.Terminal.slice/vte-spawn-f7a4fd3b-0cce-4579-9ace-bd23d0e127b6.scope,task=chrome,pid=34641,uid=1000
+10月 03 13:47:05 laptop kernel: Out of memory: Killed process 34641 (chrome) total-vm:1489194060kB, anon-rss:650456kB, file-rss:512kB, shmem-rss:77380kB, UID:1000 pgtables:3340kB oom_score_adj:300

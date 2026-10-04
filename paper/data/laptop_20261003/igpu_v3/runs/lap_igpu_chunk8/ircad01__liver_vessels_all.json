@@ -1,0 +1,53 @@
+{
+ "case": "ircad01",
+ "task": "liver_vessels",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 129,
+  "shape": [
+   512,
+   512,
+   129
+  ],
+  "zooms": [
+   0.5699999928474426,
+   0.5699999928474426,
+   1.600000023841858
+  ],
+  "fetchS": 0.645730000000447,
+  "loadS": 0.5115699999993667,
+  "log": [
+   "DICOM: 129 images of 129 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  129
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 107.62840500000026,
+   "modelSeconds": 0.46466500000003724,
+   "wall": 107.6288900000006,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 950992896,
+   "gpuErrors": 0,
+   "hash": "e154d8d2",
+   "names": [
+    "background",
+    "liver_vessels",
+    "liver_tumor"
+   ],
+   "log": [
+    "model 8 (123 MB): browser cache 0.15 s, WASM config 0.00 s, GPU upload + pipelines 0.27 s (queue done 0.31 s)",
+    "model 298: GPU work buffers (plan) 0.02 s",
+    "model 8: GPU work buffers (plan) 0.03 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                  16 ms\n  crop: tiles (net+accum)         1416 ms\n  crop: finish/argmax               53 ms\n  crop: labels -> full res          13 ms\n  bbox + crop                       21 ms\n  resample task spacing             12 ms\n  part: preprocess                 537 ms\n  part: tiles (net+accum)       104702 ms\n  part: finish/argmax+merge        367 ms\n  back to orig + uncrop             11 ms\n"
+  }
+ ]
+}

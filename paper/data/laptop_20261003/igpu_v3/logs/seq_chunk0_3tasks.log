@@ -1,0 +1,17 @@
+2026-10-03T06:30:45.740Z start lap_igpu_chunk0_3tasks (chrome)
+kernel i915 lines: 4
+FINISHED lap_igpu_chunk0_3tasks
+GPU: intel ANGLE (Intel, Mesa Intel(R) UHD Graphics (TGL GT1), OpenGL ES 3.2) backend webgpu {}
+ircad01__total_liver             webgpu  fallback=None gpuErrors=0 seconds=33.0 model=0.6474199999999255 hash=0f03dec9
+ircad01__total_liver             webgpu  fallback=None gpuErrors=0 seconds=1.2 model=0.0002149999998509884 hash=5dec9dc5
+ircad01__total_liver             cpu (after WebGPU failure) fallback=model 298 returned an all-zero result gpuErrors=0 seconds=56.0 model=0.00023000000044703483 hash=de14684e
+start 2026-10-03 15:30:45
+load at start:
+ 15:30:45 up 3 days,  2:25,  1 user,  load average: 1.29, 1.12, 0.86
+kernel lines:
+10月 03 15:31:10 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[54089]:20!
+10月 03 15:32:32 laptop kernel: i915 0000:00:02.0: [drm] Resetting rcs0 for preemption time out
+10月 03 15:32:32 laptop kernel: i915 0000:00:02.0: [drm] chrome[54089] context reset due to GPU hang
+10月 03 15:32:32 laptop kernel: i915 0000:00:02.0: [drm] GPU HANG: ecode 12:1:8ed9fff2, in chrome [54089]
+ircad01__total_liver                 DIFFERENT (copy .u8)  CPU-FALLBACK x1  runs differ among themselves
+ALLDONE

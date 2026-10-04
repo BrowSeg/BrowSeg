@@ -1,0 +1,2 @@
+ircad01__total_all                   MATCH (exact)  CPU-FALLBACK x1
+ircad02__total_all                   MATCH (exact)

@@ -1,0 +1,21 @@
+1791037192731	geckodriver	INFO	Listening on 127.0.0.1:4455
+1791037194541	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_REMOTE_ALLOW_SYSTEM ... CCESS="1" "/snap/firefox/current/usr/lib/firefox/firefox" "--marionette" "-no-remote" "-profile" "/tmp/rust_mozprofile7GZvRB"
+Gtk-Message: 23:19:54.576: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+[GFX1-]: (ubuntu:gnome) Wayland protocol error: warning: queue 7780aefccf10 destroyed while proxies still attached:
+
+[GFX1-]: (ubuntu:gnome) Wayland protocol error:   wl_registry@54 still attached
+
+1791037195264	Marionette	INFO	Marionette enabled
+1791037195432	Marionette	INFO	Listening on port 43119
+Read port: 43119
+[GFX1-]: (ubuntu:gnome) Wayland protocol error: warning: queue 7780aefcbc40 destroyed while proxies still attached:
+
+[GFX1-]: (ubuntu:gnome) Wayland protocol error:   wl_registry@72 still attached
+
+console.error: "Experiment desktop-release-rollout-show-relay-to-all-browsers-next-sign-up-modal-cta has unknown featureId: email-autocomplete-relay"
+console.error: "Experiment visual-card-updates has unknown featureId: newtabRefinedCardsLayout"
+console.error: "Experiment enable-nimbus-unenrollment-synchronization has unknown featureId: nimbusStore"
+console.error: "Experiment private-window-visual-refresh-design-change-only has unknown featureId: feltPrivacy"
+1791037200353	Marionette	INFO	Stopped listening on port 43119
+JavaScript error: resource://gre/modules/PrivateBrowsingUtils.sys.mjs, line 50: TypeError: can't access property "QueryInterface", aWindow.docShell is null
+1791037200853	webdriver::server	INFO	Shutting down

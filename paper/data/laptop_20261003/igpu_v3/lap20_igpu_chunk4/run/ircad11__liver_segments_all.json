@@ -1,0 +1,59 @@
+{
+ "case": "ircad11",
+ "task": "liver_segments",
+ "roi": "-",
+ "load": {
+  "kind": "dicom",
+  "files": 132,
+  "shape": [
+   512,
+   512,
+   132
+  ],
+  "zooms": [
+   0.7200000286102295,
+   0.7200000286102295,
+   1.600000023841858
+  ],
+  "fetchS": 0.48999500000104307,
+  "loadS": 0.24592999999970197,
+  "log": [
+   "DICOM: 132 images of 132 files"
+  ]
+ },
+ "shape": [
+  512,
+  512,
+  132
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 103.40127500000037,
+   "modelSeconds": 0.4778350000008941,
+   "wall": 103.40274499999919,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 1141243904,
+   "gpuErrors": 0,
+   "hash": "1cac4d0d",
+   "names": [
+    "background",
+    "liver_segment_1",
+    "liver_segment_2",
+    "liver_segment_3",
+    "liver_segment_4",
+    "liver_segment_5",
+    "liver_segment_6",
+    "liver_segment_7",
+    "liver_segment_8"
+   ],
+   "log": [
+    "model 570 (123 MB): browser cache 0.15 s, WASM config 0.00 s, GPU upload + pipelines 0.29 s (queue done 0.32 s)",
+    "model 298: GPU work buffers (plan) 0.02 s",
+    "model 570: GPU work buffers (plan) 0.04 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                  13 ms\n  crop: tiles (net+accum)         1252 ms\n  crop: finish/argmax               49 ms\n  crop: labels -> full res          11 ms\n  bbox + crop                       16 ms\n  resample task spacing             33 ms\n  part: preprocess                  91 ms\n  part: tiles (net+accum)       101330 ms\n  part: finish/argmax+merge        101 ms\n  back to orig + uncrop             10 ms\n"
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+start 2026-10-03 23:45:10
+load at start:
+ 23:45:10 up 3 days, 10:40,  1 user,  load average: 12.06, 14.96, 14.25
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       2.9Gi       3.2Gi       513Mi       9.2Gi        11Gi
+Swap:          2.0Gi       1.5Gi       558Mi
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+   3994 user      20   0   33.2g 131360  75428 S  18.8   0.8  26:49.34 chrome
+ 103773 user      39  19  793068  75164  25916 S  18.8   0.5   0:17.88 tracker+
+   2060 user      20   0 6795220 157200  78036 S  12.5   1.0  25:43.68 gnome-s+
+   3759 user      20   0   32.9g 356324 197456 S  12.5   2.2  16:11.91 chrome
+ 107761 user      20   0   14416   4348   3360 R  12.5   0.0   0:00.02 top
+end 2026-10-04 00:06:40

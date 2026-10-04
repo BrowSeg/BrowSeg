@@ -1,0 +1,8 @@
+2026-10-03T23:23:08+09:00 start lap_firefox_nv_chunk0 (firefox) GPU=nv
+2026-10-03T23:45:03+09:00 lap_firefox_nv_chunk0: 2026-10-03T14:44:59.517Z DONE
+kernel GPU lines: 0
+FINISHED lap_firefox_nv_chunk0
+2026-10-03T23:45:10+09:00 start lap_firefox_nv_chunk4 (firefox) GPU=nv
+2026-10-04T00:06:35+09:00 lap_firefox_nv_chunk4: 2026-10-03T15:06:31.302Z DONE
+kernel GPU lines: 0
+FINISHED lap_firefox_nv_chunk4

@@ -1,0 +1,15 @@
+Gtk-Message: 23:23:08.791: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+[GFX1-]: (ubuntu:gnome) Wayland protocol error: warning: queue 6fff568c4340 destroyed while proxies still attached:
+
+[GFX1-]: (ubuntu:gnome) Wayland protocol error:   wl_registry@54 still attached
+
+[GFX1-]: (ubuntu:gnome) Wayland protocol error: warning: queue 6fff568c2080 destroyed while proxies still attached:
+
+[GFX1-]: (ubuntu:gnome) Wayland protocol error:   wl_registry@69 still attached
+
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.

@@ -80,6 +80,10 @@ async function fetchWithProgress(url, label, cacheable = true) {
   fetchSource = 'download';
   const res = await fetch(url);
   if (!res.ok) throw new Error(`download failed: ${url} (${res.status})`);
+  // GitHub Pages serves the .tsw files gzip-compressed: Content-Length is then the compressed size, smaller than the bytes
+  // received. The completeness check is then left to tswCheck() (ensureModels deletes a bad cache entry), and the
+  // progress is approximate (2026-10-04: with the byte comparison nothing was ever cached on the public site).
+  const encoded = !!res.headers.get('Content-Encoding');
   const total = +res.headers.get('Content-Length') || 0;
   const reader = res.body.getReader();
   const chunks = [];
@@ -89,12 +93,12 @@ async function fetchWithProgress(url, label, cacheable = true) {
     if (done) break;
     chunks.push(value);
     got += value.length;
-    post({ type: 'progress', stage: `download ${label}`, frac: total ? got / total : 0 });
+    post({ type: 'progress', stage: `download ${label}`, frac: total ? Math.min(0.99, got / total) : 0 });
   }
   const buf = new Uint8Array(got);
   let o = 0;
   for (const c of chunks) { buf.set(c, o); o += c.length; }
-  if (cache && (!total || got === total)) {
+  if (cache && (encoded || !total || got === total) && !tswCheck(buf)) {
     try {
       const path = new URL(url).pathname;
       for (const req of await cache.keys()) if (new URL(req.url).pathname === path && req.url !== url) await cache.delete(req);

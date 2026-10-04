@@ -1,0 +1,131 @@
+2026-10-03T06:50:58.978Z start lap20_igpu_chunk4 (chrome)
+2026-10-03T09:17:53.116Z lap20_igpu_chunk4: 2026-10-03T09:17:50.853Z DONE
+ALL DONE
+kernel i915 lines: 0
+FINISHED lap20_igpu_chunk4
+GPU: intel ANGLE (Intel, Mesa Intel(R) UHD Graphics (TGL GT1), OpenGL ES 3.2) backend webgpu {'gpuchunk': '4'}
+ircad01__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=121.4 model=0.4079000000003725 hash=f1d1533c
+ircad01__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=115.4 model=0.4039199999999255 hash=e154d8d2
+ircad01__total_liver             webgpu  fallback=None gpuErrors=0 seconds=40.9 model=0.6761550000011921 hash=de14684e
+ircad02__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=137.2 model=0.4269550000000745 hash=7e1d589f
+ircad02__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=135.7 model=0.4299250000007451 hash=59051954
+ircad02__total_liver             webgpu  fallback=None gpuErrors=0 seconds=64.5 model=0.3246299999989569 hash=caa8f835
+ircad03__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=111.3 model=0.37593500000052155 hash=8caa6691
+ircad03__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=132.2 model=0.4985449999999255 hash=2230f634
+ircad03__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.7 model=0.319070000000298 hash=1c843af7
+ircad04__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=122.6 model=0.4136849999986589 hash=7025caf2
+ircad04__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=102.1 model=0.5191950000002981 hash=98462a00
+ircad04__total_liver             webgpu  fallback=None gpuErrors=0 seconds=38.0 model=0.4690149999987334 hash=88cdcaab
+ircad05__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=320.8 model=0.47876999999955294 hash=c89697ef
+ircad05__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=348.2 model=0.509660000000149 hash=db3c09ff
+ircad05__total_liver             webgpu  fallback=None gpuErrors=0 seconds=64.6 model=0.3945300000011921 hash=769283e0
+ircad06__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=227.3 model=0.48018000000156463 hash=c579566e
+ircad06__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=246.4 model=0.4840999999996275 hash=aa30ed1b
+ircad06__total_liver             webgpu  fallback=None gpuErrors=0 seconds=34.8 model=0.3340800000000745 hash=b5587606
+ircad07__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=234.4 model=0.5402600000016391 hash=7e719c45
+ircad07__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=204.4 model=0.46675 hash=087ad73e
+ircad07__total_liver             webgpu  fallback=None gpuErrors=0 seconds=64.8 model=0.3775 hash=8b23f7c4
+ircad08__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=204.8 model=0.386605000000447 hash=d55dea48
+ircad08__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=210.4 model=0.5048249999992549 hash=30bf8993
+ircad08__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.9 model=0.4589349999986589 hash=be2db81f
+ircad09__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=362.4 model=0.5176699999999255 hash=7c3551ae
+ircad09__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=316.3 model=0.570429999999702 hash=656c3c3e
+ircad09__total_liver             webgpu  fallback=None gpuErrors=0 seconds=65.5 model=0.41973999999836087 hash=6ae5208e
+ircad10__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=101.3 model=0.4584000000003725 hash=1fde0196
+ircad10__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=101.2 model=0.45683500000089405 hash=a77ba800
+ircad10__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.4 model=0.37831000000052156 hash=626cf870
+ircad11__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=103.4 model=0.4778350000008941 hash=1cac4d0d
+ircad11__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=120.6 model=0.5437599999997765 hash=d554ccce
+ircad11__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.5 model=0.3732000000011176 hash=bf440371
+ircad12__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=277.5 model=0.5034700000006705 hash=4841f084
+ircad12__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=262.0 model=0.5424900000002235 hash=4d891340
+ircad12__total_liver             webgpu  fallback=None gpuErrors=0 seconds=38.6 model=0.48501500000059605 hash=2e42f424
+ircad13__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=150.8 model=0.5162050000000745 hash=fe879206
+ircad13__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=152.3 model=0.478410000000149 hash=60601c93
+ircad13__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.9 model=0.43075 hash=82814e7f
+ircad14__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=151.4 model=0.48086500000208615 hash=548b9536
+ircad14__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=150.6 model=0.4734049999974668 hash=2b0a7470
+ircad14__total_liver             webgpu  fallback=None gpuErrors=0 seconds=17.1 model=0.41457000000029803 hash=917635de
+ircad15__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=210.8 model=0.46613500000163915 hash=44760e01
+ircad15__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=227.5 model=0.4075449999980629 hash=70e9ae1b
+ircad15__total_liver             webgpu  fallback=None gpuErrors=0 seconds=35.1 model=0.38699000000208617 hash=f074ed39
+ircad16__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=317.7 model=0.567949999999255 hash=b77e00c3
+ircad16__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=309.1 model=0.5957800000011921 hash=44ceed86
+ircad16__total_liver             webgpu  fallback=None gpuErrors=0 seconds=62.0 model=0.4392799999974668 hash=f3a22155
+ircad17__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=227.2 model=0.4855 hash=7c064eb2
+ircad17__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=224.4 model=0.511480000000447 hash=b5c76069
+ircad17__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.5 model=0.364875 hash=b9ac9bc7
+ircad18__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=150.4 model=0.45782499999925497 hash=c07a9b53
+ircad18__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=149.8 model=0.49249000000208615 hash=cf337a9e
+ircad18__total_liver             webgpu  fallback=None gpuErrors=0 seconds=32.8 model=0.44044999999925494 hash=d91fb51c
+ircad19__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=135.0 model=0.4659349999986589 hash=07b90898
+ircad19__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=135.1 model=0.435820000000298 hash=23bb2816
+ircad19__total_liver             webgpu  fallback=None gpuErrors=0 seconds=33.8 model=0.38254499999806285 hash=e7bc0209
+ircad20__liver_segments_all      webgpu  fallback=None gpuErrors=0 seconds=306.0 model=0.5073449999988079 hash=9773ece0
+ircad20__liver_vessels_all       webgpu  fallback=None gpuErrors=0 seconds=304.8 model=0.379109999999404 hash=a9e19266
+ircad20__total_liver             webgpu  fallback=None gpuErrors=0 seconds=68.8 model=0.4901299999989569 hash=54816bfc
+start 2026-10-03 15:50:58
+load at start:
+ 15:50:58 up 3 days,  2:45,  1 user,  load average: 0.45, 0.63, 1.11
+kernel lines:
+ircad01__liver_segments_all          MATCH (exact)
+ircad01__liver_vessels_all           MATCH (exact)
+ircad01__total_liver                 MATCH (exact)
+ircad02__liver_segments_all          MATCH (exact)
+ircad02__liver_vessels_all           MATCH (exact)
+ircad02__total_liver                 MATCH (exact)
+ircad03__liver_segments_all          MATCH (exact)
+ircad03__liver_vessels_all           MATCH (exact)
+ircad03__total_liver                 MATCH (exact)
+ircad04__liver_segments_all          MATCH (exact)
+ircad04__liver_vessels_all           MATCH (exact)
+ircad04__total_liver                 MATCH (exact)
+ircad05__liver_segments_all          DIFFERENT (copy .u8)
+ircad05__liver_vessels_all           MATCH (exact)
+ircad05__total_liver                 MATCH (exact)
+ircad06__liver_segments_all          MATCH (exact)
+ircad06__liver_vessels_all           MATCH (exact)
+ircad06__total_liver                 MATCH (exact)
+ircad07__liver_segments_all          MATCH (exact)
+ircad07__liver_vessels_all           MATCH (exact)
+ircad07__total_liver                 MATCH (exact)
+ircad08__liver_segments_all          MATCH (exact)
+ircad08__liver_vessels_all           MATCH (exact)
+ircad08__total_liver                 MATCH (exact)
+ircad09__liver_segments_all          MATCH (exact)
+ircad09__liver_vessels_all           MATCH (exact)
+ircad09__total_liver                 MATCH (exact)
+ircad10__liver_segments_all          MATCH (exact)
+ircad10__liver_vessels_all           MATCH (exact)
+ircad10__total_liver                 MATCH (exact)
+ircad11__liver_segments_all          MATCH (exact)
+ircad11__liver_vessels_all           MATCH (exact)
+ircad11__total_liver                 MATCH (exact)
+ircad12__liver_segments_all          MATCH (exact)
+ircad12__liver_vessels_all           MATCH (exact)
+ircad12__total_liver                 MATCH (exact)
+ircad13__liver_segments_all          MATCH (exact)
+ircad13__liver_vessels_all           MATCH (exact)
+ircad13__total_liver                 MATCH (exact)
+ircad14__liver_segments_all          SAME-AS-DESKTOP-NONEXACT (1 voxels)
+ircad14__liver_vessels_all           MATCH (exact)
+ircad14__total_liver                 MATCH (exact)
+ircad15__liver_segments_all          MATCH (exact)
+ircad15__liver_vessels_all           MATCH (exact)
+ircad15__total_liver                 MATCH (exact)
+ircad16__liver_segments_all          SAME-AS-DESKTOP-NONEXACT (1 voxels)
+ircad16__liver_vessels_all           MATCH (exact)
+ircad16__total_liver                 MATCH (exact)
+ircad17__liver_segments_all          MATCH (exact)
+ircad17__liver_vessels_all           MATCH (exact)
+ircad17__total_liver                 MATCH (exact)
+ircad18__liver_segments_all          SAME-AS-DESKTOP-NONEXACT (1 voxels)
+ircad18__liver_vessels_all           MATCH (exact)
+ircad18__total_liver                 MATCH (exact)
+ircad19__liver_segments_all          MATCH (exact)
+ircad19__liver_vessels_all           MATCH (exact)
+ircad19__total_liver                 MATCH (exact)
+ircad20__liver_segments_all          MATCH (exact)
+ircad20__liver_vessels_all           MATCH (exact)
+ircad20__total_liver                 DIFFERENT (copy .u8)
+ALLDONE

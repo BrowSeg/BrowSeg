@@ -1,0 +1,3 @@
+[
+ {"browser":"chrome","tag":"lap_igpu_chunk4_5cases","query":"cases=ircad01,ircad02,ircad05,ircad10,ircad18&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1&gpuchunk=4","timeoutMin":180}
+]

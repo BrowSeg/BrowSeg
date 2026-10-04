@@ -29,6 +29,8 @@ const App = {
 const workerParams = new URLSearchParams();
 for (const k of ['lang', 'cpu']) { const v = new URLSearchParams(location.search).get(k); if (v !== null) workerParams.set(k, v); }
 const worker = new Worker('worker.js' + (workerParams.size ? '?' + workerParams : ''));
+// ask the browser to keep the downloaded model weights (Cache API) when disk space runs low; harmless if refused
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) { /* not available */ }
 let pending = null;
 const queue = [];
 function request(msg, expect, transfer) {

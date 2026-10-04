@@ -1,0 +1,50 @@
+{
+ "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:157.0) Gecko/20100101 Firefox/157.0",
+ "hardwareConcurrency": 16,
+ "deviceMemory": null,
+ "crossOriginIsolated": true,
+ "date": "2026-10-03T14:45:14.519Z",
+ "page": "http://localhost:8090/web/bench.html?tag=lap_firefox_nv_chunk4&cases=ircad01&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3&gpuchunk=4",
+ "params": {
+  "tag": "lap_firefox_nv_chunk4",
+  "cases": "ircad01",
+  "tasks": "total:liver;liver_segments:-;liver_vessels:-",
+  "reps": "3",
+  "gpuchunk": "4"
+ },
+ "engineOptions": {
+  "gpuchunk": "4"
+ },
+ "backend": "webgpu",
+ "threads": 16,
+ "build": "dist",
+ "isolated": true,
+ "version": "BrowSeg 0.1 (TotalSegmentator 2.13/2.18 tasks, C++/WASM)",
+ "gpu": {
+  "vendor": "",
+  "architecture": "",
+  "device": "",
+  "description": "",
+  "features": [
+   "bgra8unorm-storage",
+   "core-features-and-limits",
+   "depth-clip-control",
+   "depth32float-stencil8",
+   "dual-source-blending",
+   "float32-filterable",
+   "indirect-first-instance",
+   "rg11b10ufloat-renderable",
+   "shader-f16",
+   "texture-compression-bc",
+   "texture-compression-bc-sliced-3d",
+   "timestamp-query"
+  ],
+  "limits": {
+   "maxBufferSize": 2147483644,
+   "maxStorageBufferBindingSize": 2147483644
+  }
+ },
+ "webglRenderer": "Intel(R) HD Graphics, or similar",
+ "initS": 0.92056,
+ "initLog": []
+}
