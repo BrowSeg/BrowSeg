@@ -30,8 +30,10 @@ unless WebGPU is enabled (see Requirements). Then pick a task:
 
 Results can be saved as NIfTI label maps (`.nii.gz`) and as meshes (OBJ / STL).
 
-**Requirements.** A browser with WebGPU: Chrome or Edge 113+ (recommended). On Linux, Chrome needs WebGPU enabled
-(`--enable-unsafe-webgpu --enable-features=Vulkan` in our tests with Chrome 142). In Firefox 156 on Windows, one GPU
+**Requirements.** A browser with WebGPU: Chrome or Edge 113+ (recommended). On Linux, Chrome needs WebGPU enabled:
+open `chrome://flags`, set **Unsafe WebGPU Support** (`#enable-unsafe-webgpu`) and **Vulkan** (`#enable-vulkan`) to
+Enabled, and relaunch Chrome (equivalent command line: `--enable-unsafe-webgpu --enable-features=Vulkan`; tested with
+Chrome 142). If WebGPU is not available, the page says so and runs on the CPU. In Firefox 156 on Windows, one GPU
 submission per patch sometimes exceeded the GPU driver's time limit and the GPU was reset; BrowSeg detects this and
 retries with the network submitted in parts, which completes but was slower than Firefox's CPU path in our tests, so
 Firefox users are better served by the CPU path or by Chrome/Edge (Firefox on Linux has WebGPU off by default). About

@@ -156,7 +156,8 @@ async function init() {
       post({ type: 'log', text: `WebGPU unavailable (${e.message}), using CPU/WASM` });
     }
   }
-  post({ type: 'ready', threads: M._tsc_result_int(8), backend, build: DIST, isolated: !!self.crossOriginIsolated,
+  // gpuWanted: the CPU was not forced with ?cpu=1, so a CPU backend means WebGPU was not available (the page shows a hint)
+  post({ type: 'ready', threads: M._tsc_result_int(8), backend, gpuWanted: !FORCE_CPU, build: DIST, isolated: !!self.crossOriginIsolated,
          version: M.UTF8ToString(M._tsc_version() >>> 0) });
 }
 

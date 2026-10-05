@@ -81,6 +81,8 @@ const I18N_EN = {
   'ラベル NIfTI を選んでください': 'Choose a label NIfTI', 'ラベルを読み込めません: {0}': 'Cannot load the labels: {0}',
   '格子が CT と違います ({0} vs {1})': 'The grid differs from the CT ({0} vs {1})', 'カスタム: {0} v{1} ({2})': 'Custom: {0} v{1} ({2})',
   '解析中…': 'Segmenting…', '完了 ({0} 秒)': 'Done ({0} s)', '解析失敗: {0}': 'Segmentation failed: {0}',
+  '完了: {0}（{1} 秒）': 'Done: {0} ({1} s)', '解析失敗（{0}）: {1}': 'Segmentation failed ({0}): {1}',
+  'WebGPU が使えないため CPU で解析します（結果は同じで、時間がかかります）。Linux の Chrome では chrome://flags で「Unsafe WebGPU Support」と「Vulkan」を Enabled にして Chrome を再起動すると GPU を使えます。': 'WebGPU is not available, so segmentation runs on the CPU (same results, slower). In Chrome on Linux, set "Unsafe WebGPU Support" and "Vulkan" to Enabled in chrome://flags and relaunch Chrome to use the GPU.',
   '{0} ラベル   編集 {1} voxels   {2} タスク': '{0} labels   edited {1} voxels   {2} tasks',
   '表示': 'show', '色を変更': 'change colour', '由来: {0}': 'source: {0}', 'なし（一覧でクリックして選択）': 'none (click one in the list)',
   '名前を入力してください': 'Enter a name', 'ラベル「{0}」を追加しました。ブラシで塗ってください': 'Label "{0}" added. Paint it with the brush',

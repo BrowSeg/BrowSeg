@@ -76,6 +76,10 @@ request({ type: 'init' }, 'ready').then((m) => {
   App.engine = m;
   setPill('engineStatus', 'ok', t('エンジン {0} / {1} スレッド{2}', m.backend === 'webgpu' ? 'WebGPU' : 'CPU', m.threads, m.build === 'dist-st' ? t('（単一スレッド版）') : ''));
   log(m.version);
+  if (m.backend !== 'webgpu' && m.gpuWanted) {  // WebGPU was not available: the CPU works, but say how to enable the GPU
+    const hint = t('WebGPU が使えないため CPU で解析します（結果は同じで、時間がかかります）。Linux の Chrome では chrome://flags で「Unsafe WebGPU Support」と「Vulkan」を Enabled にして Chrome を再起動すると GPU を使えます。');
+    log(hint); toast(hint, 12000);
+  }
   updateButtons();
 }).catch((e) => { App.engineDead = true; setPill('engineStatus', 'err', t('エンジン起動失敗')); log('ERROR init: ' + e.message); toast(t('エンジンの起動に失敗しました: {0}', e.message), 8000); });
 // HTML escaping for names coming from files / the server
@@ -408,6 +412,7 @@ function taskOptions() {
 }
 async function runTask() {
   const [task, roi] = $('taskSelect').value.split('|');
+  const taskName = $('taskSelect').selectedOptions[0]?.text || task;  // shown in the log and the completion message
   const mode = document.querySelector('input[name=merge]:checked').value;
   busy(true, t('解析中…'));
   const t0 = performance.now();
@@ -415,13 +420,13 @@ async function runTask() {
     const custom = {};
     for (const m of App.customModels) custom[m.id] = m.file;
     const r = await request({ type: 'run', task, roi, custom }, 'result');
-    log(`${task} ${roi !== '-' ? roi : ''}: ${r.seconds.toFixed(1)} s (${r.backend})`);
+    log(`${taskName}: ${r.seconds.toFixed(1)} s (${r.backend}) [${task}${roi !== '-' ? ' ' + roi : ''}]`);
     if (r.log) log(r.log.trim().split('\n').slice(-14).join('\n'));
     const ids = applyLabelMap(r.labels, r.names, task, mode);
     App.S.tasks.push({ task, roi, time: new Date().toISOString(), seconds: r.seconds });
     await updateMeshes(ids);
-    toast(t('完了 ({0} 秒)', ((performance.now() - t0) / 1000).toFixed(1)));
-  } catch (e) { toast(t('解析失敗: {0}', e.message), 6000); log('ERROR ' + e.message); }
+    toast(t('完了: {0}（{1} 秒）', taskName, ((performance.now() - t0) / 1000).toFixed(1)));
+  } catch (e) { toast(t('解析失敗（{0}）: {1}', taskName, e.message), 6000); log(`ERROR ${taskName}: ${e.message}`); }
   busy(false, t('エンジン {0} / {1} スレッド{2}', App.engine.backend === 'webgpu' ? 'WebGPU' : 'CPU', App.engine.threads, ''));
 }
 
