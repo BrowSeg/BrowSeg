@@ -1,0 +1,19 @@
+A=data/bench_refs/ts218_cpu/ircad14__liver_segments_all.npy | B=data/bench_refs/ts218_cpu_laptop_m3/ircad14__liver_segments_all.npy | dump=data/ref218/ircad14_liver_segments model 570: 2 differing voxels (orig grid, canonical x,y,z)
+  orig (295, 267, 65): A=0 B=1 -> network grid [168.99 128.87  69.64] (affine only: [169.11 128.84  69.33])
+    net (168,128,69) dump argmax=1 (seg 1) top=10.2266 2nd=0:5.7852 gap=4.4414 = 568 fp16-ulp
+    net (169,128,69) dump argmax=1 (seg 1) top=9.8672 2nd=0:6.2812 gap=3.5859 = 459 fp16-ulp
+    net (168,129,69) dump argmax=1 (seg 1) top=8.0312 2nd=0:6.8750 gap=1.1562 = 148 fp16-ulp
+    net (169,129,69) dump argmax=0 (seg 0) top=7.7344 2nd=1:7.5898 gap=0.1445 = 37 fp16-ulp
+    net (168,128,70) dump argmax=1 (seg 1) top=9.9531 2nd=0:4.9414 gap=5.0117 = 642 fp16-ulp
+    net (169,128,70) dump argmax=1 (seg 1) top=9.5547 2nd=0:5.6055 gap=3.9492 = 506 fp16-ulp
+    net (168,129,70) dump argmax=1 (seg 1) top=7.8438 2nd=0:5.9570 gap=1.8867 = 483 fp16-ulp
+    net (169,129,70) dump argmax=0 (seg 0) top=7.1992 2nd=1:7.1992 gap=0.0000 = 0 fp16-ulp
+  orig (389, 160, 53): A=6 B=0 -> network grid [253.04  33.11  56.79] (affine only: [253.22  33.11  56.53])
+    net (253,33,56) dump argmax=0 (seg 0) top=9.2109 2nd=6:8.1250 gap=1.0859 = 139 fp16-ulp
+    net (254,33,56) dump argmax=0 (seg 0) top=9.7734 2nd=6:7.9727 gap=1.8008 = 230 fp16-ulp
+    net (253,34,56) dump argmax=6 (seg 6) top=9.2344 2nd=0:8.6562 gap=0.5781 = 74 fp16-ulp
+    net (254,34,56) dump argmax=0 (seg 0) top=9.1250 2nd=6:9.0625 gap=0.0625 = 8 fp16-ulp
+    net (253,33,57) dump argmax=6 (seg 6) top=8.8906 2nd=0:8.8828 gap=0.0078 = 1 fp16-ulp
+    net (254,33,57) dump argmax=0 (seg 0) top=9.6328 2nd=6:8.5703 gap=1.0625 = 136 fp16-ulp
+    net (253,34,57) dump argmax=6 (seg 6) top=9.7109 2nd=0:8.2344 gap=1.4766 = 189 fp16-ulp
+    net (254,34,57) dump argmax=6 (seg 6) top=9.4688 2nd=0:8.6719 gap=0.7969 = 102 fp16-ulp

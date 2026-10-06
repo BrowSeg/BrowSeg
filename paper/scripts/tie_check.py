@@ -51,7 +51,7 @@ for v in diff:
                 if not (0 <= x < seg.shape[0] and 0 <= y < seg.shape[1] and 0 <= z < seg.shape[2]):
                     continue
                 val = lg[:, z, y, x].astype(np.float32)
-                o = np.argsort(-val)
+                o = np.argsort(-val, kind="stable")  # stable: ties list the first index first (= torch.argmax)
                 ulp = float(np.spacing(np.float16(val[o[0]])))
                 gap = float(val[o[0]] - val[o[1]])
                 print(f"    net ({x},{y},{z}) python argmax={o[0]} (seg {int(seg[x, y, z])}) top={val[o[0]]:.4f} "

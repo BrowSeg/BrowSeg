@@ -1,0 +1,10 @@
+A=data/bench_refs/ts218_cpu/ircad05__liver_segments_all.npy | B=paper_jiim/paper_benchmarks/data/browser/desk_chrome_wasm_20/ircad05__liver_segments_all.u8 | dump=data/ref218/ircad05_liver_segments model 570: 1 differing voxels (orig grid, canonical x,y,z)
+  orig (388, 272, 51): A=5 B=6 -> network grid [238.9  134.12  48.07] (affine only: [239.06 134.11  48.  ])
+    net (238,134,48) dump argmax=5 (seg 5) top=8.3906 2nd=6:8.3672 gap=0.0234 = 3 fp16-ulp
+    net (239,134,48) dump argmax=6 (seg 5) top=8.4531 2nd=5:8.4531 gap=0.0000 = 0 fp16-ulp
+    net (238,135,48) dump argmax=5 (seg 5) top=8.6250 2nd=6:7.9805 gap=0.6445 = 82 fp16-ulp
+    net (239,135,48) dump argmax=5 (seg 5) top=8.7500 2nd=6:8.2188 gap=0.5312 = 68 fp16-ulp
+    net (238,134,49) dump argmax=5 (seg 5) top=8.5547 2nd=6:7.8320 gap=0.7227 = 92 fp16-ulp
+    net (239,134,49) dump argmax=5 (seg 5) top=8.6484 2nd=6:8.0391 gap=0.6094 = 78 fp16-ulp
+    net (238,135,49) dump argmax=5 (seg 5) top=8.8281 2nd=6:7.5547 gap=1.2734 = 163 fp16-ulp
+    net (239,135,49) dump argmax=5 (seg 5) top=9.0078 2nd=6:7.7812 gap=1.2266 = 157 fp16-ulp

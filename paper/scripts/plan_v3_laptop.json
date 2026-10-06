@@ -1,0 +1,32 @@
+[
+ {
+  "browser": "chrome",
+  "tag": "v3_lap_nv_webgpu_cold",
+  "query": "cases=ircad01&tasks=total:liver&reps=1&cold=1",
+  "timeoutMin": 15
+ },
+ {
+  "browser": "chrome",
+  "tag": "v3_lap_nv_webgpu",
+  "query": "cases=ircad01,ircad02,ircad03,ircad04,ircad05,ircad06,ircad07,ircad08,ircad09,ircad10,ircad11,ircad12,ircad13,ircad14,ircad15,ircad16,ircad17,ircad18,ircad19,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 240
+ },
+ {
+  "browser": "chrome",
+  "tag": "v3_lap_nv_st_webgpu",
+  "query": "st=1&cases=ircad01,ircad02,ircad03,ircad04,ircad05,ircad06,ircad07,ircad08,ircad09,ircad10,ircad11,ircad12,ircad13,ircad14,ircad15,ircad16,ircad17,ircad18,ircad19,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 240
+ },
+ {
+  "browser": "chrome",
+  "tag": "v3_lap_wasm",
+  "query": "cpu=1&cases=ircad01,ircad02,ircad03,ircad04,ircad05,ircad06,ircad07,ircad08,ircad09,ircad10,ircad11,ircad12,ircad13,ircad14,ircad15,ircad16,ircad17,ircad18,ircad19,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 360
+ },
+ {
+  "browser": "chrome",
+  "tag": "v3_lap_igpu_webgpu",
+  "query": "cases=ircad01,ircad02,ircad03,ircad04,ircad05,ircad06,ircad07,ircad08,ircad09,ircad10,ircad11,ircad12,ircad13,ircad14,ircad15,ircad16,ircad17,ircad18,ircad19,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 360
+ }
+]

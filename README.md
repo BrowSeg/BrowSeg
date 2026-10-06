@@ -85,7 +85,7 @@ produced, including the ones that differ from TotalSegmentator):
    | Condition | Link | Time for the 20 cases (desktop of the paper) |
    |---|---|---|
    | WebGPU, 4 tasks | https://browseg.github.io/BrowSeg/bench.html?local=1&tasks=total:liver;liver_segments:-;liver_vessels:-;total:- | about 10 min |
-   | CPU (WebAssembly, all threads), 4 tasks | https://browseg.github.io/BrowSeg/bench.html?local=1&cpu=1&tasks=total:liver;liver_segments:-;liver_vessels:-;total:- | about 70 min for the three liver tasks; about 3 h with the 117-structure task (estimate: the paper did not time this task on the CPU path; remove `total:-` from the tasks box to skip it) |
+   | CPU (WebAssembly, all threads), 4 tasks | https://browseg.github.io/BrowSeg/bench.html?local=1&cpu=1&tasks=total:liver;liver_segments:-;liver_vessels:-;total:- | about 70 min for the three liver tasks; about 3 h with the 117-structure task (median 322 s per case on the paper's desktop; remove `total:-` from the tasks box to skip it) |
    | Single-threaded build (pages without cross-origin isolation), WebGPU | https://browseg.github.io/BrowSeg/bench.html?local=1&st=1&nocoi=1&tasks=total:liver;liver_segments:-;liver_vessels:- | about 12 min (estimate; the paper measured this build on the laptop only, about 17 min there) |
 
    The paper's records cover the WebGPU and CPU paths; `threads=N` limits the number of threads of the multi-threaded build.
@@ -95,8 +95,8 @@ produced, including the ones that differ from TotalSegmentator):
    the paper's measurements.
 3. The page shows, for every case and task, the hash of the label map of each run next to the hash recorded for the
    paper (`paper/data/desktop_hashes.json` for WebGPU, 80 case x task pairs; `paper/data/desktop_hashes_wasm20.json`
-   for the CPU path, 60 pairs: the paper did not run the 117-structure task on the CPU path, so it has no CPU record
-   and is reported as "no record"), each run against the record of the path it actually used
+   for the CPU path, 60 pairs: the paper's CPU run of the 117-structure task is kept in its own records
+   (`desk_chrome_wasm_total_20`) and is not in this file, so that task is reported as "no record"), each run against the record of the path it actually used
    (runs without a record are left out of the verdict and the table says how many runs were compared), and
    whether the repeated runs were identical. *Download results (JSON)* saves everything (environment, timings, hashes).
 4. `python tools/verify_bench.py <downloaded>.json` prints the same comparison and exits with status 0 when all
@@ -129,8 +129,10 @@ to build it.
   in CT images. Radiol Artif Intell 2023;5(5):e230024. doi:10.1148/ryai.230024
 - Isensee F, Jaeger PF, Kohl SAA, Petersen J, Maier-Hein KH. nnU-Net: a self-configuring method for deep
   learning-based biomedical image segmentation. Nat Methods 2021;18:203–211. doi:10.1038/s41592-020-01008-z
-- liver_segments model: 【TS README が求める引用（Couinaud 区域の論文 doi:10.1007/978-3-030-32692-0_32）を照合して記載】
-- liver_vessels model: 【TS README が求める引用（arXiv:1902.09063, Medical Segmentation Decathlon）を照合して記載】
+- liver_segments model: Tian J, Liu L, Shi Z, Xu F. Automatic Couinaud segmentation from CT volumes on liver using
+  GLC-UNet. In: Machine Learning in Medical Imaging (MLMI 2019), LNCS. Springer; 2019:274–282. doi:10.1007/978-3-030-32692-0_32
+- liver_vessels model: Simpson AL, Antonelli M, Bakas S, et al. A large annotated medical image dataset for the development
+  and evaluation of segmentation algorithms. arXiv:1902.09063, 2019
 
 ## Reproducing the paper's numbers
 

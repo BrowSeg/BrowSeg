@@ -1,0 +1,5 @@
+[
+ { "browser": "chrome", "tag": "m4probe_webgpu_ircad14", "query": "cases=ircad14&tasks=liver_segments:-&reps=1&probe=probe_specs/ircad14_seg.txt", "timeoutMin": 30 },
+ { "browser": "chrome", "tag": "m4probe_webgpu_ircad16", "query": "cases=ircad16&tasks=liver_segments:-&reps=1&probe=probe_specs/ircad16_seg.txt", "timeoutMin": 30 },
+ { "browser": "chrome", "tag": "m4probe_webgpu_ircad18", "query": "cases=ircad18&tasks=liver_segments:-&reps=1&probe=probe_specs/ircad18_seg.txt", "timeoutMin": 30 }
+]

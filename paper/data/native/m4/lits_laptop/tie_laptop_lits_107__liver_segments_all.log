@@ -1,0 +1,11 @@
+A=lits_107__liver_segments_all.json | B=- | dump=/home/user/Documents/MyGithubProject2/BrowSeg_tools/m4_lits/dump/lits_107_seg model 570: 2 differing voxels (orig grid, canonical x,y,z)
+  orig (163, 350, 460): A=0 B=2 -> network grid [ 50.6  179.6  110.84] (affine only: [ 50.53 179.78 110.93])
+    net (50,179,110) dump argmax=2 (seg 2) top=9.4297 2nd=0:8.8672 gap=0.5625 = 72 fp16-ulp
+    net (51,179,110) dump argmax=2 (seg 2) top=9.5547 2nd=0:8.8203 gap=0.7344 = 94 fp16-ulp
+    net (50,180,110) dump argmax=2 (seg 2) top=9.4219 2nd=0:8.9297 gap=0.4922 = 63 fp16-ulp
+    net (51,180,110) dump argmax=2 (seg 2) top=9.4141 2nd=0:8.8984 gap=0.5156 = 66 fp16-ulp
+    net (50,179,111) dump argmax=2 (seg 2) top=9.1641 2nd=0:9.0156 gap=0.1484 = 19 fp16-ulp
+    net (51,179,111) dump argmax=2 (seg 2) top=9.2266 2nd=0:9.0078 gap=0.2188 = 28 fp16-ulp
+    net (50,180,111) dump argmax=0 (seg 0) top=9.3438 2nd=2:8.9375 gap=0.4062 = 52 fp16-ulp
+    net (51,180,111) dump argmax=2 (seg 2) top=9.0703 2nd=0:9.0625 gap=0.0078 = 1 fp16-ulp
+  orig (163, 350, 461): A=0 B=2 -> network grid [ 50.6  179.6  111.37] (affine only: [ 50.53 179.78 111.47])

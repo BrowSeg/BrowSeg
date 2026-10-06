@@ -1,0 +1,3 @@
+[
+ {"browser":"chrome","tag":"lits_pilot_chrome_wasm","query":"cpu=1&cases=lits_169&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1","timeoutMin":30}
+]

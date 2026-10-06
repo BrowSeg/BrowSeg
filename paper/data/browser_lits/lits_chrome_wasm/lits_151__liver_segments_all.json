@@ -1,0 +1,52 @@
+{
+ "case": "lits_151",
+ "task": "liver_segments",
+ "roi": "-",
+ "load": {
+  "kind": "nifti",
+  "shape": [
+   512,
+   512,
+   112
+  ],
+  "zooms": [
+   0.8119999766349792,
+   0.8119999766349792,
+   4
+  ],
+  "fetchS": 0.06988499999046326,
+  "loadS": 0.5203949999809265,
+  "log": []
+ },
+ "shape": [
+  512,
+  512,
+  112
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 156.068875,
+   "modelSeconds": 0.00005999994277954101,
+   "wall": 156.06922500002383,
+   "backend": "cpu",
+   "fallback": null,
+   "heap": 4068081664,
+   "gpuErrors": 0,
+   "hash": "cfbb7dc3",
+   "names": [
+    "background",
+    "liver_segment_1",
+    "liver_segment_2",
+    "liver_segment_3",
+    "liver_segment_4",
+    "liver_segment_5",
+    "liver_segment_6",
+    "liver_segment_7",
+    "liver_segment_8"
+   ],
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                   8 ms\n  crop: tiles (net+accum)         4218 ms\n  crop: finish/argmax               27 ms\n  crop: labels -> full res           5 ms\n  bbox + crop                        6 ms\n  resample task spacing             35 ms\n  part: preprocess                  57 ms\n  part: tiles (net+accum)       151658 ms\n  part: finish/argmax+merge         47 ms\n  back to orig + uncrop              3 ms\n"
+  }
+ ]
+}

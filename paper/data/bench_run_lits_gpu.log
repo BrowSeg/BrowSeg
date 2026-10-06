@@ -1,0 +1,6 @@
+2026-10-06T07:21:58.204Z start lits_chrome_webgpu (chrome)
+2026-10-06T07:43:40.571Z lits_chrome_webgpu: 2026-10-06T07:43:36.658Z DONE
+2026-10-06T07:43:44.188Z start lits_chrome_webgpu_total117 (chrome)
+2026-10-06T07:43:59.210Z lits_chrome_webgpu_total117: 2026-10-06T07:43:55.127Z ERROR: std::bad_alloc
+ALL DONE
+exit=0

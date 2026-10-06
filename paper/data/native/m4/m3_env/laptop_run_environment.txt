@@ -1,0 +1,26 @@
+# M3 laptop run environment (recorded 2026-10-06 17:15:14 JST)
+run start: 2026-10-06 17:10:22  (user OK in session; desktop GO message 17:15 JST arrived after start)
+uname: Linux laptop 6.8.0-138-generic #138~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  7 13:43:15 UTC  x86_64 x86_64 x86_64 GNU/Linux
+make_refs pid: 403954
+process env (OMP/MKL/CUDA vars):
+  none set (torch defaults)
+torch 2.11.0+cpu cuda build: None cuda available: False
+torch threads (default): 8 interop: 8
+cpu capability: AVX512 mkl: True mkldnn: True
+TotalSegmentator 2.18.0 nnunetv2 2.7.0 numpy 2.4.4
+ATen/Parallel:
+	at::get_num_threads() : 8
+	at::get_num_interop_threads() : 8
+OpenMP 201511 (a.k.a. OpenMP 4.5)
+	omp_get_max_threads() : 8
+Intel(R) oneAPI Math Kernel Library Version 2024.2-Product Build 20240605 for Intel(R) 64 architecture applications
+	mkl_get_max_threads() : 8
+Intel(R) MKL-DNN v3.10.2 (Git Hash f1d471933dc852f956fd05389f9313c7148783d5)
+std::thread::hardware_concurrency() : 16
+Environment variables:
+	OMP_NUM_THREADS : [not set]
+	MKL_NUM_THREADS : [not set]
+ATen parallel backend: OpenMP
+
+python: Python 3.11.15
+send_usage_stats unchanged:     "send_usage_stats": true,

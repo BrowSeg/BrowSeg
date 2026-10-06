@@ -1,0 +1,33 @@
+start 2026-10-06 21:57:04
+21:57:04 lits_015_seg
+  exit 0
+21:58:56 lits_022_seg
+  exit 0
+22:00:12 lits_092_seg
+  exit 0
+22:02:17 lits_092_liver
+  exit 0
+22:03:12 lits_107_seg
+  exit 0
+22:05:34 lits_120_seg
+  exit 0
+22:08:04 lits_129_seg
+  exit 0
+22:11:51 lits_129_ves
+  exit 0
+22:15:55 lits_163_seg
+  exit 0
+22:18:54 lits_185_seg
+  exit 0
+dumps end 2026-10-06 22:22:04
+tie lits_015__liver_segments_all.json exit 0
+tie lits_022__liver_segments_all.json exit 0
+tie lits_092__liver_segments_all.json exit 0
+tie lits_092__total_liver.json exit 0
+tie lits_107__liver_segments_all.json exit 0
+tie lits_120__liver_segments_all.json exit 0
+tie lits_129__liver_segments_all.json exit 0
+tie lits_129__liver_vessels_all.json exit 0
+tie lits_163__liver_segments_all.json exit 0
+tie lits_185__liver_segments_all.json exit 0
+end 2026-10-06 22:22:24

@@ -147,6 +147,12 @@ async function environment(ready) {
     const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
     if (ext) env.webglRenderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
   } catch (e) { /* ignore */ }
+  // full browser and OS versions (the user-agent string is reduced to e.g. Chrome/153.0.0.0). Chromium only;
+  // Firefox has no userAgentData, its user-agent string already carries the version.
+  try {
+    if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues)
+      env.uaFull = await navigator.userAgentData.getHighEntropyValues(['fullVersionList', 'platform', 'platformVersion', 'architecture', 'bitness']);
+  } catch (e) { env.uaFull = { error: String(e) }; }
   return env;
 }
 
