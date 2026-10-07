@@ -193,7 +193,7 @@ import statistics
 tm = {}
 for k, x in main.items():
     tm.setdefault(k[1], []).append(float((rc.get(k) or x)["t_first"]))
-extra.append("LiTS CPU time median (s, 30 cases, lits_022/023 from the recheck): " + ", ".join(f"{t} {statistics.median(v):.1f} (n={len(v)})" for t, v in sorted(tm.items())))
+extra.append("LiTS CPU time median (s, 30 cases, lits_022/023 from the recheck): " + ", ".join(f"{t} {statistics.median(v):.2f} (n={len(v)})" for t, v in sorted(tm.items())))
 tg = {}
 for x in gpu.values():
     tg.setdefault(x["task"], []).append(float(x["t_median_rest"]))

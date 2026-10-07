@@ -1,0 +1,91 @@
+{
+ "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+ "hardwareConcurrency": 16,
+ "deviceMemory": 8,
+ "crossOriginIsolated": true,
+ "date": "2026-10-06T15:14:14.578Z",
+ "page": "http://localhost:8090/web/bench.html?tag=v3_lap_nv_webgpu_cold&cases=ircad01&tasks=total:liver&reps=1&cold=1",
+ "params": {
+  "tag": "v3_lap_nv_webgpu_cold",
+  "cases": "ircad01",
+  "tasks": "total:liver",
+  "reps": "1",
+  "cold": "1"
+ },
+ "engineOptions": {},
+ "backend": "webgpu",
+ "threads": 16,
+ "build": "dist",
+ "isolated": true,
+ "version": "BrowSeg 0.1 (TotalSegmentator 2.13/2.18 tasks, C++/WASM)",
+ "gpu": {
+  "vendor": "nvidia",
+  "architecture": "turing",
+  "device": "",
+  "description": "",
+  "features": [
+   "bgra8unorm-storage",
+   "chromium-experimental-multi-draw-indirect",
+   "chromium-experimental-timestamp-query-inside-passes",
+   "clip-distances",
+   "core-features-and-limits",
+   "depth-clip-control",
+   "depth32float-stencil8",
+   "dual-source-blending",
+   "float32-blendable",
+   "float32-filterable",
+   "indirect-first-instance",
+   "primitive-index",
+   "rg11b10ufloat-renderable",
+   "subgroups",
+   "texture-component-swizzle",
+   "texture-compression-bc",
+   "texture-compression-bc-sliced-3d",
+   "texture-formats-tier1",
+   "texture-formats-tier2",
+   "timestamp-query"
+  ],
+  "limits": {
+   "maxBufferSize": 4294967296,
+   "maxStorageBufferBindingSize": 4294967292
+  }
+ },
+ "webglRenderer": "ANGLE (Intel, Mesa Intel(R) UHD Graphics (TGL GT1), OpenGL ES 3.2)",
+ "uaFull": {
+  "architecture": "x86",
+  "bitness": "64",
+  "brands": [
+   {
+    "brand": "Chromium",
+    "version": "142"
+   },
+   {
+    "brand": "Google Chrome",
+    "version": "142"
+   },
+   {
+    "brand": "Not_A Brand",
+    "version": "99"
+   }
+  ],
+  "fullVersionList": [
+   {
+    "brand": "Chromium",
+    "version": "142.0.7444.175"
+   },
+   {
+    "brand": "Google Chrome",
+    "version": "142.0.7444.175"
+   },
+   {
+    "brand": "Not_A Brand",
+    "version": "99.0.0.0"
+   }
+  ],
+  "mobile": false,
+  "platform": "Linux",
+  "platformVersion": ""
+ },
+ "initS": 0.24059999999403953,
+ "initLog": []
+}
