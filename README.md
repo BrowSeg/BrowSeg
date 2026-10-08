@@ -6,9 +6,10 @@ BrowSeg runs the CT segmentation models of [TotalSegmentator](https://github.com
 (nnU-Net) entirely inside the browser: the DICOM series is read, resampled, segmented and written back on your
 own computer. Nothing is installed and no image leaves the machine; the only download is the model weights,
 which the browser caches after the first use. The network runs on the GPU through WebGPU, or on the CPU
-(WebAssembly) when WebGPU is not available. On the 20 CTs of 3D-IRCADb-01 the label maps were voxel-identical to
-TotalSegmentator 2.18 run on the CPU in 75 of the 80 case x task pairs on the WebGPU path and 55 of 60 on the CPU
-path; the remaining pairs differ in 1 to 4 voxels out of tens of millions (see the paper and `tools/`).
+(WebAssembly) when WebGPU is not available. On 30 abdominal CTs of LiTS (Medical Segmentation Decathlon Task03_Liver)
+the label maps of the three liver tasks were voxel-identical to TotalSegmentator 2.18.0 run on the CPU in 80 of the 90
+case x task pairs on the WebGPU path (desktop and laptop GPU) and 81 of 90 on the CPU path; the remaining pairs differ in
+1 to 8 voxels out of tens of millions (see `paper/` and `tools/`).
 
 > **Not a medical device.** BrowSeg is research software. Do not use its output for diagnosis or treatment
 > without independent verification.
@@ -37,9 +38,9 @@ Chrome 142). If WebGPU is not available, the page says so and runs on the CPU. I
 submission per patch sometimes exceeded the GPU driver's time limit and the GPU was reset; BrowSeg detects this and
 retries with the network submitted in parts, which completes but was slower than Firefox's CPU path in our tests, so
 Firefox users are better served by the CPU path or by Chrome/Edge (Firefox on Linux has WebGPU off by default). About
-3 GB of free memory for the liver tasks and 4 GB for the
-117-structure task (the application's heap reached 3.5 GB on one of the test CTs, case 20 with 225 slices; 4 GB is
-the 32-bit WebAssembly limit), and a GPU with at least 2 GB of memory for the GPU path. Uncompressed DICOM
+3 to 4 GB of free memory (the application's memory reached 3.7 GB on the largest test CT, 512 x 512 x 1,026 voxels,
+on the CPU path; 4 GB is the 32-bit WebAssembly limit, and CTs of more than about 1,300 to 1,600 such slices do not
+fit), and a GPU with at least 2 GB of memory for the GPU path. Uncompressed DICOM
 (Implicit/Explicit VR Little Endian) or NIfTI input. Multi-frame DICOM and JPEG-compressed series are not
 supported yet.
 
@@ -66,15 +67,17 @@ BrowSeg URL to reproduce them.
 
 ## Reproduce the paper's agreement from the public URL
 
-The paper reports that BrowSeg's label maps equal those of TotalSegmentator 2.18 (CPU) voxel for voxel on the 20 CTs
-of 3D-IRCADb-01 in 75 of 80 case x task pairs (WebGPU) and 55 of 60 (CPU path), with differences of 1 to 4 voxels in
-the others, and that repeated runs give identical output. You can check this with the published page and your own
+The paper reports that BrowSeg's label maps equal those of TotalSegmentator 2.18.0 (CPU) voxel for voxel on 30 CTs of
+LiTS in 80 of 90 case x task pairs (WebGPU) and 81 of 90 (CPU path), with differences of 1 to 8 voxels in the others,
+and that repeated runs give identical output. You can check this with the published page and your own
 copy of the data, without installing anything (the records below hold the hash of every label map the paper's desktop
 produced, including the ones that differ from TotalSegmentator):
 
-1. Obtain 3D-IRCADb-01 from IRCAD (https://www.ircad.fr/research/data-sets/liver-segmentation-3d-ircadb-01/;
-   CC BY-NC-ND, so it is not included here) and arrange the cases as `cases/ircad01/ … cases/ircad20/`, each folder
-   holding the DICOM files of `PATIENT_DICOM`.
+1. Obtain Task03_Liver of the Medical Segmentation Decathlon (http://medicaldecathlon.com/, CC BY-SA 4.0) and
+   arrange the 30 cases listed in `paper/data/lits_selection_20261006.csv` (column `bench_case`, purpose `liver3`) as
+   `cases/lits_NNN/liver_N.nii.gz` (for example `cases/lits_002/liver_2.nii.gz`). The records of the first version of
+   the paper (3D-IRCADb-01, 20 DICOM series as `cases/ircad01/ … cases/ircad20/`) are kept in the same files and can be
+   checked the same way.
 2. Open one of the links below in Chrome or Edge, press *Choose the cases folder…* and select `cases/`, then *Run*.
    One page covers all conditions: the network (WebGPU or CPU/WebAssembly), the build (multi- or single-threaded), the
    thread limit, the tasks and the number of runs per case are chosen on the page; the links below only preset them. By
@@ -82,7 +85,7 @@ produced, including the ones that differ from TotalSegmentator):
    the part spent loading the model (weights from the browser cache, GPU upload), so the segmentation time can be read
    separately.
 
-   | Condition | Link | Time for the 20 cases (desktop of the paper) |
+   | Condition | Link | Time (desktop of the paper; the first lines are for the 20 3D-IRCADb-01 cases with 4 tasks) |
    |---|---|---|
    | WebGPU, 4 tasks | https://browseg.github.io/BrowSeg/bench.html?local=1&tasks=total:liver;liver_segments:-;liver_vessels:-;total:- | about 10 min |
    | CPU (WebAssembly, all threads), 4 tasks | https://browseg.github.io/BrowSeg/bench.html?local=1&cpu=1&tasks=total:liver;liver_segments:-;liver_vessels:-;total:- | about 70 min for the three liver tasks; about 3 h with the 117-structure task (median 322 s per case on the paper's desktop; remove `total:-` from the tasks box to skip it) |
@@ -93,9 +96,12 @@ produced, including the ones that differ from TotalSegmentator):
    at a time; it is meant for integrated GPUs whose driver resets a GPU job that runs longer than its time limit (the
    paper's Limitations describe such a case). It does not change the arithmetic, only the submission, and is off in
    the paper's measurements.
+   For the 30 LiTS cases, set the tasks box to `total:liver;liver_segments:-;liver_vessels:-`; one run per case takes about
+   8 min on WebGPU and about 2 h on the CPU path on the paper's desktop.
 3. The page shows, for every case and task, the hash of the label map of each run next to the hash recorded for the
-   paper (`paper/data/desktop_hashes.json` for WebGPU, 80 case x task pairs; `paper/data/desktop_hashes_wasm20.json`
-   for the CPU path, 60 pairs: the paper's CPU run of the 117-structure task is kept in its own records
+   paper (`paper/data/desktop_hashes.json` for WebGPU: 90 LiTS pairs measured with the paper's build and 80
+   3D-IRCADb-01 pairs of the first version; `paper/data/desktop_hashes_wasm20.json` for the CPU path: 90 LiTS pairs and
+   60 3D-IRCADb-01 pairs: the paper's CPU run of the 117-structure task is kept in its own records
    (`desk_chrome_wasm_total_20`) and is not in this file, so that task is reported as "no record"), each run against the record of the path it actually used
    (runs without a record are left out of the verdict and the table says how many runs were compared), and
    whether the repeated runs were identical. *Download results (JSON)* saves everything (environment, timings, hashes).
@@ -121,7 +127,7 @@ to build it.
 
 ## Paper
 
-【投稿後に記載: 著者、誌名、DOI、プレプリント】
+Manuscript under review. The bibliographic details will be added here after peer review.
 
 ## Citations
 
@@ -137,12 +143,23 @@ to build it.
 ## Reproducing the paper's numbers
 
 `paper/` holds the benchmark records (timings, environments, hashes of every output) and the scripts that
-turn them into the paper's tables. The CT images (3D-IRCADb-01) are not redistributed; obtain them from
-IRCAD and place them as described in `paper/README.md`.
+turn them into the paper's tables. `paper/data/lits_v11_summary.csv` lists every LiTS case x task of the paper (hashes,
+differing voxels against TotalSegmentator, Dice, time, memory); `paper/data/ts218_pip_freeze_20261008.txt` lists the
+package versions of the reference environment (TotalSegmentator 2.18.0, nnU-Net 2.7.0). The CT images are not
+redistributed; obtain them as described above.
 
 ### Version measured in the paper vs. this release
 
-The measurements in the paper were made with the build in this repository at commit f94295b (2026-09-29)
+The measurements in the paper were made with the build at commit 022925c (tag `paper-v1.1`; `web/dist/tsc.wasm`
+SHA-256 `fda8ec7a…`). Compared with `paper-v1` (7ee2d83) it changes only how a NIfTI file is handed to the engine: the
+voxels are passed in the file's own type and converted and reoriented in one pass, which lowers the peak memory (the
+largest test CT, 1,026 slices, could not be loaded on the 16 GB laptop before). The label maps of the 90 LiTS case x
+task pairs are identical between the two builds on both paths (`paper/data/browser_lits_v11/`,
+`paper/scripts/lits_records_v11_20261008.py`).
+
+#### Earlier versions
+
+The measurements of the first version of the paper were made with the build in this repository at commit f94295b (2026-09-29)
 (`web/dist/tsc.wasm` SHA-256 `7799e295…`). A code review after the measurements led to two changes in the
 inference engine that do **not** change the output on the evaluated data: the native builds before and after the
 changes produce identical label maps for all 20 cases x 4 tasks (`paper/data/native/native_before_after_review_fixes.log`,

@@ -1,0 +1,46 @@
+Using Device: cpu
+
+If you use this tool please cite: https://pubs.rsna.org/doi/10.1148/ryai.230024
+
+Generating rough segmentation for cropping...
+tmp_dir: C:\Users\USER~1\AppData\Local\Temp\nnunet_tmp_sejboujv
+Resampling...
+  from shape (512, 512, 836) to shape (57, 57, 111)
+  Resampled in 0.10s
+Predicting...
+perform_everything_on_device=True is only supported for cuda devices! Setting this to False
+There are 1 cases in the source folder
+I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
+There are 1 cases that I would like to predict
+perform_everything_on_device: False
+  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:00<00:00,  1.89it/s]100%|██████████| 2/2 [00:01<00:00,  1.95it/s]100%|██████████| 2/2 [00:01<00:00,  1.94it/s]
+[ref] task 298 nnU-Net took 8.6s
+  Predicted in 8.61s
+Resampling...
+  back to original shape: (512, 512, 836)
+  Resampled in 3.05s
+Undoing canonical...
+Rough organ segmentation generated in 17.68s
+tmp_dir: C:\Users\USER~1\AppData\Local\Temp\nnunet_tmp_8slb5nu5
+  cropping from (512, 512, 836) to (350, 322, 231)
+Resampling...
+  from shape (350, 322, 231) to shape (157, 144, 123)
+  Resampled in 0.52s
+Computing parts: ['class_map_part_organs'] based on the provided roi_subset
+Predicting part 1 of 1 ...
+perform_everything_on_device=True is only supported for cuda devices! Setting this to False
+There are 1 cases in the source folder
+I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
+There are 1 cases that I would like to predict
+perform_everything_on_device: False
+  0%|          | 0/4 [00:00<?, ?it/s] 25%|██▌       | 1/4 [00:03<00:09,  3.27s/it] 50%|█████     | 2/4 [00:06<00:06,  3.19s/it] 75%|███████▌  | 3/4 [00:09<00:03,  3.18s/it]100%|██████████| 4/4 [00:12<00:00,  3.14s/it]100%|██████████| 4/4 [00:12<00:00,  3.16s/it]
+[ref] task 291 nnU-Net took 19.2s
+  Predicted in 19.27s
+Resampling...
+  back to original shape: (350, 322, 231)
+  Resampled in 0.37s
+Undoing canonical...
+Undoing cropping...
+Saving segmentations...
+  Saved in 1.52s
+[ref] total 50.4s

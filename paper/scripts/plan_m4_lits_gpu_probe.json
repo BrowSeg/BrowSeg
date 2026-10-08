@@ -1,0 +1,62 @@
+[
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_015__liver_segments_all",
+  "query": "cases=lits_015&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_015__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_022__liver_segments_all",
+  "query": "cases=lits_022&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_022__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_092__liver_segments_all",
+  "query": "cases=lits_092&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_092__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_092__total_liver",
+  "query": "cases=lits_092&tasks=total:liver&reps=1&probe=probe_specs/lits_092__total_liver.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_107__liver_segments_all",
+  "query": "cases=lits_107&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_107__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_120__liver_segments_all",
+  "query": "cases=lits_120&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_120__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_129__liver_segments_all",
+  "query": "cases=lits_129&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_129__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_129__liver_vessels_all",
+  "query": "cases=lits_129&tasks=liver_vessels:-&reps=1&probe=probe_specs/lits_129__liver_vessels_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_163__liver_segments_all",
+  "query": "cases=lits_163&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_163__liver_segments_all.txt",
+  "timeoutMin": 30
+ },
+ {
+  "browser": "chrome",
+  "tag": "m4probe_webgpu_lits_185__liver_segments_all",
+  "query": "cases=lits_185&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_185__liver_segments_all.txt",
+  "timeoutMin": 30
+ }
+]

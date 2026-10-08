@@ -1,0 +1,31 @@
+{
+ "spacing": [
+  1.5,
+  0.8046879768371582,
+  0.8046879768371582
+ ],
+ "shape_before_cropping": [
+  135,
+  291,
+  314
+ ],
+ "bbox_used_for_cropping": [
+  [
+   0,
+   135
+  ],
+  [
+   0,
+   291
+  ],
+  [
+   0,
+   314
+  ]
+ ],
+ "shape_after_cropping_and_before_resampling": [
+  135,
+  291,
+  314
+ ]
+}

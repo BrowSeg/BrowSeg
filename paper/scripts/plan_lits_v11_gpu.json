@@ -1,0 +1,8 @@
+[
+ {
+  "browser": "chrome",
+  "tag": "lits_v11_chrome_webgpu",
+  "query": "cases=lits_129,lits_002,lits_015,lits_185,lits_102,lits_084,lits_107,lits_092,lits_087,lits_167,lits_072,lits_062,lits_166,lits_080,lits_048,lits_144,lits_194,lits_023,lits_120,lits_163,lits_169,lits_143,lits_147,lits_152,lits_054,lits_063,lits_151,lits_001,lits_139,lits_022&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3",
+  "timeoutMin": 240
+ }
+]

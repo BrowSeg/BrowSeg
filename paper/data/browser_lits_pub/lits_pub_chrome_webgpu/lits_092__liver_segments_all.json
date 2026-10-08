@@ -1,0 +1,94 @@
+{
+ "case": "lits_092",
+ "task": "liver_segments",
+ "roi": "-",
+ "load": {
+  "kind": "nifti",
+  "shape": [
+   512,
+   512,
+   836
+  ],
+  "zooms": [
+   0.6710000038146973,
+   0.6710000038146973,
+   0.800000011920929
+  ],
+  "fetchS": 0.599414999961853,
+  "loadS": 3.883765000104904,
+  "log": []
+ },
+ "shape": [
+  512,
+  512,
+  836
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 4.1650350000858305,
+   "modelSeconds": 0.16111500000953674,
+   "wall": 4.1655699999332425,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 3406954496,
+   "gpuErrors": 0,
+   "hash": "252bec24",
+   "names": [
+    "background",
+    "liver_segment_1",
+    "liver_segment_2",
+    "liver_segment_3",
+    "liver_segment_4",
+    "liver_segment_5",
+    "liver_segment_6",
+    "liver_segment_7",
+    "liver_segment_8"
+   ],
+   "log": [
+    "model 570 (123 MB): browser cache 0.07 s, WASM config 0.00 s, GPU upload + pipelines 0.08 s (queue done 0.09 s)",
+    "model 298: GPU memory weights 63 MiB, work buffers 366 MiB, accumulation 205 MiB",
+    "model 298: GPU work buffers (plan) 0.00 s",
+    "model 570: GPU memory weights 117 MiB, work buffers 1323 MiB, accumulation 332 MiB",
+    "model 570: GPU work buffers (plan) 0.00 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)          138 ms\n  crop: finish/argmax               28 ms\n  crop: labels -> full res          33 ms\n  bbox + crop                       34 ms\n  resample task spacing             28 ms\n  part: preprocess                  48 ms\n  part: tiles (net+accum)         3556 ms\n  part: finish/argmax+merge         41 ms\n  back to orig + uncrop              9 ms\n"
+  },
+  {
+   "rep": 1,
+   "seconds": 4.034424999952316,
+   "modelSeconds": 0.00006999993324279785,
+   "wall": 4.034890000104904,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 3406954496,
+   "gpuErrors": 0,
+   "hash": "252bec24",
+   "log": [
+    "model 298: GPU memory weights 63 MiB, work buffers 366 MiB, accumulation 205 MiB",
+    "model 298: GPU work buffers (plan) 0.00 s",
+    "model 570: GPU memory weights 117 MiB, work buffers 1323 MiB, accumulation 332 MiB",
+    "model 570: GPU work buffers (plan) 0.00 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       7 ms\n  crop: preprocess                  16 ms\n  crop: tiles (net+accum)          147 ms\n  crop: finish/argmax               27 ms\n  crop: labels -> full res          34 ms\n  bbox + crop                       35 ms\n  resample task spacing             28 ms\n  part: preprocess                  49 ms\n  part: tiles (net+accum)         3564 ms\n  part: finish/argmax+merge         37 ms\n  back to orig + uncrop              9 ms\n"
+  },
+  {
+   "rep": 2,
+   "seconds": 4.026230000019074,
+   "modelSeconds": 0.00005500006675720215,
+   "wall": 4.02677999997139,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 3406954496,
+   "gpuErrors": 0,
+   "hash": "252bec24",
+   "log": [
+    "model 298: GPU memory weights 63 MiB, work buffers 366 MiB, accumulation 205 MiB",
+    "model 298: GPU work buffers (plan) 0.00 s",
+    "model 570: GPU memory weights 117 MiB, work buffers 1323 MiB, accumulation 332 MiB",
+    "model 570: GPU work buffers (plan) 0.00 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                  13 ms\n  crop: tiles (net+accum)          154 ms\n  crop: finish/argmax               29 ms\n  crop: labels -> full res          33 ms\n  bbox + crop                       35 ms\n  resample task spacing             29 ms\n  part: preprocess                  49 ms\n  part: tiles (net+accum)         3555 ms\n  part: finish/argmax+merge         43 ms\n  back to orig + uncrop              8 ms\n"
+  }
+ ]
+}

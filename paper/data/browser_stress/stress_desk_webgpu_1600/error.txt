@@ -1,0 +1,2 @@
+Error: std::bad_alloc
+    at worker.onmessage (http://localhost:8093/web/bench.html?tag=stress_desk_webgpu_1600&cases=stress_1600&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1:104:75)

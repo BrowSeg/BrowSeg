@@ -1,0 +1,20 @@
+A=C:/Users/user/Desktop/TSC++Project/data/bench_refs/ts218_cpu_lits/lits_015__liver_segments_all.npy | B=C:/Users/user/Desktop/TSC++Project/paper_jiim/paper_benchmarks/data/browser_lits_pub/lits_pub_chrome_webgpu/lits_015__liver_segments_all.u8 | dump=C:/Users/user/Desktop/TSC++Project/paper_jiim/paper_benchmarks/data/native/m4_lits/lits_015__liver_segments_all/dump model 570: 3 differing voxels (orig grid, canonical x,y,z)
+  orig (264, 268, 324): A=2 B=1 -> network grid [ 60.89 155.22  88.89] (affine only: [ 60.98 155.3   89.33])
+    net (60,155,88) dump argmax=1 (seg 1) top=9.8438 2nd=2:7.8828 gap=1.9609 = 251 fp16-ulp
+    net (61,155,88) dump argmax=1 (seg 1) top=10.7734 2nd=2:7.3203 gap=3.4531 = 442 fp16-ulp
+    net (60,156,88) dump argmax=2 (seg 2) top=10.3438 2nd=1:6.9805 gap=3.3633 = 430 fp16-ulp
+    net (61,156,88) dump argmax=2 (seg 2) top=9.9453 2nd=1:7.9883 gap=1.9570 = 250 fp16-ulp
+    net (60,155,89) dump argmax=2 (seg 2) top=9.7109 2nd=1:8.8828 gap=0.8281 = 106 fp16-ulp
+    net (61,155,89) dump argmax=2 (seg 2) top=9.3594 2nd=1:9.3516 gap=0.0078 = 1 fp16-ulp
+    net (60,156,89) dump argmax=2 (seg 2) top=11.8125 2nd=1:6.1406 gap=5.6719 = 726 fp16-ulp
+    net (61,156,89) dump argmax=2 (seg 2) top=11.4766 2nd=1:6.7617 gap=4.7148 = 604 fp16-ulp
+  orig (454, 319, 324): A=4 B=8 -> network grid [215.16 196.67  88.89] (affine only: [215.47 196.77  89.33])
+    net (215,196,88) dump argmax=8 (seg 8) top=7.9648 2nd=4:6.6719 gap=1.2930 = 331 fp16-ulp
+    net (216,196,88) dump argmax=8 (seg 8) top=7.5195 2nd=4:6.4531 gap=1.0664 = 273 fp16-ulp
+    net (215,197,88) dump argmax=8 (seg 8) top=7.3789 2nd=4:6.8711 gap=0.5078 = 130 fp16-ulp
+    net (216,197,88) dump argmax=8 (seg 8) top=6.9023 2nd=4:6.5117 gap=0.3906 = 100 fp16-ulp
+    net (215,196,89) dump argmax=8 (seg 8) top=7.7617 2nd=4:6.9727 gap=0.7891 = 202 fp16-ulp
+    net (216,196,89) dump argmax=8 (seg 8) top=7.2070 2nd=4:6.7070 gap=0.5000 = 128 fp16-ulp
+    net (215,197,89) dump argmax=4 (seg 4) top=7.1289 2nd=8:7.1289 gap=0.0000 = 0 fp16-ulp
+    net (216,197,89) dump argmax=4 (seg 4) top=6.7188 2nd=8:6.5898 gap=0.1289 = 33 fp16-ulp
+  orig (454, 320, 324): A=4 B=8 -> network grid [215.16 197.48  88.89] (affine only: [215.47 197.58  89.33])

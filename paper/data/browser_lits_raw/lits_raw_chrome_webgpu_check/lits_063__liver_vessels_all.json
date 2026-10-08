@@ -1,0 +1,52 @@
+{
+ "case": "lits_063",
+ "task": "liver_vessels",
+ "roi": "-",
+ "load": {
+  "kind": "nifti",
+  "shape": [
+   512,
+   512,
+   104
+  ],
+  "zooms": [
+   0.7402340173721313,
+   0.7402340173721313,
+   5
+  ],
+  "fetchS": 0.2579949998855591,
+  "loadS": 0.3459300000667572,
+  "log": []
+ },
+ "shape": [
+  512,
+  512,
+  104
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 5.291805000066757,
+   "modelSeconds": 0.16132999992370606,
+   "wall": 5.292625,
+   "backend": "webgpu",
+   "fallback": null,
+   "heap": 2136080384,
+   "gpuErrors": 0,
+   "hash": "60e94ee1",
+   "names": [
+    "background",
+    "liver_vessels",
+    "liver_tumor"
+   ],
+   "log": [
+    "model 8 (123 MB): browser cache 0.08 s, WASM config 0.00 s, GPU upload + pipelines 0.08 s (queue done 0.08 s)",
+    "model 298: GPU memory weights 63 MiB, work buffers 366 MiB, accumulation 160 MiB",
+    "model 298: GPU work buffers (plan) 0.00 s",
+    "model 8: GPU memory weights 117 MiB, work buffers 1215 MiB, accumulation 136 MiB",
+    "model 8: GPU work buffers (plan) 0.00 s"
+   ],
+   "engineLog": "timings:\n  resample 6mm                       1 ms\n  crop: preprocess                   8 ms\n  crop: tiles (net+accum)          123 ms\n  crop: finish/argmax               27 ms\n  crop: labels -> full res           6 ms\n  bbox + crop                        7 ms\n  resample task spacing              2 ms\n  part: preprocess                  86 ms\n  part: tiles (net+accum)         4743 ms\n  part: finish/argmax+merge        111 ms\n  back to orig + uncrop              2 ms\n"
+  }
+ ]
+}

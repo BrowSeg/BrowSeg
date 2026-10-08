@@ -1,0 +1,11 @@
+A=C:/Users/user/Desktop/TSC++Project/data/bench_refs/ts218_cpu_lits/lits_092__liver_segments_all.npy | B=C:/Users/user/Desktop/TSC++Project/paper_jiim/paper_benchmarks/data/browser_lits_pub/lits_pub_chrome_webgpu/lits_092__liver_segments_all.u8 | dump=C:/Users/user/Desktop/TSC++Project/paper_jiim/paper_benchmarks/data/native/m4_lits/lits_092__liver_segments_all/dump model 570: 2 differing voxels (orig grid, canonical x,y,z)
+  orig (293, 314, 523): A=2 B=0 -> network grid [120.07 182.84 102.9 ] (affine only: [120.08 182.62 103.47])
+    net (120,182,102) dump argmax=2 (seg 2) top=12.5156 2nd=0:8.0234 gap=4.4922 = 575 fp16-ulp
+    net (121,182,102) dump argmax=2 (seg 2) top=12.4766 2nd=0:7.8750 gap=4.6016 = 589 fp16-ulp
+    net (120,183,102) dump argmax=2 (seg 2) top=11.9062 2nd=0:8.2578 gap=3.6484 = 467 fp16-ulp
+    net (121,183,102) dump argmax=2 (seg 2) top=12.0156 2nd=0:8.0781 gap=3.9375 = 504 fp16-ulp
+    net (120,182,103) dump argmax=2 (seg 2) top=11.2266 2nd=0:9.8984 gap=1.3281 = 170 fp16-ulp
+    net (121,182,103) dump argmax=2 (seg 2) top=11.3906 2nd=0:9.8516 gap=1.5391 = 197 fp16-ulp
+    net (120,183,103) dump argmax=2 (seg 2) top=10.5000 2nd=0:10.4922 gap=0.0078 = 1 fp16-ulp
+    net (121,183,103) dump argmax=0 (seg 0) top=10.7578 2nd=2:10.5703 gap=0.1875 = 24 fp16-ulp
+  orig (293, 314, 524): A=2 B=0 -> network grid [120.07 182.84 103.43] (affine only: [120.08 182.62 104.  ])

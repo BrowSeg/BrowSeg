@@ -1,0 +1,81 @@
+voxels: browseg 8, python 8, common 8
+
+net (z,y,x)=(75, 79, 80)  final argmax: browseg 0  python 0
+  class 0: final browseg 13.8984375  python 13.8984375  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 9.171875  python 9.171875  diff +0 (+0 fp16-ulp)
+  count n: browseg 15.6484375 python 15.6484375
+  tile   0: c0 y 13.201664/13.2016649 (d=-9e-07, -0.9 fp32-ulp) acc 37.09375/37.09375 | c5 y 9.24192715/9.24192715 (d=+0, +0.0 fp32-ulp) acc 25.96875/25.96875
+  tile   1: c0 y 14.4130564/14.4130516 (d=+4.8e-06, +5.0 fp32-ulp) acc 85.0625/85.0625 | c5 y 9.16220951/9.16221142 (d=-1.91e-06, -2.0 fp32-ulp) acc 56.46875/56.46875
+  tile   2: c0 y 13.233963/13.2339621 (d=+9e-07, +0.9 fp32-ulp) acc 142.625/142.625 | c5 y 9.22350693/9.22350883 (d=-1.9e-06, -2.0 fp32-ulp) acc 96.625/96.625
+  tile   3: c0 y 14.5140572/14.5140591 (d=-1.9e-06, -2.0 fp32-ulp) acc 217.5/217.5 | c5 y 9.10255718/9.10255814 (d=-9.6e-07, -1.0 fp32-ulp) acc 143.5/143.5
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(75, 79, 81)  final argmax: browseg 0  python 0
+  class 0: final browseg 11.3828125  python 11.3828125  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 10.515625  python 10.515625  diff +0 (+0 fp16-ulp)
+  count n: browseg 15.625 python 15.625
+  tile   0: c0 y 10.7762556/10.7762527 (d=+2.9e-06, +3.0 fp32-ulp) acc 28.390625/28.390625 | c5 y 10.6863375/10.6863384 (d=-9e-07, -0.9 fp32-ulp) acc 28.15625/28.15625
+  tile   1: c0 y 11.7904243/11.7904243 (d=+0, +0.0 fp32-ulp) acc 69.625/69.625 | c5 y 10.4298677/10.4298677 (d=+0, +0.0 fp32-ulp) acc 64.625/64.625
+  tile   2: c0 y 10.7913408/10.791338 (d=+2.8e-06, +2.9 fp32-ulp) acc 113.625/113.625 | c5 y 10.6705637/10.6705647 (d=-1e-06, -1.0 fp32-ulp) acc 108.125/108.125
+  tile   3: c0 y 11.8713322/11.8713408 (d=-8.6e-06, -9.0 fp32-ulp) acc 177.875/177.875 | c5 y 10.3583956/10.3583946 (d=+1e-06, +1.0 fp32-ulp) acc 164.25/164.25
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(75, 80, 80)  final argmax: browseg 0  python 0
+  class 0: final browseg 14.6640625  python 14.6640625  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 8.21875  python 8.21875  diff +0 (+0 fp16-ulp)
+  count n: browseg 15.3125 python 15.3125
+  tile   0: c0 y 14.1354866/14.1354895 (d=-2.9e-06, -3.0 fp32-ulp) acc 37.375/37.375 | c5 y 8.32260036/8.32260132 (d=-9.6e-07, -1.0 fp32-ulp) acc 22.015625/22.015625
+  tile   1: c0 y 15.0172215/15.0172176 (d=+3.9e-06, +4.1 fp32-ulp) acc 84.4375/84.4375 | c5 y 8.17769909/8.17769814 (d=+9.5e-07, +1.0 fp32-ulp) acc 47.65625/47.65625
+  tile   2: c0 y 14.1735306/14.1735239 (d=+6.7e-06, +7.0 fp32-ulp) acc 146.25/146.25 | c5 y 8.28804398/8.28804588 (d=-1.9e-06, -2.0 fp32-ulp) acc 83.8125/83.8125
+  tile   3: c0 y 15.1417408/15.1417446 (d=-3.8e-06, -4.0 fp32-ulp) acc 224.5/224.5 | c5 y 8.12426758/8.12426949 (d=-1.91e-06, -2.0 fp32-ulp) acc 125.8125/125.8125
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(75, 80, 81)  final argmax: browseg 0  python 0
+  class 0: final browseg 12.09375  python 12.09375  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 9.6328125  python 9.6328125  diff +0 (+0 fp16-ulp)
+  count n: browseg 15.28125 python 15.28125
+  tile   0: c0 y 11.4733753/11.473381 (d=-5.7e-06, -6.0 fp32-ulp) acc 28.453125/28.453125 | c5 y 9.80552673/9.80552673 (d=+0, +0.0 fp32-ulp) acc 24.328125/24.328125
+  tile   1: c0 y 12.4710464/12.4710455 (d=+9e-07, +0.9 fp32-ulp) acc 69.5/69.5 | c5 y 9.55364132/9.55364227 (d=-9.5e-07, -1.0 fp32-ulp) acc 55.78125/55.78125
+  tile   2: c0 y 11.5050869/11.5050898 (d=-2.9e-06, -3.0 fp32-ulp) acc 116.5625/116.5625 | c5 y 9.77481365/9.77481651 (d=-2.86e-06, -3.0 fp32-ulp) acc 95.75/95.75
+  tile   3: c0 y 12.5740604/12.5740604 (d=+0, +0.0 fp32-ulp) acc 184.75/184.75 | c5 y 9.48436928/9.48437119 (d=-1.91e-06, -2.0 fp32-ulp) acc 147.25/147.25
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(76, 79, 80)  final argmax: browseg 0  python 0
+  class 0: final browseg 12.1328125  python 12.1328125  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 10.3046875  python 10.3046875  diff +0 (+0 fp16-ulp)
+  count n: browseg 14.84375 python 14.84375
+  tile   0: c0 y 11.6154346/11.6154289 (d=+5.7e-06, +6.0 fp32-ulp) acc 30.96875/30.96875 | c5 y 10.2951298/10.2951307 (d=-9e-07, -0.9 fp32-ulp) acc 27.453125/27.453125
+  tile   1: c0 y 12.4931335/12.4931345 (d=-1e-06, -1.0 fp32-ulp) acc 70.4375/70.4375 | c5 y 10.3465948/10.3465948 (d=+0, +0.0 fp32-ulp) acc 60.125/60.125
+  tile   2: c0 y 11.6488028/11.6488056 (d=-2.8e-06, -2.9 fp32-ulp) acc 118.5625/118.5625 | c5 y 10.2869577/10.2869587 (d=-1e-06, -1.0 fp32-ulp) acc 102.625/102.625
+  tile   3: c0 y 12.5846395/12.5846367 (d=+2.8e-06, +2.9 fp32-ulp) acc 180.125/180.125 | c5 y 10.2959471/10.2959499 (d=-2.8e-06, -2.9 fp32-ulp) acc 153/153
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(76, 79, 81)  final argmax: browseg 5  python 5
+  class 0: final browseg 9.8125  python 9.8125  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 11.6953125  python 11.6953125  diff +0 (+0 fp16-ulp)
+  count n: browseg 14.828125 python 14.828125
+  tile   0: c0 y 9.37418556/9.37418556 (d=+0, +0.0 fp32-ulp) acc 23.421875/23.421875 | c5 y 11.7515907/11.7515907 (d=+0, +0.0 fp32-ulp) acc 29.359375/29.359375
+  tile   1: c0 y 10.0997744/10.0997744 (d=+0, +0.0 fp32-ulp) acc 56.90625/56.90625 | c5 y 11.688674/11.6886711 (d=+2.9e-06, +3.0 fp32-ulp) acc 68.125/68.125
+  tile   2: c0 y 9.38826752/9.38826752 (d=+0, +0.0 fp32-ulp) acc 93.25/93.25 | c5 y 11.7524576/11.7524567 (d=+9e-07, +0.9 fp32-ulp) acc 113.625/113.625
+  tile   3: c0 y 10.1804199/10.1804152 (d=+4.7e-06, +4.9 fp32-ulp) acc 145.5/145.5 | c5 y 11.6264362/11.6264381 (d=-1.9e-06, -2.0 fp32-ulp) acc 173.375/173.375
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(76, 80, 80)  final argmax: browseg 0  python 0
+  class 0: final browseg 13.15625  python 13.15625  diff +0 (+0 fp16-ulp)
+  class 5: final browseg 9.09375  python 9.09375  diff +0 (+0 fp16-ulp)
+  count n: browseg 14.515625 python 14.515625
+  tile   0: c0 y 12.6258354/12.6258411 (d=-5.7e-06, -6.0 fp32-ulp) acc 31.65625/31.65625 | c5 y 9.13405323/9.13405323 (d=+0, +0.0 fp32-ulp) acc 22.90625/22.90625
+  tile   1: c0 y 13.5042877/13.5042858 (d=+1.9e-06, +2.0 fp32-ulp) acc 71.8125/71.8125 | c5 y 9.0974493/9.09745407 (d=-4.77e-06, -5.0 fp32-ulp) acc 49.9375/49.9375
+  tile   2: c0 y 12.6622038/12.6622057 (d=-1.9e-06, -2.0 fp32-ulp) acc 124.1875/124.1875 | c5 y 9.11561394/9.11561298 (d=+9.6e-07, +1.0 fp32-ulp) acc 87.625/87.625
+  tile   3: c0 y 13.6174717/13.6174698 (d=+1.9e-06, +2.0 fp32-ulp) acc 191/191 | c5 y 9.05585003/9.05585289 (d=-2.86e-06, -3.0 fp32-ulp) acc 132/132
+  first tile where the fp16 accumulator of a decisive class differs: None
+
+net (z,y,x)=(76, 80, 81)  final argmax: browseg 0  python 5   <-- decision differs
+  class 0: final browseg 10.5625  python 10.5546875  diff +0.00781 (+1 fp16-ulp)
+  class 5: final browseg 10.5625  python 10.5625  diff +0 (+0 fp16-ulp)
+  count n: browseg 14.5078125 python 14.5078125
+  tile   0: c0 y 10.079771/10.0797691 (d=+1.9e-06, +2.0 fp32-ulp) acc 23.703125/23.703125 | c5 y 10.6803684/10.6803703 (d=-1.9e-06, -2.0 fp32-ulp) acc 25.109375/25.109375
+  tile   1: c0 y 10.8572683/10.8572655 (d=+2.8e-06, +2.9 fp32-ulp) acc 57.625/57.625 | c5 y 10.5277004/10.5277004 (d=+0, +0.0 fp32-ulp) acc 58/58
+  tile   2: c0 y 10.1013451/10.1013327 (d=+1.24e-05, +13.0 fp32-ulp) acc 96.8125/96.8125 | c5 y 10.6708069/10.6708069 (d=+0, +0.0 fp32-ulp) acc 99.375/99.375
+  tile   3: c0 y 10.9499226/10.9499197 (d=+2.9e-06, +3.0 fp32-ulp) acc 153.25/153.125 * | c5 y 10.4678936/10.4678974 (d=-3.8e-06, -4.0 fp32-ulp) acc 153.25/153.25
+  first tile where the fp16 accumulator of a decisive class differs: 3

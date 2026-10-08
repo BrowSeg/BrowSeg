@@ -1,0 +1,31 @@
+{
+ "spacing": [
+  6.0,
+  6.0,
+  6.0
+ ],
+ "shape_before_cropping": [
+  80,
+  71,
+  71
+ ],
+ "bbox_used_for_cropping": [
+  [
+   0,
+   80
+  ],
+  [
+   0,
+   71
+  ],
+  [
+   0,
+   71
+  ]
+ ],
+ "shape_after_cropping_and_before_resampling": [
+  80,
+  71,
+  71
+ ]
+}

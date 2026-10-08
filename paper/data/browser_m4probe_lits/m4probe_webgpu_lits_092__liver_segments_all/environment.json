@@ -1,0 +1,95 @@
+{
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+ "hardwareConcurrency": 24,
+ "deviceMemory": 32,
+ "crossOriginIsolated": true,
+ "date": "2026-10-08T02:00:16.102Z",
+ "page": "http://localhost:8092/web/bench.html?tag=m4probe_webgpu_lits_092__liver_segments_all&cases=lits_092&tasks=liver_segments:-&reps=1&probe=probe_specs/lits_092__liver_segments_all.txt",
+ "params": {
+  "tag": "m4probe_webgpu_lits_092__liver_segments_all",
+  "cases": "lits_092",
+  "tasks": "liver_segments:-",
+  "reps": "1",
+  "probe": "probe_specs/lits_092__liver_segments_all.txt"
+ },
+ "engineOptions": {
+  "probe": "probe_specs/lits_092__liver_segments_all.txt"
+ },
+ "backend": "webgpu",
+ "threads": 24,
+ "build": "dist-probe",
+ "isolated": true,
+ "version": "tsc 0.4 (TotalSegmentator 2.13/2.18 tasks + portal/hepatic split + custom models, C++/WASM)",
+ "gpu": {
+  "vendor": "nvidia",
+  "architecture": "lovelace",
+  "device": "",
+  "description": "",
+  "features": [
+   "bgra8unorm-storage",
+   "clip-distances",
+   "core-features-and-limits",
+   "depth-clip-control",
+   "depth32float-stencil8",
+   "dual-source-blending",
+   "float32-blendable",
+   "float32-filterable",
+   "indirect-first-instance",
+   "primitive-index",
+   "rg11b10ufloat-renderable",
+   "shader-f16",
+   "subgroup-size-control",
+   "subgroups",
+   "texture-component-swizzle",
+   "texture-compression-bc",
+   "texture-compression-bc-sliced-3d",
+   "texture-formats-tier1",
+   "texture-formats-tier2",
+   "timestamp-query"
+  ],
+  "limits": {
+   "maxBufferSize": 2147483648,
+   "maxStorageBufferBindingSize": 2147483644
+  }
+ },
+ "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 (0x00002786) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+ "uaFull": {
+  "architecture": "x86",
+  "bitness": "64",
+  "brands": [
+   {
+    "brand": "Google Chrome",
+    "version": "153"
+   },
+   {
+    "brand": "Not_A Brand",
+    "version": "8"
+   },
+   {
+    "brand": "Chromium",
+    "version": "153"
+   }
+  ],
+  "fullVersionList": [
+   {
+    "brand": "Google Chrome",
+    "version": "153.0.8010.53"
+   },
+   {
+    "brand": "Not_A Brand",
+    "version": "8.0.0.0"
+   },
+   {
+    "brand": "Chromium",
+    "version": "153.0.8010.53"
+   }
+  ],
+  "mobile": false,
+  "platform": "Windows",
+  "platformVersion": "19.0.0"
+ },
+ "initS": 0.17814999985694885,
+ "initLog": [
+  "PROBE spec probe_specs/lits_092__liver_segments_all.txt (8 lines)"
+ ]
+}

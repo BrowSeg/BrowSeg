@@ -1,0 +1,46 @@
+{
+ "case": "lits_152",
+ "task": "liver_vessels",
+ "roi": "-",
+ "load": {
+  "kind": "nifti",
+  "shape": [
+   512,
+   512,
+   89
+  ],
+  "zooms": [
+   0.7739999890327454,
+   0.7739999890327454,
+   5
+  ],
+  "fetchS": 0.0576100001335144,
+  "loadS": 0.27015499997138975,
+  "log": []
+ },
+ "shape": [
+  512,
+  512,
+  89
+ ],
+ "runs": [
+  {
+   "rep": 0,
+   "seconds": 157.64444000005722,
+   "modelSeconds": 0.00009000015258789062,
+   "wall": 157.64475999999047,
+   "backend": "cpu",
+   "fallback": null,
+   "heap": 2504130560,
+   "gpuErrors": 0,
+   "hash": "c205e6e2",
+   "names": [
+    "background",
+    "liver_vessels",
+    "liver_tumor"
+   ],
+   "log": [],
+   "engineLog": "timings:\n  resample 6mm                       2 ms\n  crop: preprocess                   9 ms\n  crop: tiles (net+accum)         4113 ms\n  crop: finish/argmax               20 ms\n  crop: labels -> full res           4 ms\n  bbox + crop                        5 ms\n  resample task spacing              3 ms\n  part: preprocess                  85 ms\n  part: tiles (net+accum)       153279 ms\n  part: finish/argmax+merge        119 ms\n  back to orig + uncrop              1 ms\n"
+  }
+ ]
+}

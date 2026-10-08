@@ -1,0 +1,32 @@
+[
+ {
+  "browser": "chrome",
+  "tag": "stress_desk_webgpu_1300",
+  "query": "cases=stress_1300&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 45
+ },
+ {
+  "browser": "chrome",
+  "tag": "stress_desk_webgpu_1600",
+  "query": "cases=stress_1600&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 45
+ },
+ {
+  "browser": "chrome",
+  "tag": "stress_desk_webgpu_2000",
+  "query": "cases=stress_2000&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 45
+ },
+ {
+  "browser": "chrome",
+  "tag": "stress_desk_webgpu_2500",
+  "query": "cases=stress_2500&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 45
+ },
+ {
+  "browser": "chrome",
+  "tag": "stress_desk_webgpu_3000",
+  "query": "cases=stress_3000&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 45
+ }
+]

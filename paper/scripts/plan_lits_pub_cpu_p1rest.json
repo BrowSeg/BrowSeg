@@ -1,0 +1,14 @@
+[
+ {
+  "browser": "chrome",
+  "tag": "lits_pub_chrome_wasm_p1b",
+  "query": "cpu=1&cases=lits_102,lits_084,lits_107&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 180
+ },
+ {
+  "browser": "chrome",
+  "tag": "lits_pub_chrome_wasm_p1c",
+  "query": "cpu=1&cases=lits_092,lits_087,lits_072&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1",
+  "timeoutMin": 180
+ }
+]

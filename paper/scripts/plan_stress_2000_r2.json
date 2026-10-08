@@ -1,0 +1,1 @@
+[{"browser": "chrome", "tag": "stress_desk_webgpu_2000_r2", "query": "cases=stress_2000&tasks=total:liver&reps=1", "timeoutMin": 30}]

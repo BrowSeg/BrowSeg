@@ -1,0 +1,39 @@
+Using Device: cpu
+
+If you use this tool please cite: https://pubs.rsna.org/doi/10.1148/ryai.230024
+
+Generating rough segmentation for cropping...
+tmp_dir: C:\Users\USER~1\AppData\Local\Temp\nnunet_tmp_otxsrqc5
+Resampling...
+  from shape (512, 512, 96) to shape (71, 71, 80)
+  Resampled in 0.07s
+Predicting...
+perform_everything_on_device=True is only supported for cuda devices! Setting this to False
+There are 1 cases in the source folder
+I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
+There are 1 cases that I would like to predict
+perform_everything_on_device: False
+  0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [00:00<00:03,  1.99it/s] 25%|██▌       | 2/8 [00:00<00:02,  2.09it/s] 38%|███▊      | 3/8 [00:01<00:02,  2.19it/s] 50%|█████     | 4/8 [00:01<00:01,  2.23it/s] 62%|██████▎   | 5/8 [00:02<00:01,  2.23it/s] 75%|███████▌  | 6/8 [00:02<00:00,  2.21it/s] 88%|████████▊ | 7/8 [00:03<00:00,  2.25it/s]100%|██████████| 8/8 [00:03<00:00,  2.20it/s]100%|██████████| 8/8 [00:03<00:00,  2.19it/s]
+[ref] task 298 nnU-Net took 9.1s
+  Predicted in 9.11s
+Resampling...
+  back to original shape: (512, 512, 96)
+  Resampled in 0.36s
+Undoing canonical...
+Rough organ segmentation generated in 10.17s
+tmp_dir: C:\Users\USER~1\AppData\Local\Temp\nnunet_tmp_7sx5xvaj
+  cropping from (512, 512, 96) to (311, 289, 37)
+Predicting...
+perform_everything_on_device=True is only supported for cuda devices! Setting this to False
+There are 1 cases in the source folder
+I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
+There are 1 cases that I would like to predict
+perform_everything_on_device: False
+  0%|          | 0/27 [00:00<?, ?it/s]  4%|▎         | 1/27 [00:03<01:29,  3.43s/it]  7%|▋         | 2/27 [00:06<01:24,  3.37s/it] 11%|█         | 3/27 [00:10<01:20,  3.34s/it] 15%|█▍        | 4/27 [00:13<01:17,  3.37s/it] 19%|█▊        | 5/27 [00:16<01:13,  3.36s/it] 22%|██▏       | 6/27 [00:20<01:09,  3.33s/it] 26%|██▌       | 7/27 [00:23<01:06,  3.32s/it] 30%|██▉       | 8/27 [00:26<01:03,  3.33s/it] 33%|███▎      | 9/27 [00:30<00:59,  3.32s/it] 37%|███▋      | 10/27 [00:33<00:56,  3.31s/it] 41%|████      | 11/27 [00:36<00:53,  3.31s/it] 44%|████▍     | 12/27 [00:39<00:49,  3.30s/it] 48%|████▊     | 13/27 [00:43<00:46,  3.30s/it] 52%|█████▏    | 14/27 [00:46<00:42,  3.30s/it] 56%|█████▌    | 15/27 [00:49<00:39,  3.29s/it] 59%|█████▉    | 16/27 [00:53<00:36,  3.28s/it] 63%|██████▎   | 17/27 [00:56<00:32,  3.29s/it] 67%|██████▋   | 18/27 [00:59<00:29,  3.28s/it] 70%|███████   | 19/27 [01:02<00:26,  3.27s/it] 74%|███████▍  | 20/27 [01:06<00:22,  3.27s/it] 78%|███████▊  | 21/27 [01:09<00:19,  3.30s/it] 81%|████████▏ | 22/27 [01:12<00:16,  3.31s/it] 85%|████████▌ | 23/27 [01:16<00:13,  3.34s/it] 89%|████████▉ | 24/27 [01:19<00:10,  3.34s/it] 93%|█████████▎| 25/27 [01:22<00:06,  3.35s/it] 96%|█████████▋| 26/27 [01:26<00:03,  3.35s/it]100%|██████████| 27/27 [01:29<00:00,  3.34s/it]100%|██████████| 27/27 [01:29<00:00,  3.32s/it]
+[ref] task 8 nnU-Net took 97.4s
+  Predicted in 97.39s
+Undoing canonical...
+Undoing cropping...
+Saving segmentations...
+  Saved in 0.16s
+[ref] total 109.1s
