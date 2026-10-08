@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <cstring>
 #include <functional>
 #include <map>
 #include <sstream>
@@ -484,6 +485,57 @@ Volume<T> as_closest_canonical(const Volume<T>& v) {
 
 template Volume<float> as_closest_canonical(const Volume<float>&);
 template Volume<uint8_t> as_closest_canonical(const Volume<uint8_t>&);
+
+namespace {
+template <class T>
+float nifti_value(const uint8_t* p, double slope, double inter) {
+    T v;
+    std::memcpy(&v, p, sizeof(T));
+    double d = static_cast<double>(v) * slope;  // two statements: no fused multiply-add (the browser computes the same in JS)
+    d = d + inter;
+    return static_cast<float>(d);
+}
+}  // namespace
+
+Volume<float> volume_from_nifti_raw(const uint8_t* raw, int dt, double slope, double inter, const Shape3& grid,
+                                    const Affine& aff, const std::function<void()>& before_alloc) {
+    float (*get)(const uint8_t*, double, double) = nullptr;
+    int bytes = 0;
+    switch (dt) {
+        case 2: get = nifti_value<uint8_t>; bytes = 1; break;
+        case 256: get = nifti_value<int8_t>; bytes = 1; break;
+        case 4: get = nifti_value<int16_t>; bytes = 2; break;
+        case 512: get = nifti_value<uint16_t>; bytes = 2; break;
+        case 8: get = nifti_value<int32_t>; bytes = 4; break;
+        case 768: get = nifti_value<uint32_t>; bytes = 4; break;
+        case 16: get = nifti_value<float>; bytes = 4; break;
+        case 64: get = nifti_value<double>; bytes = 8; break;
+        default: throw std::runtime_error("NIfTI datatype " + std::to_string(dt) + " not supported");
+    }
+    if (grid[0] <= 0 || grid[1] <= 0 || grid[2] <= 0) throw std::runtime_error("bad volume size");
+    const CanonicalPlan pl = canonical_plan(grid, aff);
+    if (before_alloc) before_alloc();
+    Volume<float> v(pl.shape, pl.affine);
+    int64_t ostride[3] = {pl.shape[1] * pl.shape[2], pl.shape[2], 1};
+    int64_t step_in[3], base_in[3];
+    for (int in = 0; in < 3; ++in) {
+        const int64_t st = ostride[pl.out_of_in[in]];
+        base_in[in] = pl.flip[in] ? (grid[in] - 1) * st : 0;
+        step_in[in] = pl.flip[in] ? -st : st;
+    }
+    const int64_t nx = grid[0], ny = grid[1];
+    parallel_for(grid[2], [&](int64_t b, int64_t e, int) {
+        for (int64_t z = b; z < e; ++z) {
+            const int64_t oz = base_in[2] + z * step_in[2];
+            for (int64_t y = 0; y < ny; ++y) {
+                const int64_t oy = oz + base_in[1] + y * step_in[1];
+                const uint8_t* row = raw + (size_t)((z * ny + y) * nx) * bytes;
+                for (int64_t x = 0; x < nx; ++x) v.data[(size_t)(oy + base_in[0] + x * step_in[0])] = get(row + x * bytes, slope, inter);
+            }
+        }
+    });
+    return v;
+}
 
 Volume<float> build_volume(const std::vector<DicomSlice>& all, const std::string& uid_req, std::string& log,
                            bool explicit_uid, const std::function<void()>& before_alloc) {

@@ -17,9 +17,8 @@ const Nifti = (() => {
     return await new Response(new Blob(parts).stream().pipeThrough(cs)).blob();
   }
 
-  // -> { dims:[nx,ny,nz], pixdim:[sx,sy,sz], affine:[16] row-major, data: Float32Array (x fastest), datatype }
-  async function read(buf) {
-    buf = await gunzipIfNeeded(buf);
+  // header of an uncompressed NIfTI-1 buffer -> { dims, pixdim, affine, datatype, voxOffset, slope, inter, le, dv }
+  function header(buf) {
     let dv = new DataView(buf);
     let le = true;
     if (dv.getInt32(0, true) !== 348) {
@@ -55,6 +54,15 @@ const Nifti = (() => {
     } else {
       affine = [pixdim[0], 0, 0, 0, 0, pixdim[1], 0, 0, 0, 0, pixdim[2], 0, 0, 0, 0, 1];
     }
+    return { dims, pixdim, affine, datatype, bitpix, voxOffset, slope, inter, le, dv };
+  }
+
+  const BYTES = { 2: 1, 256: 1, 4: 2, 512: 2, 8: 4, 768: 4, 16: 4, 64: 8 };
+
+  // -> { dims:[nx,ny,nz], pixdim:[sx,sy,sz], affine:[16] row-major, data: Float32Array (x fastest), datatype }
+  async function read(buf) {
+    buf = await gunzipIfNeeded(buf);
+    const { dims, pixdim, affine, datatype, bitpix, voxOffset, slope, inter, le, dv } = header(buf);
     const n = dims[0] * dims[1] * dims[2];
     const readers = {
       2: [1, (o) => dv.getUint8(o)], 256: [1, (o) => dv.getInt8(o)], 4: [2, (o) => dv.getInt16(o, le)],
@@ -68,6 +76,27 @@ const Nifti = (() => {
     for (let i = 0; i < n; i++) data[i] = get(voxOffset + i * bytes) * slope + inter;
     void bitpix;
     return { dims, pixdim, affine, data, datatype };
+  }
+
+  // CT volumes: the voxel bytes in the file's own type, without a Float32 copy (the engine converts and reorients them in
+  // one pass, tsc_set_volume_raw). -> { dims, pixdim, affine, raw: Uint8Array view of the decompressed buffer, datatype,
+  // slope, inter }, or null when the file needs the general reader (big endian, unsupported type, truncated).
+  // worker message (and transfer list) for a NIfTI read by readRaw or read
+  function volumeMessage(nii) {
+    return nii.raw
+      ? [{ type: 'loadVolume', raw: nii.raw, datatype: nii.datatype, slope: nii.slope, inter: nii.inter, dims: nii.dims, affine: nii.affine },
+         [nii.raw.buffer]]
+      : [{ type: 'loadVolume', data: nii.data, dims: nii.dims, affine: nii.affine }, [nii.data.buffer]];
+  }
+
+  async function readRaw(buf) {
+    buf = await gunzipIfNeeded(buf);
+    const h = header(buf);
+    const bytes = BYTES[h.datatype];
+    const n = h.dims[0] * h.dims[1] * h.dims[2];
+    if (!h.le || !bytes || h.voxOffset + n * bytes > buf.byteLength) return null;
+    return { dims: h.dims, pixdim: h.pixdim, affine: h.affine, raw: new Uint8Array(buf, h.voxOffset, n * bytes),
+             datatype: h.datatype, slope: h.slope, inter: h.inter };
   }
 
   // canonical C-order array (x,y,z; z fastest) -> NIfTI (x fastest), gzip-compressed Blob
@@ -105,5 +134,5 @@ const Nifti = (() => {
     return out;
   }
 
-  return { read, write, gzip, toCOrder };
+  return { read, readRaw, volumeMessage, write, gzip, toCOrder };
 })();

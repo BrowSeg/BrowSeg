@@ -63,6 +63,14 @@ Volume<float> build_volume(const std::vector<DicomSlice>& slices, const std::str
 // One entry per SeriesInstanceUID, largest CT series first (the default choice of build_volume).
 std::vector<DicomSeriesInfo> list_series(const std::vector<DicomSlice>& slices);
 
+// NIfTI voxel data (x fastest, little endian, any of the NIfTI-1 scalar types 2, 4, 8, 16, 64, 256, 512, 768) ->
+// float volume in closest-canonical RAS orientation, written directly in canonical order (no float copy of the
+// original layout). value = float(raw * slope + inter) evaluated in double, the same as the browser's Nifti.read.
+// Same result as building the float volume in the file's layout and calling as_closest_canonical, with about half
+// of the peak memory for int16 data.
+Volume<float> volume_from_nifti_raw(const uint8_t* raw, int nifti_datatype, double slope, double inter, const Shape3& shape,
+                                    const Affine& affine, const std::function<void()>& before_alloc = {});
+
 // Reorients a volume with arbitrary (axis aligned or oblique) affine to the
 // closest canonical RAS orientation (nibabel io_orientation + as_reoriented).
 template <class T>

@@ -163,8 +163,9 @@ async function loadCase(c) {
   if (nii) {
     const buf = await c.read(nii);
     const t1 = performance.now();
-    const v = await Nifti.read(buf);
-    const r = await request({ type: 'loadVolume', data: v.data, dims: v.dims, affine: v.affine }, 'volume', [v.data.buffer]);
+    const v = (await Nifti.readRaw(buf)) || (await Nifti.read(buf));
+    const [msg, transfer] = Nifti.volumeMessage(v);
+    const r = await request(msg, 'volume', transfer);
     return { kind: 'nifti', shape: r.shape, zooms: r.zooms, fetchS: (t1 - t0) / 1000, loadS: (performance.now() - t1) / 1000 };
   }
   const files = [];

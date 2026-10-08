@@ -251,6 +251,23 @@ EMSCRIPTEN_KEEPALIVE int tsc_set_volume(const float* data, int nx, int ny, int n
     }
 }
 
+// NIfTI voxel data in the file's own type (raw bytes, little endian, x fastest): converted to float and reoriented to
+// closest-canonical RAS in one pass (volume_from_nifti_raw). Same volume as tsc_set_volume with the float data, with
+// about half of the peak memory for int16 CTs. slope/inter: scl_slope/scl_inter (slope 0 -> 1, 0 as in Nifti.read).
+EMSCRIPTEN_KEEPALIVE int tsc_set_volume_raw(const uint8_t* raw, int datatype, double slope, double inter, int nx, int ny, int nz,
+                                            const double* affine) {
+    try {
+        Affine a{};
+        for (int i = 0; i < 16; ++i) a[i] = affine[i];
+        g_ct = volume_from_nifti_raw(raw, datatype, slope, inter, Shape3{nx, ny, nz}, a, drop_volume_state);
+        g_log = "NIfTI volume " + std::to_string(nx) + "x" + std::to_string(ny) + "x" + std::to_string(nz) + " (raw)\n";
+        g_seg = Volume<uint8_t>();
+        return 0;
+    } catch (const std::exception& e) {
+        return fail(e);
+    }
+}
+
 EMSCRIPTEN_KEEPALIVE const float* tsc_ct_ptr() { return g_ct.data.data(); }
 EMSCRIPTEN_KEEPALIVE const double* tsc_ct_affine() { return g_ct.affine.data(); }
 // 0..2 shape, 3..5 zooms (mm)

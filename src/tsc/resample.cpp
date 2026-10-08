@@ -185,6 +185,7 @@ void interpolate(const S* src, const Shape3& ss, const AxisTable* ax, const Shap
     });
 }
 
+
 template <class T>
 std::vector<double> zoom_impl(const T* in, const Shape3& s, const Shape3& os, int order, bool grid_mode = false) {
     if (order != 0 && order != 1 && order != 3) throw std::runtime_error("scipy_zoom: only order 0, 1 and 3 supported");

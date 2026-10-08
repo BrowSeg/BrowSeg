@@ -4,7 +4,7 @@
 //   loadDicom {files}                 -> series   (list of the series found; nothing is built yet)
 //   buildSeries {uid, keep}           -> volume   (keep: keep the slices to switch series later)
 //   clearDicom                        -> cleared  (frees the kept slices)
-//   loadVolume {data, dims, affine}   -> volume   (NIfTI, x-fastest float data)
+//   loadVolume {data | raw+datatype+slope+inter, dims, affine} -> volume   (NIfTI, x fastest)
 //   run {task, roi, custom}           -> result   (label map + label names)
 //   mesh {labels, items:[{id,name}]}  -> meshes
 'use strict';
@@ -309,11 +309,15 @@ function buildSeries({ uid, keep }) {
   volumeMessage();
 }
 
-function loadVolume({ data, dims, affine }) {
-  const p = copyIn(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+// data: Float32Array (x fastest), or raw: the voxel bytes in the NIfTI's own type (Nifti.readRaw; converted and reoriented
+// in one pass by tsc_set_volume_raw, about half the peak memory of the float path for int16 CTs)
+function loadVolume({ data, raw, datatype, slope, inter, dims, affine }) {
+  const src = raw || new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+  const p = copyIn(src);
   const ap = M._malloc(16 * 8);
   view(Float64Array, ap, 16).set(affine);
-  const r = M._tsc_set_volume(p, dims[0], dims[1], dims[2], ap);
+  const r = raw ? M._tsc_set_volume_raw(p, datatype, slope, inter, dims[0], dims[1], dims[2], ap)
+                : M._tsc_set_volume(p, dims[0], dims[1], dims[2], ap);
   M._free(p); M._free(ap);
   if (r) throw new Error((M._tsc_ct_info(0) ? '' : '[CT_LOST] ') + lastError());
   volumeMessage();

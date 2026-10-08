@@ -287,8 +287,9 @@ async function loadNiftiVolume(buf, name, nested = false) {
   if (!nested) busy(true, t('NIfTI 読み込み中…'));
   try {
     if (App.seriesList) { await request({ type: 'clearDicom' }, 'cleared'); App.seriesList = null; }  // free kept DICOM slices
-    const nii = buf instanceof ArrayBuffer ? await Nifti.read(buf) : buf;
-    const v = await request({ type: 'loadVolume', data: nii.data, dims: nii.dims, affine: nii.affine }, 'volume', [nii.data.buffer]);
+    const nii = buf instanceof ArrayBuffer ? (await Nifti.readRaw(buf)) || (await Nifti.read(buf)) : buf;
+    const [msg, transfer] = Nifti.volumeMessage(nii);
+    const v = await request(msg, 'volume', transfer);
     onVolume(v, { kind: 'nifti', name });
     ok = true;
   } catch (e) {
