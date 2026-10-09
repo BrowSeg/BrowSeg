@@ -29,6 +29,9 @@ CPU. Then pick a task:
 | Liver segments | `liver_segments` | Couinaud segments 1–8 | 189 MB |
 | Liver vessels | `liver_vessels` | intrahepatic vessels, liver tumour | 189 MB |
 
+The paper checked the agreement with TotalSegmentator for Liver, Liver segments and Liver vessels only; the other
+tasks run the same code but were not part of that check.
+
 Results can be saved as NIfTI label maps (`.nii.gz`) and as meshes (OBJ / STL).
 
 **Tested environments.** Chrome 153 on Windows 11 (NVIDIA GeForce RTX 4070) and Chrome 142 on Ubuntu 22.04 (NVIDIA
@@ -54,7 +57,7 @@ T1200, 4 GB). On Linux, WebGPU had to be enabled in Chrome: open `chrome://flags
 To compare BrowSeg with TotalSegmentator on your own CT:
 
 1. In BrowSeg, run a task and save the labels (`browseg_labels.nii.gz`).
-2. Run TotalSegmentator (2.16 or later) on the same CT **on the CPU**:
+2. Run TotalSegmentator 2.18.0 (the version checked in the paper) on the same CT **on the CPU**:
    `TotalSegmentator -i <CT> -o ts.nii.gz --ml --task liver_segments --device cpu`
    (for the liver: `--task total --roi_subset liver`).
 3. `python tools/compare_with_totalsegmentator.py browseg_labels.nii.gz ts.nii.gz`

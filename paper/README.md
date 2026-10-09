@@ -11,4 +11,4 @@ The CT images are not included; see `lits_cases.csv`.
 | `data/desktop_hashes_wasm20.json` | The same for the CPU path | `web/bench.html?local=1` |
 
 Differing voxels are counted on the original CT grid. The measurement logs and the analysis scripts are available
-from the authors on request.
+from the author on request.

@@ -101,11 +101,10 @@ and `web/gputest.html` does the same for the WebGPU shaders (serve with a DICOM 
 node serve.mjs 8090 --bench <cases dir> --out <records dir>
    <cases dir>/<case>/  = DICOM files (or one .nii/.nii.gz) per case
 open http://localhost:8090/web/bench.html?tag=<name>&cases=a,b&tasks=total:liver;liver_segments:-&reps=3
-python paper/scripts/make_refs.py <cases dir> <refs dir> cpu "total:liver;liver_segments:-;liver_vessels:-"
-python paper/scripts/compare.py <records dir> <refs dir> summary.csv
 ```
 
-`paper/scripts/bench_run.mjs` runs a whole plan (several browsers and settings) unattended.
+The scripts that made the references and compared the records (`paper/scripts/make_refs.py`, `compare.py`, and
+`bench_run.mjs`, which runs a whole plan unattended) are in the tag `paper-v1.1`.
 
 ## Design notes that matter for exactness
 
