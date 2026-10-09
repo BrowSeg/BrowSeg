@@ -1,8 +1,0 @@
-/home/user/anaconda3/envs/ts218/lib/python3.11/site-packages/nnunetv2/utilities/plans_handling/plans_handler.py:37: UserWarning: Detected old nnU-Net plans format. Attempting to reconstruct network architecture parameters. If this fails, rerun nnUNetv2_plan_experiment for your dataset. If you use a custom architecture, please downgrade nnU-Net to the version you implemented this or update your implementation + plans.
-  warnings.warn("Detected old nnU-Net plans format. Attempting to reconstruct network architecture "
-A=lits_129__liver_vessels_all.json | B=- | dump=/home/user/Documents/MyGithubProject2/BrowSeg_tools/m4_lits/dump/lits_129_ves model 8: 1 differing voxels (orig grid, canonical x,y,z)
-plans nnUNetTrainer__nnUNetPlans__3d_fullres: logits (3, 152, 325, 394) float16 spacing [1.5, 0.7988280057907104, 0.7988280057907104] -> [326, 368, 446] spacing [0.699999988079071, 0.705078125, 0.705078125]
-resampling_fn_probabilities kwargs: {'is_seg': False, 'order': 1, 'order_z': 0, 'force_separate_z': None}
-back-resampled logits (3, 326, 368, 446) float16
-consistency: argmax(back-resampled) vs 8_seg.nii.gz: 0 differing voxels
-  orig (170, 350, 123): A=0 B=2 -> crop grid (115, 261, 111) seg=2 argmax=2 top=2.910156 2nd=0:2.908203 gap=0.00195312 = 1.0 ulp(float16)

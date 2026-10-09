@@ -1,2 +1,0 @@
-driver_version, name
-591.86, NVIDIA GeForce RTX 4070

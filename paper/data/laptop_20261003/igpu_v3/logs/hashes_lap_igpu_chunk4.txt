@@ -1,3 +1,0 @@
-ircad01__liver_segments_all          MATCH (exact)
-ircad01__liver_vessels_all           MATCH (exact)
-ircad01__total_liver                 MATCH (exact)

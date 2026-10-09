@@ -1,6 +1,0 @@
-[
- {"browser":"chrome","tag":"desk_chrome_webgpu_reopen_check","query":"cases=ircad01&tasks=total:liver;liver_segments:-&reps=1&gpulost=1","timeoutMin":15},
- {"browser":"firefox","tag":"desk_firefox_webgpu_tdr_chunk0","query":"cases=ircad01&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3","timeoutMin":60},
- {"browser":"firefox","tag":"desk_firefox_webgpu_tdr_chunk4","query":"cases=ircad01&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3&gpuchunk=4","timeoutMin":60},
- {"browser":"firefox","tag":"desk_firefox_webgpu_tdr_chunk1","query":"cases=ircad01&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=3&gpuchunk=1","timeoutMin":60}
-]

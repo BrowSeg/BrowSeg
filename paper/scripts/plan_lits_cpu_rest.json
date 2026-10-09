@@ -1,5 +1,0 @@
-[
- { "browser": "chrome", "tag": "lits_chrome_wasm_167", "query": "cpu=1&cases=lits_167&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1", "timeoutMin": 120 },
- { "browser": "chrome", "tag": "lits_chrome_wasm_rest", "query": "cpu=1&cases=lits_169,lits_185,lits_194&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1", "timeoutMin": 120 },
- { "browser": "chrome", "tag": "lits_chrome_wasm_recheck_022_023", "query": "cpu=1&cases=lits_022,lits_023&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1", "timeoutMin": 60 }
-]

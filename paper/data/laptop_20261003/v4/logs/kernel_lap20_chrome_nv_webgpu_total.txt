@@ -1,1 +1,0 @@
-10月 03 22:46:07 laptop kernel: nvidia 0000:01:00.0: Using 39-bit DMA addresses

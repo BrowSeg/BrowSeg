@@ -1,3 +1,0 @@
-[
- {"browser":"chrome","tag":"desk_chrome_webgpu_lowmem_check","query":"cases=ircad01,ircad07,ircad20&tasks=total:-;total:liver;liver_segments:-&reps=1&gpulowmem=1","timeoutMin":30}
-]

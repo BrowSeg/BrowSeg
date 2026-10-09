@@ -1,8 +1,0 @@
-{
- "browserVersion": "157.0",
- "pref": "default",
- "probe": {
-  "hasGpu": false,
-  "secure": true
- }
-}

@@ -1,4 +1,0 @@
-[
- {"browser":"chrome","tag":"lits_chrome_webgpu_total117_022","query":"cases=lits_022&tasks=total:-&reps=1","timeoutMin":20},
- {"browser":"chrome","tag":"lits_chrome_webgpu_total117_121","query":"cases=lits_121&tasks=total:-&reps=1","timeoutMin":20}
-]

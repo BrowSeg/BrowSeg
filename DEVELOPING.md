@@ -20,7 +20,7 @@ tools/        export_weights.py (TotalSegmentator checkpoint → .tsw), make_ref
 tests/        test_task (stage-by-stage comparison with the reference), test_unet, test_resample,
               test_wasm_node.mjs (WASM CPU path under Node)
 weights/      classmaps.txt (in git), MANIFEST.json + NOTICE; the .tsw files come from the GitHub release
-paper/        benchmark records and scripts of the paper
+paper/        the records behind the paper's numbers (see paper/README.md)
 ```
 
 ## Prerequisites

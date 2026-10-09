@@ -1,20 +1,0 @@
-[0.4s] series 1.2.826.0.1.3680043.2.1125.9647753419956608505832502991212815128: 512x512x129
-[1.2s] task liver_vessels, 2 model(s) loaded (1 threads)
-[1.2s] resample_6mm         0%[1.2s] crop_model           0%[4.5s] crop_model         100%
-[4.6s] resample_part        0%[5.2s] part_model           0%[29.6s] part_model           8%[54.1s] part_model          17%[78.2s] part_model          25%[102.1s] part_model          33%[126.2s] part_model          42%[150.4s] part_model          50%[174.6s] part_model          58%[198.8s] part_model          67%[223.0s] part_model          75%[247.6s] part_model          83%[272.0s] part_model          92%[297.6s] part_model         100%
-[297.6s] done               100%
-
-  resample 6mm                       1 ms
-  crop: preprocess                  16 ms
-  crop: tiles (net+accum)         2939 ms
-  crop: finish/argmax              358 ms
-  crop: labels -> full res          27 ms
-  bbox + crop                       44 ms
-  resample task spacing             15 ms
-  part: preprocess                 628 ms
-  part: tiles (net+accum)       291200 ms
-  part: finish/argmax+merge       1159 ms
-  back to orig + uncrop             24 ms
-  liver_vessels                     14.9 ml    60852 triangles
-  liver_tumor                       97.6 ml    27596 triangles
-[298.0s] 2 structure(s) -> out/native/case1_liver_vessels_t1_labels.nii, out/native/case1_liver_vessels_t1.obj, out/native/case1_liver_vessels_t1.stl

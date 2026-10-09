@@ -1,2 +1,0 @@
-Error: [CT_LOST] std::bad_alloc
-    at worker.onmessage (http://localhost:8091/web/bench.html?tag=lits_pub_chrome_wasm_p1&cpu=1&cases=lits_129,lits_002,lits_015,lits_185,lits_102,lits_084,lits_107,lits_092,lits_087,lits_072&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1:104:75)

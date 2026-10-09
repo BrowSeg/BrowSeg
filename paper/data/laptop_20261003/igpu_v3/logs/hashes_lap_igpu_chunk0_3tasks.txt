@@ -1,1 +1,0 @@
-ircad01__total_liver                 DIFFERENT (copy .u8)  CPU-FALLBACK x1  runs differ among themselves

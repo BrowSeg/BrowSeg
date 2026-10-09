@@ -1,5 +1,0 @@
-[
- {"browser":"chrome","tag":"desk_chrome_prepush_normal","query":"cases=ircad05,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-;total:-&reps=1","timeoutMin":20},
- {"browser":"chrome","tag":"desk_chrome_prepush_lowmem","query":"cases=ircad07&tasks=total:-&reps=1&gpulowmem=1","timeoutMin":10},
- {"browser":"chrome","tag":"desk_chrome_prepush_lost","query":"cases=ircad01&tasks=total:liver;liver_segments:-&reps=1&gpulost=1","timeoutMin":10}
-]

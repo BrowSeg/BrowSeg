@@ -1,4 +1,0 @@
-10月 03 15:31:10 laptop kernel: Fence expiration time out i915-0000:00:02.0:chrome[54089]:20!
-10月 03 15:32:32 laptop kernel: i915 0000:00:02.0: [drm] Resetting rcs0 for preemption time out
-10月 03 15:32:32 laptop kernel: i915 0000:00:02.0: [drm] chrome[54089] context reset due to GPU hang
-10月 03 15:32:32 laptop kernel: i915 0000:00:02.0: [drm] GPU HANG: ecode 12:1:8ed9fff2, in chrome [54089]

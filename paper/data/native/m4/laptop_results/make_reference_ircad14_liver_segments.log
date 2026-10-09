@@ -1,49 +1,0 @@
-Using Device: cpu
-
-If you use this tool please cite: https://pubs.rsna.org/doi/10.1148/ryai.230024
-
-Generating rough segmentation for cropping...
-tmp_dir: /tmp/nnunet_tmp_r7kbfrww
-Converting dicom to nifti...
-  found image with shape (512, 512, 113)
-Resampling...
-  from shape (512, 512, 113) to shape (61, 61, 30)
-  Resampled in 0.02s
-Predicting...
-perform_everything_on_device=True is only supported for cuda devices! Setting this to False
-There are 1 cases in the source folder
-I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
-There are 1 cases that I would like to predict
-perform_everything_on_device: False
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00,  1.81it/s]100%|██████████| 1/1 [00:00<00:00,  1.81it/s]
-[ref] task 298 nnU-Net took 2.6s
-  Predicted in 2.58s
-Resampling...
-  back to original shape: (512, 512, 113)
-  Resampled in 0.29s
-Undoing canonical...
-Rough organ segmentation generated in 8.30s
-tmp_dir: /tmp/nnunet_tmp_9shgtqlr
-Converting dicom to nifti...
-  found image with shape (512, 512, 113)
-  cropping from (512, 512, 113) to (360, 258, 113)
-Resampling...
-  from shape (360, 258, 113) to shape (322, 231, 121)
-  Resampled in 0.46s
-Predicting...
-perform_everything_on_device=True is only supported for cuda devices! Setting this to False
-There are 1 cases in the source folder
-I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
-There are 1 cases that I would like to predict
-perform_everything_on_device: False
-  0%|          | 0/18 [00:00<?, ?it/s]  6%|▌         | 1/18 [00:04<01:11,  4.22s/it] 11%|█         | 2/18 [00:08<01:06,  4.18s/it] 17%|█▋        | 3/18 [00:12<01:02,  4.19s/it] 22%|██▏       | 4/18 [00:16<00:58,  4.19s/it] 28%|██▊       | 5/18 [00:20<00:54,  4.20s/it] 33%|███▎      | 6/18 [00:25<00:50,  4.21s/it] 39%|███▉      | 7/18 [00:29<00:46,  4.21s/it] 44%|████▍     | 8/18 [00:33<00:42,  4.25s/it] 50%|█████     | 9/18 [00:38<00:38,  4.30s/it] 56%|█████▌    | 10/18 [00:42<00:34,  4.33s/it] 61%|██████    | 11/18 [00:46<00:30,  4.32s/it] 67%|██████▋   | 12/18 [00:51<00:25,  4.31s/it] 72%|███████▏  | 13/18 [00:55<00:21,  4.30s/it] 78%|███████▊  | 14/18 [00:59<00:17,  4.29s/it] 83%|████████▎ | 15/18 [01:03<00:12,  4.29s/it] 89%|████████▉ | 16/18 [01:08<00:08,  4.28s/it] 94%|█████████▍| 17/18 [01:12<00:04,  4.28s/it]100%|██████████| 18/18 [01:16<00:00,  4.28s/it]100%|██████████| 18/18 [01:16<00:00,  4.27s/it]
-[ref] task 570 nnU-Net took 78.8s
-  Predicted in 78.83s
-Resampling...
-  back to original shape: (360, 258, 113)
-  Resampled in 0.21s
-Undoing canonical...
-Undoing cropping...
-Saving segmentations...
-  Saved in 0.13s
-[ref] total 95.6s

@@ -1,1 +1,0 @@
-Windows System log 2026-10-07 03:08-05:27 JST (v3_desk_firefox_webgpu, 18:08-20:26 UTC): events with Id 153 or 4101 or provider nvlddmkm: 0

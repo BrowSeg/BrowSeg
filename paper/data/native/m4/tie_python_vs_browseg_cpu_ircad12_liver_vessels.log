@@ -1,7 +1,0 @@
-  warnings.warn("Detected old nnU-Net plans format. Attempting to reconstruct network architecture "
-A=data/bench_refs/ts218_cpu/ircad12__liver_vessels_all.npy | B=paper_jiim/paper_benchmarks/data/browser/desk_chrome_wasm_20/ircad12__liver_vessels_all.u8 | dump=data/ref218/ircad12_liver_vessels model 8: 1 differing voxels (orig grid, canonical x,y,z)
-plans nnUNetTrainer__nnUNetPlans__3d_fullres: logits (3, 164, 225, 294) float16 spacing [1.5, 0.7988280057907104, 0.7988280057907104] -> [246, 265, 345] spacing [1.0, 0.6796879768371582, 0.6796879768371582]
-resampling_fn_probabilities kwargs: {'is_seg': False, 'order': 1, 'order_z': 0, 'force_separate_z': None}
-back-resampled logits (3, 246, 265, 345) float16
-consistency: argmax(back-resampled) vs 8_seg.nii.gz: 0 differing voxels
-  orig (370, 234, 219): A=1 B=0 -> crop grid (251, 97, 205) seg=1 argmax=1 top=3.423828 2nd=0:3.421875 gap=0.00195312 = 1.0 ulp(float16)

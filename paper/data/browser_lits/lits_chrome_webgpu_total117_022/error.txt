@@ -1,2 +1,0 @@
-Error: std::bad_alloc
-    at worker.onmessage (http://localhost:8091/web/bench.html?tag=lits_chrome_webgpu_total117_022&cases=lits_022&tasks=total:-&reps=1:104:75)

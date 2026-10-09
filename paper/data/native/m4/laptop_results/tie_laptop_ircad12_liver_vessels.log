@@ -1,6 +1,0 @@
-A=desktop_refs/ircad12__liver_vessels_all.npy | B=/home/user/Documents/MyGithubProject2/BrowSeg_tools/m3/ts218_cpu_laptop/ircad12__liver_vessels_all.npy | dump=/home/user/Documents/MyGithubProject2/BrowSeg_tools/m4/dump/ircad12_liver_vessels model 8: 1 differing voxels (orig grid, canonical x,y,z)
-Traceback (most recent call last):
-  File "/home/user/Dropbox/BrowSeg_laptop/m4_logits/tie_check_pair.py", line 25, in <module>
-    assert lg.shape[1:] == seg.shape[::-1], (lg.shape, seg.shape)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: ((3, 164, 225, 294), (345, 265, 246))

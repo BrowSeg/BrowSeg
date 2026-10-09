@@ -1,7 +1,0 @@
-Weight cache (Cache API 'tsc-weights-v1') in the bench profile /tmp/browseg_bench_profiles/chrome, checked 2026-10-03 14:3x:
-  total6mm_298 / organs_291 entries written 13:46 (the OOM-aborted chunk1 attempt)
-  liver_segments_570 written 14:28, liver_vessels_8 written 14:30 (the chunk1 rerun)
-modelSeconds (worker.js) = weights from cache or download + WASM config + GPU upload.
-lap_igpu_chunk1: total_liver = cache hit; liver_segments / liver_vessels = first load (download from local serve.mjs).
-All later tags reuse the same profile: every model is a cache hit.
-The weights come from localhost, so a first load also takes only about 1 s.

@@ -1,1 +1,0 @@
-worker.onmessage@http://localhost:8090/web/bench.html?tag=desk_firefox_webgpu_fixed_b&cases=ircad03,ircad04,ircad06,ircad07,ircad08,ircad09,ircad11,ircad12,ircad13,ircad14,ircad15,ircad16,ircad17,ircad19,ircad20&tasks=total:liver;liver_segments:-;liver_vessels:-&reps=1:49:73

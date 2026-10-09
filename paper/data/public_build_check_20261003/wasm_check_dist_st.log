@@ -1,4 +1,0 @@
-version BrowSeg 0.1 (TotalSegmentator 2.13/2.18 tasks, C++/WASM)
-ircad01__total_liver	de14684e	MATCH CPU record	136.0 s
-ircad20__total_liver	54816bfc	MATCH CPU record	293.5 s
-all match

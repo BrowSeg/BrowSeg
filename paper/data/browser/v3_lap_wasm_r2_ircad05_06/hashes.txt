@@ -1,6 +1,0 @@
-ircad05__liver_segments_all          SAME-AS-DESKTOP-NONEXACT (1 voxels)
-ircad05__liver_vessels_all           MATCH (exact)
-ircad05__total_liver                 MATCH (exact)
-ircad06__liver_segments_all          MATCH (exact)
-ircad06__liver_vessels_all           MATCH (exact)
-ircad06__total_liver                 MATCH (exact)

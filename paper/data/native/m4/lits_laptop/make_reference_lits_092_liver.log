@@ -1,46 +1,0 @@
-Using Device: cpu
-
-If you use this tool please cite: https://pubs.rsna.org/doi/10.1148/ryai.230024
-
-Generating rough segmentation for cropping...
-tmp_dir: /tmp/nnunet_tmp_1vpftam9
-Resampling...
-  from shape (512, 512, 836) to shape (57, 57, 111)
-  Resampled in 0.06s
-Predicting...
-perform_everything_on_device=True is only supported for cuda devices! Setting this to False
-There are 1 cases in the source folder
-I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
-There are 1 cases that I would like to predict
-perform_everything_on_device: False
-  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:00<00:00,  1.65it/s]100%|██████████| 2/2 [00:01<00:00,  1.71it/s]100%|██████████| 2/2 [00:01<00:00,  1.70it/s]
-[ref] task 298 nnU-Net took 4.3s
-  Predicted in 4.32s
-Resampling...
-  back to original shape: (512, 512, 836)
-  Resampled in 3.61s
-Undoing canonical...
-Rough organ segmentation generated in 14.16s
-tmp_dir: /tmp/nnunet_tmp_uyb8o1_w
-  cropping from (512, 512, 836) to (350, 322, 231)
-Resampling...
-  from shape (350, 322, 231) to shape (157, 144, 123)
-  Resampled in 0.43s
-Computing parts: ['class_map_part_organs'] based on the provided roi_subset
-Predicting part 1 of 1 ...
-perform_everything_on_device=True is only supported for cuda devices! Setting this to False
-There are 1 cases in the source folder
-I am processing 0 out of 1 (max process ID is 0, we start counting with 0!)
-There are 1 cases that I would like to predict
-perform_everything_on_device: False
-  0%|          | 0/4 [00:00<?, ?it/s] 25%|██▌       | 1/4 [00:04<00:12,  4.07s/it] 50%|█████     | 2/4 [00:07<00:07,  3.98s/it] 75%|███████▌  | 3/4 [00:11<00:03,  3.96s/it]100%|██████████| 4/4 [00:15<00:00,  3.96s/it]100%|██████████| 4/4 [00:15<00:00,  3.97s/it]
-[ref] task 291 nnU-Net took 19.4s
-  Predicted in 19.44s
-Resampling...
-  back to original shape: (350, 322, 231)
-  Resampled in 0.83s
-Undoing canonical...
-Undoing cropping...
-Saving segmentations...
-  Saved in 1.06s
-[ref] total 49.9s

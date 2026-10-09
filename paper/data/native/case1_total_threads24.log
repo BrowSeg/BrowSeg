@@ -1,19 +1,0 @@
-[0.3s] series 1.2.826.0.1.3680043.2.1125.9647753419956608505832502991212815128: 512x512x129
-[1.0s] task total, 2 model(s) loaded (24 threads)
-[1.0s] resample_6mm         0%[1.1s] crop_model           0%[1.4s] crop_model         100%
-[1.5s] resample_part        0%[1.6s] part_model           0%[4.0s] part_model          25%[6.4s] part_model          50%[8.9s] part_model          75%[11.4s] part_model         100%
-[11.4s] done               100%
-
-  resample 6mm                       1 ms
-  crop: preprocess                  16 ms
-  crop: tiles (net+accum)          363 ms
-  crop: finish/argmax               29 ms
-  crop: labels -> full res          14 ms
-  bbox + crop                       21 ms
-  resample task spacing              8 ms
-  part: preprocess                  68 ms
-  part: tiles (net+accum)         9808 ms
-  part: finish/argmax+merge         36 ms
-  back to orig + uncrop              8 ms
-  liver                           1477.8 ml   148692 triangles
-[11.8s] 1 structure(s) -> out/native/case1_total_t24_labels.nii, out/native/case1_total_t24.obj, out/native/case1_total_t24.stl

@@ -1,1 +1,0 @@
-stopped manually 2026-10-03 14:07:04. Bench renderer OOM-killed 13:47:05 (pid 34641), page stalled on ircad01__total_liver. RAM pressure from 2x conda-env create (~9GB). Not a GPU result; rerun later.
