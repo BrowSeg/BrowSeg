@@ -30,9 +30,14 @@ def main():
     net = pr.network.eval()
     print(net)
     ps = pr.configuration_manager.patch_size
-    data = torch.from_numpy(np.load(pre))
-    padded, _ = pad_nd_image(data, ps, "constant", {"value": 0}, True, None)
-    x = padded[None, :, :ps[0], :ps[1], :ps[2]].contiguous()
+    arr = np.load(pre)
+    if arr.ndim == 5:  # a saved tile input (1,1,D,H,W), e.g. the patch_in.npy of a stage comparison (2026-10-10)
+        assert list(arr.shape[2:]) == list(ps), (arr.shape, ps)
+        x = torch.from_numpy(arr).contiguous()
+    else:
+        data = torch.from_numpy(arr)
+        padded, _ = pad_nd_image(data, ps, "constant", {"value": 0}, True, None)
+        x = padded[None, :, :ps[0], :ps[1], :ps[2]].contiguous()
     np.save(out / "patch_in.npy", x.numpy())
     acts = {}
     for i, st in enumerate(net.encoder.stages):

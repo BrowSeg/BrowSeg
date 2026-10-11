@@ -108,4 +108,4 @@ Manuscript under review. The bibliographic details will be added here after peer
 ## Version of the paper
 
 The paper's measurements were made with the build at commit 022925c (`web/dist/tsc.wasm` SHA-256 `fda8ec7a…`;
-see `EXPORT_INFO.txt`). The tag of the paper's version is `paper-v1.2`.
+see `EXPORT_INFO.txt`). The tag of the paper's version is `paper-v1.4`.
