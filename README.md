@@ -34,7 +34,7 @@ tasks run the same code but were not part of that check.
 
 Results can be saved as NIfTI label maps (`.nii.gz`) and as meshes (OBJ / STL).
 
-**Tested environments.** Chrome 153 on Windows 11 (NVIDIA GeForce RTX 4070) and Chrome 142 on Ubuntu 22.04 (NVIDIA
+**Tested environments.** Chrome 153 and 154 on Windows 11 (NVIDIA GeForce RTX 4070) and Chrome 142 on Ubuntu 22.04 (NVIDIA
 T1200, 4 GB). On Linux, WebGPU had to be enabled in Chrome: open `chrome://flags`, set **Unsafe WebGPU Support** and
 **Vulkan** to Enabled, and relaunch Chrome. Without WebGPU, BrowSeg runs on the CPU.
 
